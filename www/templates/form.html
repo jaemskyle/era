@@ -1,0 +1,431 @@
+<ion-view view-title="ER App" ng-controller="BrowseCtrl">
+  <ion-nav-buttons side="secondary">
+    <button class="button button-clear" ng-click="save()">
+      Save
+    </button>
+  </ion-nav-buttons>
+  <ion-content>
+    <div class="content has-header">
+        <form id="form" name="ExaminationForm" ng-controller="FormCtrl" novalidate>
+          <div class="row">
+            <div class="col-75">
+              <section class="card">
+                <h4 class="item item-divider">Basic Info</h4>
+                <div class="row">
+                  <div class="col">
+                    <label class="item item-input">
+                      <span class="input-label">Date</span>
+                      <input type="text" name="date" ng-disabled="true" ng-model="erform.date" />
+                    </label>
+                  </div>
+                  <div class="col">
+                    <label class="item item-input">
+                      <span class="input-label">Time</span>
+                      <input type="text" name="time" ng-disabled="true" ng-model="erform.time" />
+                    </label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <label class="item item-input">
+                      <span class="input-label">ID</span>
+                      <input type="text" name="id" ng-model="erform.id" />
+                    </label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <label class="item item-input">
+                      <span class="input-label">First Name</span>
+                      <input type="text" name="first_name" ng-model="erform.first_name" />
+                    </label>
+                  </div>
+                  <div class="col">
+                    <label class="item item-input">
+                      <span class="input-label">Last Name</span>
+                    <input type="text" name="last_name" ng-model="erform.last_name" />
+                    </label>
+                  </div>
+                </div>
+              </section>
+              <section class="card">
+                <h4 class="item item-divider">ER Card</h4>
+                <article class="card">
+                  <header class="item item-divider">HPI</header>
+                  <textarea rows="8" name="hpi" ng-model="erform.hpi">{{hpi}}</textarea>
+                </article>
+                <article class="card">
+                  <header class="item item-divider">PMHx</header>
+                  <textarea rows="8" name="pmhx" ng-model="erform.pmhx">{{pmhx}}</textarea>
+                </article>
+                <article class="card">
+                  <header class="item item-divider">Medication</header>
+                  <textarea rows="8" name="medication" ng-model="erform.medication">{{medication}}</textarea>
+                </article>
+                <article class="card">
+                  <header class="item item-divider">Allergies</header>
+                  <textarea rows="8" name="allergies" ng-model="erform.allergies">{{allergies}}</textarea>
+                </article>
+                <article class="card">
+                  <header class="item item-divider">ROS</header>
+                  <textarea rows="8" name="ros" ng-model="erform.ros">{{ros}}</textarea>
+                </article>
+              </section>
+            </div>
+
+            <div class="col">
+              <!--
+              <article class="card">
+                <header class="item item-divider">Did it radiate?</header>
+                <div class="item item-text-wrap">
+                    <ul class="list">
+                      <li class="item item-checkbox">
+                           <label class="checkbox">
+                             <input type="checkbox" name="isRadiate" ng-model="erform.isRadiate" ng-true-value="'Yes'">
+                           </label>
+                           {{isRadiate || 'No'}}
+                      </li>
+                    </ul>
+                </div>
+                <textarea rows="8" ng-if="isRadiate"></textarea>
+              </article>
+              <article class="card">
+                <header class="item item-divider">Did it have palpitation?</header>
+                <div class="item item-text-wrap">
+                    <ul class="list">
+                      <li class="item item-checkbox">
+                           <label class="checkbox">
+                             <input type="checkbox" name="isPalpitation" ng-model="erform.isPalpitation" ng-true-value="'Yes'" ng-false-value="'No'">
+                           </label>
+                           {{isPalpitation}}
+                      </li>
+                    </ul>
+                </div>
+              </article>
+              <article class="card">
+                <header class="item item-divider">Did you have shortness of breath?</header>
+                <div class="item item-text-wrap">
+                    <ul class="list">
+                      <li class="item item-checkbox">
+                           <label class="checkbox">
+                             <input type="checkbox" name="isBreathShortness" ng-model="erform.isBreathShortness" ng-true-value="'Yes'" ng-false-value="'No'">
+                           </label>
+                           {{isBreathShortness}}
+                      </li>
+                    </ul>
+                </div>
+              </article>
+              <article class="card">
+                <header class="item item-divider">Nausea or Vomiting?</header>
+                <div class="item item-text-wrap">
+                    <ul class="list">
+                      <li class="item item-checkbox">
+                           <label class="checkbox">
+                             <input type="checkbox" name="isNausea" ng-model="erform.isNausea" ng-true-value="'Yes'" ng-false-value="'No'">
+                           </label>
+                           {{isNausea}}
+                      </li>
+                    </ul>
+                </div>
+              </article>
+              <article class="card">
+                <header class="item item-divider">Sudden severe chest pain?</header>
+                <div class="item item-text-wrap">
+                    <ul class="list">
+                      <li class="item item-checkbox">
+                           <label class="checkbox">
+                             <input type="checkbox" name="isSuddenChestPain" ng-model="erform.isSuddenChestPain" ng-true-value="'Yes'" ng-false-value="'No'">
+                           </label>
+                           {{isSuddenChestPain}}
+                      </li>
+                    </ul>
+                </div>
+              </article>
+              -->
+              <section class="card">
+                  <h4 class="item item-divider">Physical Exam</h4>
+                  <div class="item item-text-wrap">
+                      <ul class="list">
+                        <li class="item item-checkbox">
+                             <label class="checkbox">
+                               <input type="checkbox" name="physical_exam_status" ng-disabled="true" ng-model="erform.physical_exam_status" ng-change="setPhysicalExamChild(erform.physical_exam_status)" ng-true-value="'Normal'" >
+                             </label>
+                             {{erform.physical_exam_status | formatText}}
+                        </li>
+                      </ul>
+                  </div>
+                  <ul class="list list-inset">
+                    <li class="item item-divider">Respiratory Exam</li>
+                      <li class="item item-checkbox">
+                           <label class="checkbox">
+                             <input type="checkbox" name="air_entry_equal_and_bilateral" ng-model="erform.physical_exam.respiratory.air_entry_equal_and_bilateral" ng-change="physicalExamChildListener(erform.physical_exam.respiratory.air_entry_equal_and_bilateral)" >
+                           </label>
+                           Air entry equal and bilateral.
+                      </li>
+                      <li class="item item-checkbox">
+                           <label class="checkbox">
+                             <input type="checkbox" name="wheezing" ng-model="erform.physical_exam.respiratory.wheezing" ng-change="physicalExamChildListener(erform.physical_exam.respiratory.wheezing)">
+                           </label>
+                           Wheezing?
+                      </li>
+                      <li class="item item-checkbox">
+                           <label class="checkbox">
+                             <input type="checkbox" name="crackles" ng-model="erform.physical_exam.respiratory.crackles" ng-change="physicalExamChildListener(erform.physical_exam.respiratory.crackles)">
+                           </label>
+                           Crackles?
+                      </li>
+                  </ul>
+
+                  <ul class="list list-inset">
+                    <li class="item item-divider">Cardio Vascular</li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="s1" ng-model="erform.physical_exam.cardio_vascular.s1" ng-change="physicalExamChildListener(erform.physical_exam.cardio_vascular.s1)">
+                         </label>
+                         S1?
+                    </li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="s2" ng-model="erform.physical_exam.cardio_vascular.s2" ng-change="physicalExamChildListener(erform.physical_exam.cardio_vascular.s2)">
+                         </label>
+                         S2?
+                    </li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="s3" ng-model="erform.physical_exam.cardio_vascular.s3" ng-change="physicalExamChildListener(erform.physical_exam.cardio_vascular.s3)">
+                         </label>
+                         S3?
+                    </li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="murmur" ng-model="erform.physical_exam.cardio_vascular.murmur" ng-change="physicalExamChildListener(erform.physical_exam.cardio_vascular.murmur)">
+                         </label>
+                         Murmur?
+                    </li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="peripheral_pulses" ng-model="erform.physical_exam.cardio_vascular.peripheral_pulses" ng-change="physicalExamChildListener(erform.physical_exam.cardio_vascular.peripheral_pulses)">
+                         </label>
+                         Peripheral pulses?
+                    </li>
+                  </ul>
+
+                  <ul class="list list-inset">
+                    <li class="item item-divider">Abdominal Exam</li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="soft" ng-model="erform.abdominal.soft" ng-change="physicalExamChildListener(erform.abdominal.soft)">
+                         </label>
+                         Soft?
+                    </li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="tender" ng-model="erform.physical_exam.abdominal.tender" ng-change="physicalExamChildListener(erform.physical_exam.abdominal.tender)">
+                         </label>
+                         Tender?
+                    </li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="bowel_sound_present" ng-model="erform.physical_exam.abdominal.bowel_sound_present" ng-change="physicalExamChildListener(erform.physical_exam.abdominal.bowel_sound_present)">
+                         </label>
+                         Bowel sound present?
+                    </li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="mass" ng-model="erform.physical_exam.abdominal.mass" ng-change="physicalExamChildListener(erform.physical_exam.abdominal.mass)">
+                         </label>
+                         Mass?
+                    </li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="organomegaly" ng-model="erform.physical_exam.abdominal.organomegaly" ng-change="physicalExamChildListener(erform.physical_exam.abdominal.organomegaly)">
+                         </label>
+                         Organomegaly?
+                    </li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="rebound_tenderness" ng-model="erform.physical_exam.abdominal.rebound_tenderness" ng-change="physicalExamChildListener(erform.physical_exam.abdominal.rebound_tenderness)">
+                         </label>
+                         Rebound tenderness?
+                    </li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="peritonitis" ng-model="erform.physical_exam.abdominal.peritonitis" ng-change="physicalExamChildListener(erform.physical_exam.abdominal.peritonitis)">
+                         </label>
+                         Peritonitis?
+                    </li>
+                  </ul>
+                  <ul class="list list-inset">
+                    <li class="item item-divider">HEENT</li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="tympanic_membrane" ng-model="erform.physical_exam.heent.tympanic_membrane" ng-change="physicalExamChildListener(erform.physical_exam.heent.tympanic_membrane)" ng-true-value="'Normal'" ng-false-value="'Dull'">
+                         </label>
+                         Tympanic membrane?
+                    </li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="throat" ng-model="erform.physical_exam.heent.throat" ng-change="setPhysicalExamParent(erform.physical_exam.heent.throat)" ng-true-value="'Clear'" ng-false-value="'exudate on the tonsil'">
+                         </label>
+                         Throat
+                    </li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="nodes" ng-model="erform.physical_exam.heent.nodes" ng-change="setPhysicalExamParent(erform.physical_exam.heent.nodes)" ng-true-value="'Yes'" ng-false-value="'No'">
+                         </label>
+                         Nodes
+                    </li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="neck_supple" ng-model="erform.physical_exam.heent.neck_supple" ng-change="setPhysicalExamParent(erform.physical_exam.heent.neck_supple)" ng-true-value="'Yes'" ng-false-value="'No'">
+                         </label>
+                         Neck supple
+                    </li>
+                  </ul>
+                  <ul class="list list-inset">
+                    <li class="item item-divider">Neurological exam</li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="cranial_nerve_ii_xii" ng-model="erform.physical_exam.neurological.cranial_nerve_ii_xii" ng-change="setPhysicalExamParent(erform.physical_exam.neurological.cranial_nerve_ii_xii)" ng-true-value="'Normal'" ng-false-value="'Abnormal'">
+                         </label>
+                         Cranial nerve II to XII
+                    </li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="power" ng-model="erform.physical_exam.neurological.power" ng-change="setPhysicalExamParent(erform.physical_exam.neurological.power)" ng-true-value="'Normal'" ng-false-value="'Abnormal'">
+                         </label>
+                         Power
+                    </li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="sensation" ng-model="erform.physical_exam.neurological.sensation" ng-change="setPhysicalExamParent(erform.physical_exam.neurological.sensation)" ng-true-value="'Normal'" ng-false-value="'Abnormal'">
+                         </label>
+                         Sensation
+                    </li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="tone" ng-model="erform.physical_exam.neurological.tone" ng-change="setPhysicalExamParent(erform.physical_exam.neurological.tone)" ng-true-value="'Normal'" ng-false-value="'Abnormal'">
+                         </label>
+                         Tone
+                    </li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="reflexes" ng-model="erform.physical_exam.neurological.reflexes" ng-change="setPhysicalExamParent(erform.physical_exam.neurological.reflexes)" ng-true-value="'Normal'" ng-false-value="'Abnormal'">
+                         </label>
+                         Reflexes
+                    </li>
+                    <li class="item item-checkbox">
+                         <label class="checkbox">
+                           <input type="checkbox" name="cl_exam" ng-model="erform.physical_exam.neurological.cl_exam" ng-change="setPhysicalExamParent(erform.physical_exam.neurological.cl_exam)" ng-true-value="'Normal'" ng-false-value="'Abnormal'">
+                         </label>
+                         CL exam
+                    </li>
+                  </ul>
+                  <article class="card">
+                    <header class="item item-divider">Notes</header>
+                    <textarea rows="8" name="notes" ng-model="erform.physical_exam.notes">{{erform.physical_exam.notes}}</textarea>
+                  </article>
+              </section>
+            </div>
+
+          </div>
+
+
+          <!-- <section class="card">
+              <h4 class="item item-divider">Review of System</h4>
+              <article class="card">
+                <header class="item item-divider">Fever?</header>
+                <div class="item item-text-wrap">
+                    <ul class="list">
+                      <li class="item item-checkbox">
+                           <label class="checkbox">
+                             <input type="checkbox" ng-model="erform.isFever" ng-true-value="Yes" ng-false-value="No">
+                           </label>
+                           {{isFever}}
+                      </li>
+                    </ul>
+                </div>
+              </article>
+              <article class="card">
+                <header class="item item-divider">Chills?</header>
+                <div class="item item-text-wrap">
+                    <ul class="list">
+                      <li class="item item-checkbox">
+                           <label class="checkbox">
+                             <input type="checkbox" ng-model="erform.isChills" ng-true-value="Yes" ng-false-value="No">
+                           </label>
+                           {{isChills}}
+                      </li>
+                    </ul>
+                </div>
+              </article>
+              <article class="card">
+                <header class="item item-divider">Cough?</header>
+                <div class="item item-text-wrap">
+                    <ul class="list">
+                      <li class="item item-checkbox">
+                           <label class="checkbox">
+                             <input type="checkbox" ng-model="erform.isCough" ng-true-value="Yes" ng-false-value="No">
+                           </label>
+                           {{isCough}}
+                      </li>
+                    </ul>
+                </div>
+              </article>
+              <article class="card">
+                <header class="item item-divider">Syncopy?</header>
+                <div class="item item-text-wrap">
+                    <ul class="list">
+                      <li class="item item-checkbox">
+                           <label class="checkbox">
+                             <input type="checkbox" ng-model="erform.isSyncopy" ng-true-value="Yes" ng-false-value="No">
+                           </label>
+                           {{isSyncopy}}
+                      </li>
+                    </ul>
+                </div>
+              </article>
+              <article class="card">
+                <header class="item item-divider">Abdominal pain?</header>
+                <div class="item item-text-wrap">
+                    <ul class="list">
+                      <li class="item item-checkbox">
+                           <label class="checkbox">
+                             <input type="checkbox" ng-model="erform.isAbdominalPain" ng-true-value="Yes" ng-false-value="No">
+                           </label>
+                           {{isAbdominalPain}}
+                      </li>
+                    </ul>
+                </div>
+              </article>
+              <article class="card">
+                <header class="item item-divider">Change in bowel or bladder?</header>
+                <div class="item item-text-wrap">
+                    <ul class="list">
+                      <li class="item item-checkbox">
+                           <label class="checkbox">
+                             <input type="checkbox" ng-model="erform.isChangeInBowel_Bladder" ng-true-value="Yes" ng-false-value="No">
+                           </label>
+                           {{isChangeInBowel_Bladder}}
+                      </li>
+                    </ul>
+                </div>
+              </article>
+          </section> -->
+
+
+
+          <article class="card">
+            <header class="item item-divider">Reassessment</header>
+            <textarea rows="8" name="reassessment" ng-model="erform.reassessment">{{reassessment}}</textarea>
+          </article>
+          <article class="card">
+            <header class="item item-divider">Diagnosis</header>
+            <textarea rows="8" name="diagnosis" ng-model="erform.diagnosis">{{diagnosis}}</textarea>
+          </article>
+          <button class="button button-balanced button-block" ng-click="print()">Print</button>
+        </form>
+    </div>
+
+  </ion-content>
+</ion-view>

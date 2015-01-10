@@ -1,5 +1,5 @@
 {
-  "name": "era",
+  "name": "ERa",
   "private": "true",
   "devDependencies": {
     "ionic": "driftyco/ionic-bower#1.0.0-beta.14",
@@ -7,6 +7,8 @@
   },
   "dependencies": {
     "lodash": "~2.4.1",
-    "moment": "~2.8.4"
+    "moment": "~2.8.4",
+    "localforage": "~1.2.0",
+    "angular-localForage": "~1.2.2"
   }
 }

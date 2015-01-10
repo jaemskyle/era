@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.ionicframework.era860439" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>ERA</name>
+  <name>ERa</name>
   <description>
         ER Application
     </description>
   <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
+      James Kyle S and many thanks to the amazing ionic framework.
     </author>
   <content src="index.html"/>
   <access origin="*"/>

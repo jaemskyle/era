@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['starter.factories'])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
   // Form data for the login modal
@@ -32,7 +32,7 @@ angular.module('starter.controllers', [])
     }, 1000);
   };
 })
-.controller('BrowseCtrl', function($scope){
+.controller('BrowseCtrl', function($scope, cacheFactory){
     var page = document.getElementById('form');
 
     var print = function(){
@@ -42,6 +42,7 @@ angular.module('starter.controllers', [])
           $scope.apply();
       });
     };
+
     $scope.isRadiate = false;
     $scope.isPalpitation = 'No';
     $scope.isBreathShortness = 'No';
@@ -54,19 +55,43 @@ angular.module('starter.controllers', [])
     $scope.isAbdominalPain = 'No';
     $scope.isChangeInBowel_Bladder = 'No';
 
-    var physicalExamProblemsCount = 0;
-    $scope.isPhysicalExam = true;
-    var setPhysicalExamStatus = function(){
-      if (physicalExamProblemsCount === 0){
-        $scope.isPhysicalExam = true;
-      } else {
-        $scope.isPhysicalExam = false;
-      }
-    };
-    
-
     $scope.print = function(){
       document.addEventListener("deviceready", print, false);
+    };
+    $scope.save = function(){
+      cacheFactory.broadcastCacheEvent('Save');
+    };
+
+})
+.controller('FormCtrl', function($scope, cacheFactory, $timeout){
+    var date, time;
+    var physicalExamProblemsCount = 0,
+        default_physical_exam_status = true;
+
+    var setPhysicalExamStatus = function(){
+      if (physicalExamProblemsCount === 0){
+        $scope.ExaminationForm.physical_exam_status = true;
+      } else {
+        $scope.ExaminationForm.physical_exam_status = false;
+      }
+      console.log($scope.ExaminationForm.physical_exam_status);
+    };
+    $scope.setPhysicalExamMainChildren = function(){
+      $scope.ExaminationForm.physical_exam_status = false;
+      $scope.ExaminationForm.wheezing = 'No';
+      $scope.isCrackles = 'No';
+      $scope.isS1 = 'No';
+      $scope.isS2 = 'No';
+      $scope.isS3 = 'No';
+      $scope.isMurmur = 'No';
+      $scope.isPeripheralPulses = 'No';
+      $scope.isSoft = 'No';
+      $scope.isTender = 'No';
+      $scope.isBowelSoundPresent = 'No';
+      $scope.isMass = 'No';
+      $scope.isOrganomegaly = 'No';
+      $scope.isReboundTenderness = 'No';
+      $scope.isPeripheralPulses = 'No';
     };
     $scope.physicalExamChildListener = function(value, param){
       if (value){
@@ -85,31 +110,87 @@ angular.module('starter.controllers', [])
         $scope.isPhysicalExam = false;
       } 
     };
-    $scope.setPhysicalExamMainChildren = function(){
-      $scope.isAirEntry = false;
-      $scope.isWheezing = 'No';
-      $scope.isCrackles = 'No';
-      $scope.isS1 = 'No';
-      $scope.isS2 = 'No';
-      $scope.isS3 = 'No';
-      $scope.isMurmur = 'No';
-      $scope.isPeripheralPulses = 'No';
-      $scope.isSoft = 'No';
-      $scope.isTender = 'No';
-      $scope.isBowelSoundPresent = 'No';
-      $scope.isMass = 'No';
-      $scope.isOrganomegaly = 'No';
-      $scope.isReboundTenderness = 'No';
-      $scope.isPeripheralPulses = 'No';
-    };
-    $scope.setPhysicalExamChild = function(param){
-      if (param) {
-        console.log($scope.ername);
-        $scope.ername.airEntry.$viewValue = false;
-        $scope.ername.airEntry.$render();
-        // $scope.setPhysicalExamMainChildren();
+
+
+    $timeout(function(){
+      date = moment().format('YYYY-MM-DD');
+      time = moment().format('h:MM A')
+
+      $scope.ExaminationForm.date.$viewValue = date;
+      $scope.ExaminationForm.date.$render();
+      $scope.ExaminationForm.time.$viewValue = time;
+      $scope.ExaminationForm.time.$render();
+
+      $scope.ExaminationForm.physical_exam_status.$viewValue = true;
+      $scope.ExaminationForm.physical_exam_status.$modelValue = true;
+      $scope.ExaminationForm.physical_exam_status.$render();
+    });
+
+    $scope.$on('CacheUpdate:Save', function(event, args){
+      var formData = {};
+
+      formData = {
+        date: $scope.erform.date,
+        time: $scope.erform.time,
+        first_name: $scope.erform.first_name,
+        last_name: $scope.erform.last_name,
       }
-    };
+      // formData = {
+      //   date: $scope.erform.date,
+      //   time: $scope.erform.time,
+      //   first_name: $scope.erform.first_name,
+      //   last_name: $scope.erform.last_name,
+      //   er_card: {
+      //     hpi: $scope.erform.hpi,
+      //     pmhx: $scope.erform.pmhx,
+      //     medication: $scope.erform.medication,
+      //     allergies: $scope.erform.allergies,
+      //     ros: $scope.erform.ros
+      //   },
+      //   physical_exam: {
+      //     physical_exam_status: $scope.erform.physical_exam_status,
+      //     respiratory_exam: {
+      //       air_entry_equal_and_bilateral: $scope.erform.physical_exam.respiratory.air_entry_equal_and_bilateral,
+      //       wheezing: $scope.erform.physical_exam.respiratory.wheezing,
+      //       crackles: $scope.erform.physical_exam.respiratory.crackles
+      //     },
+      //     cardio_vascular: {
+      //       s1: $scope.erform.physical_exam.cardio_vascular.s1,
+      //       s2:$scope.erform.physical_exam.cardio_vascular.s2,
+      //       s3:$scope.erform.physical_exam.cardio_vascular.s3,
+      //       murmur:$scope.erform.physical_exam.cardio_vascular.murmur,
+      //       peripheral_pulses:$scope.erform.physical_exam.cardio_vascular.peripheral_pulses
+      //     },
+      //     abdominal_exam: {
+      //       soft: $scope.erform.physical_exam.abdominal.soft,
+      //       tender: $scope.erform.physical_exam.abdominal.tender,
+      //       bowel_sound_preset: $scope.erform.physical_exam.abdominal.bowel_sound_preset,
+      //       mass: $scope.erform.physical_exam.abdominal.mass,
+      //       organomegaly: $scope.erform.physical_exam.abdominal.organomegaly,
+      //       rebound_tenderness: $scope.erform.physical_exam.abdominal.rebound_tenderness,
+      //       peritonitis: $scope.erform.physical_exam.abdominal.peritonitis
+      //     },
+      //     heent: {
+      //       tympanic_membrane: $scope.erform.physical_exam.heent.tympanic_membrane,
+      //       throat: $scope.erform.physical_exam.heent.throat,
+      //       nodes: $scope.erform.physical_exam.heent.nodes,
+      //       neck_supple: $scope.erform.physical_exam.heent.neck_supple
+      //     },
+      //     neurological_exam: {
+      //       cranial_nerve_ii_xii: $scope.erform.physical_exam.neurological.cranial_nerve_ii_xii,
+      //       power: $scope.erform.physical_exam.neurological.power,
+      //       sensation: $scope.erform.physical_exam.neurological.sensation,
+      //       tone: $scope.erform.physical_exam.neurological.tone,
+      //       reflexes: $scope.erform.physical_exam.neurological.reflexes,
+      //       cl_exam: $scope.erform.physical_exam.neurological.cl_exam
+      //     },
+      //     notes: $scope.erform.physical_exam.notes
+      //   },
+      //   reassessment: $scope.erform.reassessment,
+      //   diagnosis: $scope.erform.diagnosis
+      // };
+      cacheFactory.setLocalData(formData)
+    });
 })
 ;
 
