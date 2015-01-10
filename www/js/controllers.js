@@ -70,28 +70,32 @@ angular.module('starter.controllers', ['starter.factories'])
 
     var setPhysicalExamStatus = function(){
       if (physicalExamProblemsCount === 0){
-        $scope.ExaminationForm.physical_exam_status = true;
+        $scope.ExaminationForm.physical_exam_status.$viewValue = true;
+        $scope.ExaminationForm.physical_exam_status.$modelValue = true;
+        $scope.ExaminationForm.physical_exam_status.$render();
+        $scope.ExaminationForm.physical_exam_status.$$writeModelToScope();
       } else {
-        $scope.ExaminationForm.physical_exam_status = false;
+        $scope.ExaminationForm.physical_exam_status.$viewValue = false;
+        $scope.ExaminationForm.physical_exam_status.$modelValue = false;
+        $scope.ExaminationForm.physical_exam_status.$render();
+        $scope.ExaminationForm.physical_exam_status.$$writeModelToScope();
       }
-      console.log($scope.ExaminationForm.physical_exam_status);
     };
     $scope.setPhysicalExamMainChildren = function(){
-      $scope.ExaminationForm.physical_exam_status = false;
       $scope.ExaminationForm.wheezing = 'No';
-      $scope.isCrackles = 'No';
-      $scope.isS1 = 'No';
-      $scope.isS2 = 'No';
-      $scope.isS3 = 'No';
-      $scope.isMurmur = 'No';
-      $scope.isPeripheralPulses = 'No';
-      $scope.isSoft = 'No';
-      $scope.isTender = 'No';
-      $scope.isBowelSoundPresent = 'No';
-      $scope.isMass = 'No';
-      $scope.isOrganomegaly = 'No';
-      $scope.isReboundTenderness = 'No';
-      $scope.isPeripheralPulses = 'No';
+      $scope.ExaminationForm.crackles = 'No';
+      $scope.ExaminationForm.s1 = 'No';
+      $scope.ExaminationForm.s2 = 'No';
+      $scope.ExaminationForm.s3 = 'No';
+      $scope.ExaminationForm.murmur = 'No';
+      $scope.ExaminationForm.peripheral_pulses = 'No';
+      $scope.ExaminationForm.soft = 'No';
+      $scope.ExaminationForm.tender = 'No';
+      $scope.ExaminationForm.bowel_sound_preset = 'No';
+      $scope.ExaminationForm.mass = 'No';
+      $scope.ExaminationForm.organomegaly = 'No';
+      $scope.ExaminationForm.rebound_tenderness = 'No';
+      $scope.ExaminationForm.peritonitis = 'No';
     };
     $scope.physicalExamChildListener = function(value, param){
       if (value){
@@ -124,6 +128,7 @@ angular.module('starter.controllers', ['starter.factories'])
       $scope.ExaminationForm.physical_exam_status.$viewValue = true;
       $scope.ExaminationForm.physical_exam_status.$modelValue = true;
       $scope.ExaminationForm.physical_exam_status.$render();
+      $scope.ExaminationForm.physical_exam_status.$$writeModelToScope();
     });
 
     $scope.$on('CacheUpdate:Save', function(event, args){
