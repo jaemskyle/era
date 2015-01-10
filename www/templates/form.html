@@ -1,6 +1,10 @@
 <ion-view view-title="ER App" ng-controller="BrowseCtrl">
   <ion-nav-buttons side="secondary">
-    <button class="button button-clear" ng-click="save()">
+    <button class="button button-icon" ng-click="print()">
+      <span class="ion-printer"></span>
+      Print
+    </button>
+    <button class="button button-balanced" ng-click="save()">
       Save
     </button>
   </ion-nav-buttons>
@@ -30,20 +34,6 @@
                     <label class="item item-input">
                       <span class="input-label">ID</span>
                       <input type="text" name="id" ng-model="erform.id" />
-                    </label>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <label class="item item-input">
-                      <span class="input-label">First Name</span>
-                      <input type="text" name="first_name" ng-model="erform.first_name" />
-                    </label>
-                  </div>
-                  <div class="col">
-                    <label class="item item-input">
-                      <span class="input-label">Last Name</span>
-                    <input type="text" name="last_name" ng-model="erform.last_name" />
                     </label>
                   </div>
                 </div>
@@ -423,7 +413,6 @@
             <header class="item item-divider">Diagnosis</header>
             <textarea rows="8" name="diagnosis" ng-model="erform.diagnosis">{{diagnosis}}</textarea>
           </article>
-          <button class="button button-balanced button-block" ng-click="print()">Print</button>
         </form>
     </div>
 
