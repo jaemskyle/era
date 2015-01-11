@@ -33,7 +33,7 @@ angular.module('starter.controllers', ['starter.factories'])
   };
 })
 .controller('BrowseCtrl', function($scope, cacheFactory){
-    var page = document.getElementById('form');
+    var page = angular.element(document.getElementById('form'));
 
     var print = function(){
       console.log('should print');

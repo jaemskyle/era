@@ -12,7 +12,7 @@
     <div class="content has-header">
         <form id="form" name="ExaminationForm" ng-controller="FormCtrl" novalidate>
           <div class="row">
-            <div class="col-75">
+            <div class="col-50">
               <section class="card">
                 <h4 class="item item-divider">Basic Info</h4>
                 <div class="row">
@@ -63,7 +63,7 @@
               </section>
             </div>
 
-            <div class="col">
+            <div class="col-50">
               <!--
               <article class="card">
                 <header class="item item-divider">Did it radiate?</header>
@@ -156,13 +156,13 @@
                            <label class="checkbox">
                              <input type="checkbox" name="wheezing" ng-model="erform.physical_exam.respiratory.wheezing" ng-change="physicalExamChildListener(erform.physical_exam.respiratory.wheezing)">
                            </label>
-                           Wheezing?
+                           Wheezing
                       </li>
                       <li class="item item-checkbox">
                            <label class="checkbox">
                              <input type="checkbox" name="crackles" ng-model="erform.physical_exam.respiratory.crackles" ng-change="physicalExamChildListener(erform.physical_exam.respiratory.crackles)">
                            </label>
-                           Crackles?
+                           Crackles
                       </li>
                   </ul>
 
@@ -172,31 +172,31 @@
                          <label class="checkbox">
                            <input type="checkbox" name="s1" ng-model="erform.physical_exam.cardio_vascular.s1" ng-change="physicalExamChildListener(erform.physical_exam.cardio_vascular.s1)">
                          </label>
-                         S1?
+                         S1
                     </li>
                     <li class="item item-checkbox">
                          <label class="checkbox">
                            <input type="checkbox" name="s2" ng-model="erform.physical_exam.cardio_vascular.s2" ng-change="physicalExamChildListener(erform.physical_exam.cardio_vascular.s2)">
                          </label>
-                         S2?
+                         S2
                     </li>
                     <li class="item item-checkbox">
                          <label class="checkbox">
                            <input type="checkbox" name="s3" ng-model="erform.physical_exam.cardio_vascular.s3" ng-change="physicalExamChildListener(erform.physical_exam.cardio_vascular.s3)">
                          </label>
-                         S3?
+                         S3
                     </li>
                     <li class="item item-checkbox">
                          <label class="checkbox">
                            <input type="checkbox" name="murmur" ng-model="erform.physical_exam.cardio_vascular.murmur" ng-change="physicalExamChildListener(erform.physical_exam.cardio_vascular.murmur)">
                          </label>
-                         Murmur?
+                         Murmur
                     </li>
                     <li class="item item-checkbox">
                          <label class="checkbox">
                            <input type="checkbox" name="peripheral_pulses" ng-model="erform.physical_exam.cardio_vascular.peripheral_pulses" ng-change="physicalExamChildListener(erform.physical_exam.cardio_vascular.peripheral_pulses)">
                          </label>
-                         Peripheral pulses?
+                         Peripheral pulses
                     </li>
                   </ul>
 
@@ -206,43 +206,43 @@
                          <label class="checkbox">
                            <input type="checkbox" name="soft" ng-model="erform.abdominal.soft" ng-change="physicalExamChildListener(erform.abdominal.soft)">
                          </label>
-                         Soft?
+                         Soft
                     </li>
                     <li class="item item-checkbox">
                          <label class="checkbox">
                            <input type="checkbox" name="tender" ng-model="erform.physical_exam.abdominal.tender" ng-change="physicalExamChildListener(erform.physical_exam.abdominal.tender)">
                          </label>
-                         Tender?
+                         Tender
                     </li>
                     <li class="item item-checkbox">
                          <label class="checkbox">
                            <input type="checkbox" name="bowel_sound_present" ng-model="erform.physical_exam.abdominal.bowel_sound_present" ng-change="physicalExamChildListener(erform.physical_exam.abdominal.bowel_sound_present)">
                          </label>
-                         Bowel sound present?
+                         Bowel sound present
                     </li>
                     <li class="item item-checkbox">
                          <label class="checkbox">
                            <input type="checkbox" name="mass" ng-model="erform.physical_exam.abdominal.mass" ng-change="physicalExamChildListener(erform.physical_exam.abdominal.mass)">
                          </label>
-                         Mass?
+                         Mass
                     </li>
                     <li class="item item-checkbox">
                          <label class="checkbox">
                            <input type="checkbox" name="organomegaly" ng-model="erform.physical_exam.abdominal.organomegaly" ng-change="physicalExamChildListener(erform.physical_exam.abdominal.organomegaly)">
                          </label>
-                         Organomegaly?
+                         Organomegaly
                     </li>
                     <li class="item item-checkbox">
                          <label class="checkbox">
                            <input type="checkbox" name="rebound_tenderness" ng-model="erform.physical_exam.abdominal.rebound_tenderness" ng-change="physicalExamChildListener(erform.physical_exam.abdominal.rebound_tenderness)">
                          </label>
-                         Rebound tenderness?
+                         Rebound tenderness
                     </li>
                     <li class="item item-checkbox">
                          <label class="checkbox">
                            <input type="checkbox" name="peritonitis" ng-model="erform.physical_exam.abdominal.peritonitis" ng-change="physicalExamChildListener(erform.physical_exam.abdominal.peritonitis)">
                          </label>
-                         Peritonitis?
+                         Peritonitis
                     </li>
                   </ul>
                   <ul class="list list-inset">
@@ -251,7 +251,7 @@
                          <label class="checkbox">
                            <input type="checkbox" name="tympanic_membrane" ng-model="erform.physical_exam.heent.tympanic_membrane" ng-change="physicalExamChildListener(erform.physical_exam.heent.tympanic_membrane)" ng-true-value="'Normal'" ng-false-value="'Dull'">
                          </label>
-                         Tympanic membrane?
+                         Tympanic membrane
                     </li>
                     <li class="item item-checkbox">
                          <label class="checkbox">
@@ -317,7 +317,6 @@
                   </article>
               </section>
             </div>
-
           </div>
 
 
