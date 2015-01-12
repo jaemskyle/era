@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 'LocalForageModule'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $rootScope, $state, $stateParams) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -18,9 +18,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 'L
       StatusBar.styleDefault();
     }
   });
+  $rootScope.$state = $state;
+  $rootScope.$stateParams = $stateParams;
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $localForageProvider) {
   $stateProvider
 
   .state('app', {
@@ -30,11 +32,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 'L
     controller: 'AppCtrl'
   })
 
-  .state('app.search', {
-    url: "/search",
+  .state('app.home', {
+    url: "/home",
     views: {
       'menuContent': {
-        templateUrl: "templates/search.html"
+        templateUrl: "templates/home.html",
+        controller: 'HomeCtrl'
       }
     }
   })
@@ -49,5 +52,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 'L
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/form');
+  $urlRouterProvider.otherwise('/app/home');
+
+  $localForageProvider.setNotify(true, true); // itemSet, itemRemove
+  $localForageProvider.config({
+    name        : 'ERa_',
+    storeName   : 'ERaLocalStore',
+    description : 'ERa local data.'
+  });
 });

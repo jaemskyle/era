@@ -1,0 +1,22 @@
+<ion-view view-title="ER App">
+  <ion-nav-buttons side="secondary">
+    <button class="button button-clear" ng-click="refresh()">refresh</button>
+  </ion-nav-buttons>
+  <ion-content>
+    <section class="row">
+      <h4>{{forms.length}}</h4>
+    </section>
+    <section class="row">
+      <div class="col-25" ng-repeat="form in forms track by $index">
+        <article class="card">
+          <div class="item">{{forms.id || 'Name'}}</div>
+        </article>
+      </div>
+    </section>
+    <section class="card">
+      <div class="item">
+        <button class="button button-block button-default" ng-click="$state.go('app.form')">New Form</button>
+      </div>
+    </section>
+  </ion-content>
+</ion-view>

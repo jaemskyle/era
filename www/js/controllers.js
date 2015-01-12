@@ -32,12 +32,41 @@ angular.module('starter.controllers', ['starter.factories'])
     }, 1000);
   };
 })
+.controller('HomeCtrl', function($scope, cacheFactory){
+  var init = function(){
+    cacheFactory.getLocalData().then(function(getLocalDataSuccess){
+      $scope.forms = getLocalDataSuccess;
+    });
+
+    cacheFactory.getStoreLength().then(function(data){
+      console.log('Store Lenght: '+data);
+    });
+  };
+
+  $scope.refresh = function(){
+    cacheFactory.getLocalData().then(function(getLocalDataSuccess){
+      console.log(getLocalDataSuccess)
+      $scope.forms = getLocalDataSuccess;
+    });
+  };
+  $scope.clearAll = cacheFactory.clearAll;
+
+  
+  $scope.$on('$viewContentLoaded', function(event, args){
+    init();
+  });
+  init();
+})
 .controller('BrowseCtrl', function($scope, cacheFactory){
-    var page = angular.element(document.getElementById('form'));
+    var page;
+    var setPageToPrint = function(){
+      page = document.getElementById('form');
+      return page;
+    };
 
     var print = function(){
       console.log('should print');
-      cordova.plugins.printer.print(page, 'Document.html', function () {
+      cordova.plugins.printer.print(setPageToPrint(), 'Document.html', function () {
           alert('printing finished or canceled')
           $scope.apply();
       });
@@ -135,66 +164,62 @@ angular.module('starter.controllers', ['starter.factories'])
       var formData = {};
 
       formData = {
+        id: $scope.erform.id,
         date: $scope.erform.date,
         time: $scope.erform.time,
         first_name: $scope.erform.first_name,
         last_name: $scope.erform.last_name,
+        er_card: {
+          hpi: $scope.erform.hpi,
+          pmhx: $scope.erform.pmhx,
+          medication: $scope.erform.medication,
+          allergies: $scope.erform.allergies,
+          ros: $scope.erform.ros
+        },
+        physical_exam: {
+          physical_exam_status: $scope.erform.physical_exam_status,
+          respiratory_exam: {
+            air_entry_equal_and_bilateral: $scope.ExaminationForm.air_entry_equal_and_bilateral.$viewValue,
+            wheezing: $scope.ExaminationForm.wheezing.$viewValue,
+            crackles: $scope.ExaminationForm.crackles.$viewValue
+          },
+          cardio_vascular: {
+            s1: $scope.ExaminationForm.s1.$viewValue,
+            s2: $scope.ExaminationForm.s2.$viewValue,
+            s3: $scope.ExaminationForm.s3.$viewValue,
+            murmur: $scope.ExaminationForm.murmur.$viewValue,
+            peripheral_pulses: $scope.ExaminationForm.peripheral_pulses.$viewValue
+          },
+          abdominal_exam: {
+            soft: $scope.ExaminationForm.soft.$viewValue,
+            tender: $scope.ExaminationForm.tender.$viewValue,
+            bowel_sound_present: $scope.ExaminationForm.bowel_sound_present.$viewValue,
+            mass: $scope.ExaminationForm.mass.$viewValue,
+            organomegaly: $scope.ExaminationForm.organomegaly.$viewValue,
+            rebound_tenderness: $scope.ExaminationForm.rebound_tenderness.$viewValue,
+            peritonitis: $scope.ExaminationForm.peritonitis.$viewValue
+          },
+          heent: {
+            tympanic_membrane: $scope.ExaminationForm.tympanic_membrane.$viewValue,
+            throat: $scope.ExaminationForm.throat.$viewValue,
+            nodes: $scope.ExaminationForm.nodes.$viewValue,
+            neck_supple: $scope.ExaminationForm.neck_supple.$viewValue
+          },
+          neurological_exam: {
+            cranial_nerve_ii_xii: $scope.ExaminationForm.cranial_nerve_ii_xii.$viewValue,
+            power: $scope.ExaminationForm.power.$viewValue,
+            sensation: $scope.ExaminationForm.sensation.$viewValue,
+            tone: $scope.ExaminationForm.tone.$viewValue,
+            reflexes: $scope.ExaminationForm.reflexes.$viewValue,
+            cl_exam: $scope.ExaminationForm.cl_exam.$viewValue
+          },
+          notes: $scope.ExaminationForm.notes
+        },
+        diagnosis: $scope.ExaminationForm.diagnosis,
+        discharge_instruction: $scope.ExaminationForm.discharge_instruction
       }
-      // formData = {
-      //   date: $scope.erform.date,
-      //   time: $scope.erform.time,
-      //   first_name: $scope.erform.first_name,
-      //   last_name: $scope.erform.last_name,
-      //   er_card: {
-      //     hpi: $scope.erform.hpi,
-      //     pmhx: $scope.erform.pmhx,
-      //     medication: $scope.erform.medication,
-      //     allergies: $scope.erform.allergies,
-      //     ros: $scope.erform.ros
-      //   },
-      //   physical_exam: {
-      //     physical_exam_status: $scope.erform.physical_exam_status,
-      //     respiratory_exam: {
-      //       air_entry_equal_and_bilateral: $scope.erform.physical_exam.respiratory.air_entry_equal_and_bilateral,
-      //       wheezing: $scope.erform.physical_exam.respiratory.wheezing,
-      //       crackles: $scope.erform.physical_exam.respiratory.crackles
-      //     },
-      //     cardio_vascular: {
-      //       s1: $scope.erform.physical_exam.cardio_vascular.s1,
-      //       s2:$scope.erform.physical_exam.cardio_vascular.s2,
-      //       s3:$scope.erform.physical_exam.cardio_vascular.s3,
-      //       murmur:$scope.erform.physical_exam.cardio_vascular.murmur,
-      //       peripheral_pulses:$scope.erform.physical_exam.cardio_vascular.peripheral_pulses
-      //     },
-      //     abdominal_exam: {
-      //       soft: $scope.erform.physical_exam.abdominal.soft,
-      //       tender: $scope.erform.physical_exam.abdominal.tender,
-      //       bowel_sound_preset: $scope.erform.physical_exam.abdominal.bowel_sound_preset,
-      //       mass: $scope.erform.physical_exam.abdominal.mass,
-      //       organomegaly: $scope.erform.physical_exam.abdominal.organomegaly,
-      //       rebound_tenderness: $scope.erform.physical_exam.abdominal.rebound_tenderness,
-      //       peritonitis: $scope.erform.physical_exam.abdominal.peritonitis
-      //     },
-      //     heent: {
-      //       tympanic_membrane: $scope.erform.physical_exam.heent.tympanic_membrane,
-      //       throat: $scope.erform.physical_exam.heent.throat,
-      //       nodes: $scope.erform.physical_exam.heent.nodes,
-      //       neck_supple: $scope.erform.physical_exam.heent.neck_supple
-      //     },
-      //     neurological_exam: {
-      //       cranial_nerve_ii_xii: $scope.erform.physical_exam.neurological.cranial_nerve_ii_xii,
-      //       power: $scope.erform.physical_exam.neurological.power,
-      //       sensation: $scope.erform.physical_exam.neurological.sensation,
-      //       tone: $scope.erform.physical_exam.neurological.tone,
-      //       reflexes: $scope.erform.physical_exam.neurological.reflexes,
-      //       cl_exam: $scope.erform.physical_exam.neurological.cl_exam
-      //     },
-      //     notes: $scope.erform.physical_exam.notes
-      //   },
-      //   reassessment: $scope.erform.reassessment,
-      //   diagnosis: $scope.erform.diagnosis
-      // };
-      cacheFactory.setLocalData(formData)
+
+      cacheFactory.setLocalData(formData);
     });
 })
 ;

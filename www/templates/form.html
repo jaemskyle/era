@@ -1,4 +1,4 @@
-<ion-view view-title="ER App" ng-controller="BrowseCtrl">
+<ion-view  ng-controller="BrowseCtrl">
   <ion-nav-buttons side="secondary">
     <button class="button button-icon" ng-click="print()">
       <span class="ion-printer"></span>
@@ -148,7 +148,7 @@
                     <li class="item item-divider">Respiratory Exam</li>
                       <li class="item item-checkbox">
                            <label class="checkbox">
-                             <input type="checkbox" name="air_entry_equal_and_bilateral" ng-model="erform.physical_exam.respiratory.air_entry_equal_and_bilateral" ng-change="physicalExamChildListener(erform.physical_exam.respiratory.air_entry_equal_and_bilateral)" >
+                             <input type="checkbox" name="air_entry_equal_and_bilateral" ng-model="erform.air_entry_equal_and_bilateral" ng-change="physicalExamChildListener(erform.physical_exam.respiratory.air_entry_equal_and_bilateral)" >
                            </label>
                            Air entry equal and bilateral.
                       </li>
@@ -403,14 +403,13 @@
           </section> -->
 
 
-
-          <article class="card">
-            <header class="item item-divider">Reassessment</header>
-            <textarea rows="8" name="reassessment" ng-model="erform.reassessment">{{reassessment}}</textarea>
-          </article>
           <article class="card">
             <header class="item item-divider">Diagnosis</header>
             <textarea rows="8" name="diagnosis" ng-model="erform.diagnosis">{{diagnosis}}</textarea>
+          </article>
+          <article class="card">
+            <header class="item item-divider">Discharge Instruction</header>
+            <textarea rows="8" name="discharge_instruction" ng-model="erform.discharge_instruction">{{discharge_instruction}}</textarea>
           </article>
         </form>
     </div>
