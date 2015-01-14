@@ -32,37 +32,70 @@ angular.module('starter.controllers', ['starter.factories'])
     }, 1000);
   };
 })
-.controller('HomeCtrl', function($scope, cacheFactory){
+.controller('HomeCtrl', function($scope, cacheFactory, $interval){
+  var getLocalData = function(){
+    cacheFactory.getLocalData().then(function(getLocalDataSuccess){
+      if (!getLocalDataSuccess){
+//          $interval(getLocalData, 1000, 3);
+      } else {
+          console.log(getLocalDataSuccess)
+          $scope.forms = getLocalDataSuccess;
+      }
+    });
+  };
   var init = function(){
     cacheFactory.getLocalData().then(function(getLocalDataSuccess){
       $scope.forms = getLocalDataSuccess;
-    });
-
-    cacheFactory.getStoreLength().then(function(data){
-      console.log('Store Lenght: '+data);
+      console.log(getLocalDataSuccess)
     });
   };
 
   $scope.refresh = function(){
-    cacheFactory.getLocalData().then(function(getLocalDataSuccess){
-      console.log(getLocalDataSuccess)
-      $scope.forms = getLocalDataSuccess;
-    });
+      getLocalData();
   };
-  $scope.clearAll = cacheFactory.clearAll;
+  $scope.clearAll = function(data){
+    cacheFactory.clearAllCached();
+    $scope.forms = [];
+  };
 
-  
-  $scope.$on('$viewContentLoaded', function(event, args){
-    init();
-  });
   init();
+
+  $scope.$on('CacheUpdate:Updated', function(event, args){
+
+  });
+
 })
 .controller('BrowseCtrl', function($scope, cacheFactory){
-    var page;
-    var setPageToPrint = function(){
-      page = document.getElementById('form');
-      return page;
-    };
+    var allExForms = [],
+        page;
+
+    var setScope = function(data){
+          $scope.forms = data;
+        },
+        writeLocalData = function(data){
+          cacheFactory.setLocalData(data).then(
+            function(setSuccess){
+              console.log('writeLocalDataSuccess');
+
+            }, function(setFail){}
+          );
+        },
+        sync = function(newData){
+          cacheFactory.getLocalData().then(
+            function(getSuccess){
+              allExForms = getSuccess;      
+              allExForms.push(newData);
+              writeLocalData(allExForms);
+            }, function(getFail){}
+          );
+        },
+        setLocalData = function(newData){
+          sync(newData);
+        },
+        setPageToPrint = function(){
+          page = document.getElementById('form');
+          return page;
+        };
 
     var print = function(){
       console.log('should print');
@@ -92,7 +125,38 @@ angular.module('starter.controllers', ['starter.factories'])
     };
 
 })
-.controller('FormCtrl', function($scope, cacheFactory, $timeout){
+.controller('FormCtrl', function($scope, cacheFactory, $timeout, ERaUtilsFactory){
+    var allExForms = [];
+
+    var writeLocalData = function(data){
+          cacheFactory.setLocalData(data).then(
+            function(setSuccess){
+              if (ionic.Platform.isWebView()){
+                ERaUtilsFactory.showToast('top', 'short', 'Success: Form is saved.');
+              }
+              cacheFactory.broadcastCacheEvent('Updated');
+            }, function(setFail){}
+          );
+        },
+        sync = function(newData){
+          cacheFactory.getLocalData().then(
+            function(getSuccess){
+              if (!getSuccess){
+                console.log('getSuccess is undefined');
+                allExForms.push(newData);
+                writeLocalData(allExForms);
+              } else {
+                console.log('getSuccess is ok');
+                allExForms = getSuccess;      
+                allExForms.push(newData);
+                writeLocalData(allExForms);
+              }
+            }, function(getFail){}
+          );
+        },
+        setLocalData = function(newData){
+          sync(newData);
+        };
     var date, time;
     var physicalExamProblemsCount = 0,
         default_physical_exam_status = true;
@@ -138,11 +202,6 @@ angular.module('starter.controllers', ['starter.factories'])
     };
     $scope.physicalExamParentListener = function(param){
     };
-    $scope.setPhysicalExamParent = function(param){
-      if (param === 'Yes' || param){
-        $scope.isPhysicalExam = false;
-      } 
-    };
 
 
     $timeout(function(){
@@ -164,20 +223,19 @@ angular.module('starter.controllers', ['starter.factories'])
       var formData = {};
 
       formData = {
-        id: $scope.erform.id,
-        date: $scope.erform.date,
-        time: $scope.erform.time,
-        first_name: $scope.erform.first_name,
-        last_name: $scope.erform.last_name,
+        _id: null,
+        id: $scope.ExaminationForm.id.$viewValue,
+        date: $scope.ExaminationForm.date.$viewValue,
+        time: $scope.ExaminationForm.time.$viewValue,
         er_card: {
-          hpi: $scope.erform.hpi,
-          pmhx: $scope.erform.pmhx,
-          medication: $scope.erform.medication,
-          allergies: $scope.erform.allergies,
-          ros: $scope.erform.ros
+          hpi: $scope.ExaminationForm.hpi.$viewValue,
+          pmhx: $scope.ExaminationForm.pmhx.$viewValue,
+          medication: $scope.ExaminationForm.medication.$viewValue,
+          allergies: $scope.ExaminationForm.allergies.$viewValue,
+          ros: $scope.ExaminationForm.ros.$viewValue
         },
         physical_exam: {
-          physical_exam_status: $scope.erform.physical_exam_status,
+          physical_exam_status: $scope.ExaminationForm.physical_exam_status.$viewValue,
           respiratory_exam: {
             air_entry_equal_and_bilateral: $scope.ExaminationForm.air_entry_equal_and_bilateral.$viewValue,
             wheezing: $scope.ExaminationForm.wheezing.$viewValue,
@@ -219,7 +277,8 @@ angular.module('starter.controllers', ['starter.factories'])
         discharge_instruction: $scope.ExaminationForm.discharge_instruction
       }
 
-      cacheFactory.setLocalData(formData);
+      setLocalData(formData);
+
     });
 })
 ;

@@ -56,8 +56,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 'L
 
   $localForageProvider.setNotify(true, true); // itemSet, itemRemove
   $localForageProvider.config({
+    driver: localforage.LOCALSTORAGE,
     name        : 'ERa_',
     storeName   : 'ERaLocalStore',
     description : 'ERa local data.'
   });
+ console.log(localforage._driver);
 });

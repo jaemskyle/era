@@ -4,18 +4,19 @@
   </ion-nav-buttons>
   <ion-content>
     <section class="row">
-      <h4>{{forms.length}}</h4>
+      <h4>Forms saved: {{forms.length || 'no forms saved'}}</h4>
     </section>
-    <section class="row">
-      <div class="col-25" ng-repeat="form in forms track by $index">
-        <article class="card">
-          <div class="item">{{forms.id || 'Name'}}</div>
-        </article>
-      </div>
-    </section>
+
+    <ion-list>
+      <ion-item class="item" ng-repeat="form in forms" ng-click="gotoState(form.id)">
+        <h2>{{form.id}}</h2>
+      </ion-item>
+    </ion-list>
+
     <section class="card">
       <div class="item">
         <button class="button button-block button-default" ng-click="$state.go('app.form')">New Form</button>
+        <button class="button button-block button-default" ng-click="clearAll()">Clear Cache</button>
       </div>
     </section>
   </ion-content>
