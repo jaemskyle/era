@@ -307,14 +307,16 @@ angular.module('starter.controllers', ['starter.factories'])
 
     var prepEditScope = function(){
       var formScope = {};
-      for (var i=0, aL=allExForms.length; i<aL; i++){
-        if (Number($stateParams.formId) === i){
-          formScope = allExForms[i];
-          allExForms = window._.reject(allExForms, {id: formScope.id})
-          setFormItems(formScope);
-          updateLocalList(allExForms);
+      $timeout(function(){
+        for (var i=0, aL=allExForms.length; i<aL; i++){
+          if ($stateParams.formId === allExForms[i].id){
+            formScope = allExForms[i]; 
+            allExForms = window._.reject(allExForms, {id: formScope.id})
+            setFormItems(formScope);
+            updateLocalList(allExForms);
+          }
         }
-      }
+      });
     };
     var getLocalData = function(){
           cacheFactory.getLocalData().then(
@@ -323,6 +325,7 @@ angular.module('starter.controllers', ['starter.factories'])
                 allExForms = getLocalSuccess;
                 if ($state.is('app.edit')){
                   allExForms = getLocalSuccess;
+                  console.log(allExForms)
                   prepEditScope(getLocalSuccess);
                 }
               }
@@ -336,7 +339,6 @@ angular.module('starter.controllers', ['starter.factories'])
               if (ionic.Platform.isWebView()){
                 ERaUtilsFactory.showToast('top', 'short', 'Success: Form is saved.');
               }
-              $state.transitionTo('app.edit', {formId: currentChrtId});
               cacheFactory.broadcastCacheEvent('Updated');
             }, function(setFail){}
           );
