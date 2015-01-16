@@ -75,6 +75,7 @@ angular.module('starter.factories', [])
         }
     },
     broadcastPageEvent: function(eventName){
+      console.log('broadcasting: '+eventName);
       $rootScope.$broadcast('PageEvent:'+eventName);
     }
   }

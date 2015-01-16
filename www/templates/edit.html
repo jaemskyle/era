@@ -1,4 +1,4 @@
-<ion-view  ng-controller="BrowseCtrl" hide-back-button="true">
+<ion-view ng-controller="BrowseCtrl" hide-back-button="true">
   <ion-nav-buttons side="left">
     <button class="button button-clear button-icon" ng-click="goHome()">
       Back
@@ -15,7 +15,7 @@
   </ion-nav-buttons>
   <ion-content>
     <div class="content has-header">
-        <form id="form" name="ExaminationForm" ng-controller="FormCtrl" novalidate>
+        <form id="form" name="ExaminationForm" ng-controller="EditCtrl" novalidate>
           <div class="row">
             <div class="col-50">
               <section class="card">
@@ -139,6 +139,16 @@
               -->
               <section class="card">
                   <h4 class="item item-divider">Physical Exam</h4>
+                  <div class="item item-text-wrap">
+                      <ul class="list">
+                        <li class="item item-checkbox">
+                             <label class="checkbox">
+                               <input type="checkbox" name="physical_exam_status" ng-disabled="true" ng-model="erform.physical_exam_status" ng-change="setPhysicalExamChild(erform.physical_exam_status)" ng-true-value="'Normal'" >
+                             </label>
+                             {{erform.physical_exam_status | formatText}}
+                        </li>
+                      </ul>
+                  </div>
                   <ul class="list list-inset">
                     <li class="item item-divider">Respiratory Exam</li>
                       <li class="item item-checkbox">

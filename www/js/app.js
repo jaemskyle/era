@@ -54,7 +54,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 'L
     url: '/edit/:formId',
     views: {
       'menuContent': {
-        templateUrl: "templates/form.html"
+        templateUrl: "templates/edit.html"
       }
     }
   });
