@@ -47,7 +47,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 'L
     views: {
       'menuContent': {
         templateUrl: "templates/form.html"
-        // controller: 'BrowseCtrl'
+      }
+    }
+  })
+  .state('app.edit', {
+    url: '/edit/:formId',
+    views: {
+      'menuContent': {
+        templateUrl: "templates/form.html"
       }
     }
   });
@@ -61,5 +68,4 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 'L
     storeName   : 'ERaLocalStore',
     description : 'ERa local data.'
   });
- console.log(localforage._driver);
 });

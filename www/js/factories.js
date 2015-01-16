@@ -52,7 +52,7 @@ angular.module('starter.factories', [])
       }
     };
 })
-.factory('ERaUtilsFactory', function(){
+.factory('ERaUtilsFactory', function($rootScope){
   return {
     showToast: function(position, duration, message){
       if (position === 'top') {
@@ -73,7 +73,9 @@ angular.module('starter.factories', [])
         } else {
          window.plugins.toast.showLongTop(message);
         }
-     
+    },
+    broadcastPageEvent: function(eventName){
+      $rootScope.$broadcast('PageEvent:'+eventName);
     }
   }
 })

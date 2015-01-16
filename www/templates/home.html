@@ -1,15 +1,22 @@
-<ion-view view-title="ER App">
+<ion-view view-title="ER App" hide-back-button="true">
   <ion-nav-buttons side="secondary">
     <button class="button button-clear" ng-click="refresh()">refresh</button>
   </ion-nav-buttons>
   <ion-content>
     <section class="row">
-      <h4>Forms saved: {{forms.length || 'no forms saved'}}</h4>
+      <h4>Charts saved: {{forms.length || 'record\'s empty'}}</h4>
     </section>
 
-    <ion-list>
-      <ion-item class="item" ng-repeat="form in forms" ng-click="gotoState(form.id)">
+    <ion-list can-swipe="canSwipeList" show-delete="showListDelete">
+      <ion-item class="item item-icon-right" ng-repeat="form in forms" ng-click="editItem(form, $index)">
         <h2>{{form.id}}</h2>
+        <p>{{form.date}} {{form.time}}</p>
+        <i class="icon ion-ios7-arrow-forward"></i>
+        <ion-delete-button class="ion-minus-circled" ng-click="deleteItem(form, $index)">
+        </ion-delete-button>
+        <ion-option-button class="button-info"ng-click="deleteItem(form, $index)">
+          Delete
+        </ion-option-button>
       </ion-item>
     </ion-list>
 

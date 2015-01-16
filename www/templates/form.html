@@ -1,4 +1,9 @@
-<ion-view  ng-controller="BrowseCtrl">
+<ion-view  ng-controller="BrowseCtrl" hide-back-button="true">
+  <ion-nav-buttons side="left">
+    <button class="button button-clear button-icon" ng-click="goHome()">
+      Back
+    </button>
+  </ion-nav-buttons>
   <ion-nav-buttons side="secondary">
     <button class="button button-icon" ng-click="print()">
       <span class="ion-printer"></span>
