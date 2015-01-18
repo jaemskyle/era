@@ -139,19 +139,18 @@
               -->
               <section class="card">
                   <h4 class="item item-divider">Physical Exam</h4>
-                  <div class="item item-text-wrap">
-                      <ul class="list">
-                        <li class="item item-checkbox">
-                             <label class="checkbox">
-                               <input type="checkbox" name="physical_exam_status" ng-disabled="true" ng-model="erform.physical_exam_status" ng-change="setPhysicalExamChild(erform.physical_exam_status)" ng-true-value="'Normal'" >
-                             </label>
-                             {{erform.physical_exam_status | formatText}}
-                        </li>
-                      </ul>
-                  </div>
                   <ul class="list list-inset">
                     <li class="item item-divider">Respiratory Exam</li>
-                      <li class="item item-checkbox">
+                      <li class="item">
+                           Air entry equal and bilateral.
+                           <select name="air_entry_equal_and_bilateral" ng-model="air_entry_equal_and_bilateral" 
+                                  ng-change="showNote(air_entry_equal_and_bilateral)"
+                                  ng-options="opt as opt.label for opt in options">
+                           </select>
+                           <button class="button button-default" ng-click="air_entry_equal_and_bilateral_note_toggle = !air_entry_equal_and_bilateral_note_toggle" ng-show="air_entry_equal_and_bilateral.label === 'Abnormal'">
+                             <b>+</b>
+                           </button>
+                          <textarea ng-if="air_entry_equal_and_bilateral_note_toggle && air_entry_equal_and_bilateral.label === 'Abnormal'" name="air_entry_equal_and_bilateral_note" ng-model="air_entry_equal_and_bilateral_note" rows="8" placeholder="more info.."></textarea>
                            <label class="checkbox">
                              <input type="checkbox" name="air_entry_equal_and_bilateral" ng-model="erform.air_entry_equal_and_bilateral" ng-change="physicalExamChildListener(erform.physical_exam.respiratory.air_entry_equal_and_bilateral)" >
                            </label>

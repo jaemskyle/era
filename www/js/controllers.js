@@ -169,6 +169,36 @@ angular.module('starter.controllers', ['starter.factories'])
 })
 .controller('FormCtrl', function($scope, cacheFactory, $timeout, ERaUtilsFactory, $stateParams, $state){
     var allExForms = [];
+    $scope.options = [
+      {label: 'not applicable', value: 0},
+      {label: 'Abnormal', value: 1},
+      {label: 'Normal', value: 2}
+    ];
+
+    var heent = [
+      {name: "Throat clear", model: "throatClear"},
+      {name: "TM", model: "tm"},
+      {name: "No exudate on tensile", model: "noExudateOnTensile"},
+      {name: "Neck supple", model: "neckSupple"},
+      {name: "TM red and bulging", model: "tmRedAndBulging"},
+      {name: "Exudates on tonsil", model: "exudatesOnTonsil"},
+      {name: "Cervical adenopathy", model: "cervicalAdenopathy"}
+    ];
+    
+    
+    var setDefault = function(){
+      $scope.air_entry_equal_and_bilateral_note_toggle = false;
+      $scope.ExaminationForm.air_entry_equal_and_bilateral.$viewValue = $scope.options[0];
+      $scope.ExaminationForm.air_entry_equal_and_bilateral.$modelValue = $scope.options[0];
+      $scope.ExaminationForm.air_entry_equal_and_bilateral.$render();
+      $scope.ExaminationForm.air_entry_equal_and_bilateral.$$writeModelToScope();
+    };
+    $timeout(setDefault);
+
+    $scope.showNote = function(val){
+      console.log(val);
+    };
+
     var next = function(fn, paramObj){
       var fn = fn || function(){};
       fn(paramObj);
@@ -201,7 +231,6 @@ angular.module('starter.controllers', ['starter.factories'])
           ros: $scope.ExaminationForm.ros.$viewValue
         },
         physical_exam: {
-          physical_exam_status: $scope.ExaminationForm.physical_exam_status.$viewValue,
           respiratory_exam: {
             air_entry_equal_and_bilateral: $scope.ExaminationForm.air_entry_equal_and_bilateral.$viewValue,
             wheezing: $scope.ExaminationForm.wheezing.$viewValue,
@@ -253,10 +282,10 @@ angular.module('starter.controllers', ['starter.factories'])
     var getLocalData = function(){
         cacheFactory.getLocalData().then(
           function(getLocalSuccess){
-            if (getLocalSuccess.length){
-              allExForms = getLocalSuccess;
+            if (angular.isUndefined(getLocalSuccess)){
               next(updateCharts)
             } else {
+              allExForms = getLocalSuccess;
               next(updateCharts)
             }
           });
@@ -271,17 +300,17 @@ angular.module('starter.controllers', ['starter.factories'])
         default_physical_exam_status = true;
 
     var setPhysicalExamStatus = function(){
-      if (physicalExamProblemsCount === 0){
-        $scope.ExaminationForm.physical_exam_status.$viewValue = true;
-        $scope.ExaminationForm.physical_exam_status.$modelValue = true;
-        $scope.ExaminationForm.physical_exam_status.$render();
-        $scope.ExaminationForm.physical_exam_status.$$writeModelToScope();
-      } else {
-        $scope.ExaminationForm.physical_exam_status.$viewValue = false;
-        $scope.ExaminationForm.physical_exam_status.$modelValue = false;
-        $scope.ExaminationForm.physical_exam_status.$render();
-        $scope.ExaminationForm.physical_exam_status.$$writeModelToScope();
-      }
+      // if (physicalExamProblemsCount === 0){
+      //   $scope.ExaminationForm.physical_exam_status.$viewValue = true;
+      //   $scope.ExaminationForm.physical_exam_status.$modelValue = true;
+      //   $scope.ExaminationForm.physical_exam_status.$render();
+      //   $scope.ExaminationForm.physical_exam_status.$$writeModelToScope();
+      // } else {
+      //   $scope.ExaminationForm.physical_exam_status.$viewValue = false;
+      //   $scope.ExaminationForm.physical_exam_status.$modelValue = false;
+      //   $scope.ExaminationForm.physical_exam_status.$render();
+      //   $scope.ExaminationForm.physical_exam_status.$$writeModelToScope();
+      // }
     };
     $scope.setPhysicalExamMainChildren = function(){
       $scope.ExaminationForm.wheezing = 'No';
@@ -320,10 +349,10 @@ angular.module('starter.controllers', ['starter.factories'])
       $scope.ExaminationForm.time.$viewValue = time;
       $scope.ExaminationForm.time.$render();
 
-      $scope.ExaminationForm.physical_exam_status.$viewValue = true;
-      $scope.ExaminationForm.physical_exam_status.$modelValue = true;
-      $scope.ExaminationForm.physical_exam_status.$render();
-      $scope.ExaminationForm.physical_exam_status.$$writeModelToScope();
+      // $scope.ExaminationForm.physical_exam_status.$viewValue = true;
+      // $scope.ExaminationForm.physical_exam_status.$modelValue = true;
+      // $scope.ExaminationForm.physical_exam_status.$render();
+      // $scope.ExaminationForm.physical_exam_status.$$writeModelToScope();
     });
 
     $scope.$on('PageEvent:SaveForm', function(event, args){
@@ -381,7 +410,6 @@ angular.module('starter.controllers', ['starter.factories'])
           ros: $scope.ExaminationForm.ros.$viewValue
         },
         physical_exam: {
-          physical_exam_status: $scope.ExaminationForm.physical_exam_status.$viewValue,
           respiratory_exam: {
             air_entry_equal_and_bilateral: $scope.ExaminationForm.air_entry_equal_and_bilateral.$viewValue,
             wheezing: $scope.ExaminationForm.wheezing.$viewValue,
@@ -438,7 +466,6 @@ angular.module('starter.controllers', ['starter.factories'])
           ros: $scope.ExaminationForm.ros.$viewValue
         },
         physical_exam: {
-          physical_exam_status: $scope.ExaminationForm.physical_exam_status.$viewValue,
           respiratory_exam: {
             air_entry_equal_and_bilateral: $scope.ExaminationForm.air_entry_equal_and_bilateral.$viewValue,
             wheezing: $scope.ExaminationForm.wheezing.$viewValue,
