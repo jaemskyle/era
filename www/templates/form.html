@@ -128,9 +128,41 @@
                   <!-- new -->
                   <ul class="list list-inset">
                     <li class="item item-divider">HEENT</li>
+                    <li class="item" ng-class="{'hidden-on-print': !resp_item.model.value}" ng-repeat="resp_item in heent">
+                        <span ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.label}} </span>
+                        <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.model.label}} </span>
+                        <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">| {{resp_item.model_note}}</span>
+                        <select name="{{resp_item.name}}" 
+                                class="hidden-on-print"
+                                ng-model="resp_item.model" 
+                                ng-change="showNote(resp_item.model, resp_item.name)"
+                                ng-options="opt as opt.label for opt in options">
+                         </select>
+                         <button class="button button-default hidden-on-print" ng-click="resp_item.note_toggle_flag = !resp_item.note_toggle_flag" ng-show="resp_item.model.label === 'Abnormal'">
+                           <b ng-hide="resp_item.note_toggle_flag">+</b>
+                           <b ng-show="resp_item.note_toggle_flag">-</b>
+                         </button>
+                         <textarea class="hidden-on-print" ng-if="resp_item.note_toggle_flag && resp_item.model.label === 'Abnormal'" name="air_entry_equal_and_bilateral_note" ng-model="resp_item.model_note" rows="8" placeholder="more info..">{{resp_item.model_note}}</textarea>
+                    </li>
                   </ul>
                   <ul class="list list-inset">
                     <li class="item item-divider">Abdominal Exam</li>
+                    <li class="item" ng-class="{'hidden-on-print': !resp_item.model.value}" ng-repeat="resp_item in abdo">
+                        <span ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.label}} </span>
+                        <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.model.label}} </span>
+                        <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">| {{resp_item.model_note}}</span>
+                        <select name="{{resp_item.name}}" 
+                                class="hidden-on-print"
+                                ng-model="resp_item.model" 
+                                ng-change="showNote(resp_item.model, resp_item.name)"
+                                ng-options="opt as opt.label for opt in options">
+                         </select>
+                         <button class="button button-default hidden-on-print" ng-click="resp_item.note_toggle_flag = !resp_item.note_toggle_flag" ng-show="resp_item.model.label === 'Abnormal'">
+                           <b ng-hide="resp_item.note_toggle_flag">+</b>
+                           <b ng-show="resp_item.note_toggle_flag">-</b>
+                         </button>
+                         <textarea class="hidden-on-print" ng-if="resp_item.note_toggle_flag && resp_item.model.label === 'Abnormal'" name="air_entry_equal_and_bilateral_note" ng-model="resp_item.model_note" rows="8" placeholder="more info..">{{resp_item.model_note}}</textarea>
+                    </li>
                   </ul>
                   <ul class="list list-inset">
                     <li class="item item-divider">Respiratory Exam</li>
@@ -153,9 +185,41 @@
                   </ul>
                   <ul class="list list-inset">
                     <li class="item item-divider">Cardio Vascular</li>
+                    <li class="item" ng-class="{'hidden-on-print': !resp_item.model.value}" ng-repeat="resp_item in cardiov">
+                        <span ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.label}} </span>
+                        <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.model.label}} </span>
+                        <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">| {{resp_item.model_note}}</span>
+                        <select name="{{resp_item.name}}" 
+                                class="hidden-on-print"
+                                ng-model="resp_item.model" 
+                                ng-change="showNote(resp_item.model, resp_item.name)"
+                                ng-options="opt as opt.label for opt in options">
+                         </select>
+                         <button class="button button-default hidden-on-print" ng-click="resp_item.note_toggle_flag = !resp_item.note_toggle_flag" ng-show="resp_item.model.label === 'Abnormal'">
+                           <b ng-hide="resp_item.note_toggle_flag">+</b>
+                           <b ng-show="resp_item.note_toggle_flag">-</b>
+                         </button>
+                         <textarea class="hidden-on-print" ng-if="resp_item.note_toggle_flag && resp_item.model.label === 'Abnormal'" name="air_entry_equal_and_bilateral_note" ng-model="resp_item.model_note" rows="8" placeholder="more info..">{{resp_item.model_note}}</textarea>
+                    </li>
                   </ul>
                   <ul class="list list-inset">
                     <li class="item item-divider">Neurological exam</li>
+                    <li class="item" ng-class="{'hidden-on-print': !resp_item.model.value}" ng-repeat="resp_item in neuro">
+                        <span ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.label}} </span>
+                        <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.model.label}} </span>
+                        <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">| {{resp_item.model_note}}</span>
+                        <select name="{{resp_item.name}}" 
+                                class="hidden-on-print"
+                                ng-model="resp_item.model" 
+                                ng-change="showNote(resp_item.model, resp_item.name)"
+                                ng-options="opt as opt.label for opt in options">
+                         </select>
+                         <button class="button button-default hidden-on-print" ng-click="resp_item.note_toggle_flag = !resp_item.note_toggle_flag" ng-show="resp_item.model.label === 'Abnormal'">
+                           <b ng-hide="resp_item.note_toggle_flag">+</b>
+                           <b ng-show="resp_item.note_toggle_flag">-</b>
+                         </button>
+                         <textarea class="hidden-on-print" ng-if="resp_item.note_toggle_flag && resp_item.model.label === 'Abnormal'" name="air_entry_equal_and_bilateral_note" ng-model="resp_item.model_note" rows="8" placeholder="more info..">{{resp_item.model_note}}</textarea>
+                    </li>
                   </ul>
                   <article class="card">
                     <header class="item item-divider">Notes</header>
