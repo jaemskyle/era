@@ -245,7 +245,7 @@ angular.module('starter.controllers', ['starter.factories'])
       $scope.ExaminationForm.crackle.$render();
       $scope.ExaminationForm.crackle.$$writeModelToScope();
     };
-    $timeout(setDefault);
+
 
     var prepPageToPrint = function(){
       $scope.ExaminationForm.date.$render();
@@ -437,6 +437,9 @@ angular.module('starter.controllers', ['starter.factories'])
       }
     });
 
+    if ($state.is('app.edit')) return;
+    $timeout(setDefault());
+
 })
 .controller('EditCtrl', function($scope, cacheFactory, $timeout, ERaUtilsFactory, $stateParams, $state, $rootScope){
     var allExForms = [];
@@ -460,9 +463,9 @@ angular.module('starter.controllers', ['starter.factories'])
       reRenderViewValue($scope.ExaminationForm.id, dataObj.id);
       // $scope.ExaminationForm.id.$viewValue = dataObj.id;
       // $scope.ExaminationForm.id.$render();
-
       formData = {
         _id: null,
+        id: $scope.ExaminationForm.id.$viewValue,
         date: $scope.ExaminationForm.date.$viewValue,
         time: $scope.ExaminationForm.time.$viewValue,
         er_card: {
@@ -474,38 +477,37 @@ angular.module('starter.controllers', ['starter.factories'])
         },
         physical_exam: {
           respiratory_exam: {
-            air_entry_equal_and_bilateral: $scope.ExaminationForm.air_entry_equal_and_bilateral.$viewValue,
+            good_bilat_a_e: $scope.ExaminationForm.good_bilat_a_e.$viewValue,
+            decrease_a_e: $scope.ExaminationForm.decrease_a_e.$viewValue,
             wheezing: $scope.ExaminationForm.wheezing.$viewValue,
-            crackles: $scope.ExaminationForm.crackles.$viewValue
+            crackle: $scope.ExaminationForm.crackle.$viewValue
           },
           cardio_vascular: {
             s1: $scope.ExaminationForm.s1.$viewValue,
             s2: $scope.ExaminationForm.s2.$viewValue,
-            s3: $scope.ExaminationForm.s3.$viewValue,
-            murmur: $scope.ExaminationForm.murmur.$viewValue,
-            peripheral_pulses: $scope.ExaminationForm.peripheral_pulses.$viewValue
+            ppp: $scope.ExaminationForm.ppp.$viewValue
           },
           abdominal_exam: {
-            soft: $scope.ExaminationForm.soft.$viewValue,
+            soft_and_non_tender: $scope.ExaminationForm.soft_and_non_tender.$viewValue,
+            bsp: $scope.ExaminationForm.bsp.$viewValue,
+            fpp_and_equal: $scope.ExaminationForm.fpp_and_equal.$viewValue,
+            distended: $scope.ExaminationForm.distended.$viewValue,
             tender: $scope.ExaminationForm.tender.$viewValue,
-            bowel_sound_present: $scope.ExaminationForm.bowel_sound_present.$viewValue,
-            mass: $scope.ExaminationForm.mass.$viewValue,
-            organomegaly: $scope.ExaminationForm.organomegaly.$viewValue,
-            rebound_tenderness: $scope.ExaminationForm.rebound_tenderness.$viewValue,
-            peritonitis: $scope.ExaminationForm.peritonitis.$viewValue
+            decrease_bowel_sounds: $scope.ExaminationForm.decrease_bowel_sounds.$viewValue
           },
           heent: {
-            tympanic_membrane: $scope.ExaminationForm.tympanic_membrane.$viewValue,
-            throat: $scope.ExaminationForm.throat.$viewValue,
-            nodes: $scope.ExaminationForm.nodes.$viewValue,
-            neck_supple: $scope.ExaminationForm.neck_supple.$viewValue
+            throat_clear: $scope.ExaminationForm.throat_clear.$viewValue,
+            tm: $scope.ExaminationForm.tm.$viewValue,
+            neck_supple: $scope.ExaminationForm.neck_supple.$viewValue,
+            tm_red_and_bulging: $scope.ExaminationForm.tm_red_and_bulging.$viewValue,
+            exudates_on_tonsil: $scope.ExaminationForm.exudates_on_tonsil.$viewValue,
+            cervical_adenopathy: $scope.ExaminationForm.cervical_adenopathy.$viewValue
           },
           neurological_exam: {
-            cranial_nerve_ii_xii: $scope.ExaminationForm.cranial_nerve_ii_xii.$viewValue,
+            cnii_x_ii: $scope.ExaminationForm.cnii_x_ii.$viewValue,
             power: $scope.ExaminationForm.power.$viewValue,
             sensation: $scope.ExaminationForm.sensation.$viewValue,
             tone: $scope.ExaminationForm.tone.$viewValue,
-            reflexes: $scope.ExaminationForm.reflexes.$viewValue,
             cl_exam: $scope.ExaminationForm.cl_exam.$viewValue
           },
           notes: $scope.ExaminationForm.notes
@@ -530,38 +532,37 @@ angular.module('starter.controllers', ['starter.factories'])
         },
         physical_exam: {
           respiratory_exam: {
-            air_entry_equal_and_bilateral: $scope.ExaminationForm.air_entry_equal_and_bilateral.$viewValue,
+            good_bilat_a_e: $scope.ExaminationForm.good_bilat_a_e.$viewValue,
+            decrease_a_e: $scope.ExaminationForm.decrease_a_e.$viewValue,
             wheezing: $scope.ExaminationForm.wheezing.$viewValue,
-            crackles: $scope.ExaminationForm.crackles.$viewValue
+            crackle: $scope.ExaminationForm.crackle.$viewValue
           },
           cardio_vascular: {
             s1: $scope.ExaminationForm.s1.$viewValue,
             s2: $scope.ExaminationForm.s2.$viewValue,
-            s3: $scope.ExaminationForm.s3.$viewValue,
-            murmur: $scope.ExaminationForm.murmur.$viewValue,
-            peripheral_pulses: $scope.ExaminationForm.peripheral_pulses.$viewValue
+            ppp: $scope.ExaminationForm.ppp.$viewValue
           },
           abdominal_exam: {
-            soft: $scope.ExaminationForm.soft.$viewValue,
+            soft_and_non_tender: $scope.ExaminationForm.soft_and_non_tender.$viewValue,
+            bsp: $scope.ExaminationForm.bsp.$viewValue,
+            fpp_and_equal: $scope.ExaminationForm.fpp_and_equal.$viewValue,
+            distended: $scope.ExaminationForm.distended.$viewValue,
             tender: $scope.ExaminationForm.tender.$viewValue,
-            bowel_sound_present: $scope.ExaminationForm.bowel_sound_present.$viewValue,
-            mass: $scope.ExaminationForm.mass.$viewValue,
-            organomegaly: $scope.ExaminationForm.organomegaly.$viewValue,
-            rebound_tenderness: $scope.ExaminationForm.rebound_tenderness.$viewValue,
-            peritonitis: $scope.ExaminationForm.peritonitis.$viewValue
+            decrease_bowel_sounds: $scope.ExaminationForm.decrease_bowel_sounds.$viewValue
           },
           heent: {
-            tympanic_membrane: $scope.ExaminationForm.tympanic_membrane.$viewValue,
-            throat: $scope.ExaminationForm.throat.$viewValue,
-            nodes: $scope.ExaminationForm.nodes.$viewValue,
-            neck_supple: $scope.ExaminationForm.neck_supple.$viewValue
+            throat_clear: $scope.ExaminationForm.throat_clear.$viewValue,
+            tm: $scope.ExaminationForm.tm.$viewValue,
+            neck_supple: $scope.ExaminationForm.neck_supple.$viewValue,
+            tm_red_and_bulging: $scope.ExaminationForm.tm_red_and_bulging.$viewValue,
+            exudates_on_tonsil: $scope.ExaminationForm.exudates_on_tonsil.$viewValue,
+            cervical_adenopathy: $scope.ExaminationForm.cervical_adenopathy.$viewValue
           },
           neurological_exam: {
-            cranial_nerve_ii_xii: $scope.ExaminationForm.cranial_nerve_ii_xii.$viewValue,
+            cnii_x_ii: $scope.ExaminationForm.cnii_x_ii.$viewValue,
             power: $scope.ExaminationForm.power.$viewValue,
             sensation: $scope.ExaminationForm.sensation.$viewValue,
             tone: $scope.ExaminationForm.tone.$viewValue,
-            reflexes: $scope.ExaminationForm.reflexes.$viewValue,
             cl_exam: $scope.ExaminationForm.cl_exam.$viewValue
           },
           notes: $scope.ExaminationForm.notes
@@ -629,20 +630,20 @@ angular.module('starter.controllers', ['starter.factories'])
       }
     };
     $scope.setPhysicalExamMainChildren = function(){
-      $scope.ExaminationForm.wheezing = 'No';
-      $scope.ExaminationForm.crackles = 'No';
-      $scope.ExaminationForm.s1 = 'No';
-      $scope.ExaminationForm.s2 = 'No';
-      $scope.ExaminationForm.s3 = 'No';
-      $scope.ExaminationForm.murmur = 'No';
-      $scope.ExaminationForm.peripheral_pulses = 'No';
-      $scope.ExaminationForm.soft = 'No';
-      $scope.ExaminationForm.tender = 'No';
-      $scope.ExaminationForm.bowel_sound_preset = 'No';
-      $scope.ExaminationForm.mass = 'No';
-      $scope.ExaminationForm.organomegaly = 'No';
-      $scope.ExaminationForm.rebound_tenderness = 'No';
-      $scope.ExaminationForm.peritonitis = 'No';
+      // $scope.ExaminationForm.wheezing = 'No';
+      // $scope.ExaminationForm.crackles = 'No';
+      // $scope.ExaminationForm.s1 = 'No';
+      // $scope.ExaminationForm.s2 = 'No';
+      // $scope.ExaminationForm.s3 = 'No';
+      // $scope.ExaminationForm.murmur = 'No';
+      // $scope.ExaminationForm.peripheral_pulses = 'No';
+      // $scope.ExaminationForm.soft = 'No';
+      // $scope.ExaminationForm.tender = 'No';
+      // $scope.ExaminationForm.bowel_sound_preset = 'No';
+      // $scope.ExaminationForm.mass = 'No';
+      // $scope.ExaminationForm.organomegaly = 'No';
+      // $scope.ExaminationForm.rebound_tenderness = 'No';
+      // $scope.ExaminationForm.peritonitis = 'No';
     };
     $scope.physicalExamChildListener = function(value, param){
       if (value){
@@ -655,21 +656,6 @@ angular.module('starter.controllers', ['starter.factories'])
       setPhysicalExamStatus()
     };
 
-    $timeout(function(){
-      date = moment().format('YYYY-MM-DD');
-      time = moment().format('h:MM A')
-
-      $scope.ExaminationForm.date.$viewValue = date;
-      $scope.ExaminationForm.date.$render();
-      $scope.ExaminationForm.time.$viewValue = time;
-      $scope.ExaminationForm.time.$render();
-
-      $scope.ExaminationForm.physical_exam_status.$viewValue = true;
-      $scope.ExaminationForm.physical_exam_status.$modelValue = true;
-      $scope.ExaminationForm.physical_exam_status.$render();
-      $scope.ExaminationForm.physical_exam_status.$$writeModelToScope();
-    });
-
     pullLocalData();
 
     $scope.$on('PageEvent:UpdateCharts', function(event, args){
@@ -677,6 +663,7 @@ angular.module('starter.controllers', ['starter.factories'])
     });
 
     $scope.$on('PageEvent:GoHome', function(event, args){
+      console.log('PageEvent: should go home')
       $scope.$watch('ExaminationForm.$dirty', function(nu, ol){
         if (nu !== ol){
           $scope.ExaminationForm.$pending = false;

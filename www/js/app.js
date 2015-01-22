@@ -32,6 +32,33 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 'L
     controller: 'AppCtrl'
   })
 
+  .state('app.login', {
+    url: "/login",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/login.html"
+        // controller: ''
+      }
+    }
+  })
+  .state('app.signup', {
+    url: "/signup",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/signup.html"
+        // controller: ''
+      }
+    }
+  })
+  .state('app.forgot_password', {
+    url: "/forgot_password",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/forgot.html"
+        // controller: ''
+      }
+    }
+  })
   .state('app.home', {
     url: "/home",
     views: {
