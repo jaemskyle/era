@@ -16,6 +16,54 @@
   <ion-content>
     <div class="content has-header">
         <form id="form" name="ExaminationForm" ng-controller="FormCtrl" novalidate>
+        
+        <style media="print">
+          input[type="text"] {
+            background-color: none;
+            background: lightgrey;
+            border: none;
+            outline:  none;
+            color: red;
+            font-size: 14px;
+            width: 100%;
+          }
+          textarea {
+            color: red;
+            font-size: 14px;
+            border: none;
+            outline: none;
+          }
+          ul {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+          }
+          li {
+            margin: 0;
+            padding: 0;
+          }
+          hr {
+            max-height: 1px;
+            background: #ccc;
+          }
+          
+          form[name="ExaminationForm"] {
+            width: 50%;
+            background: #eee;
+          }
+          .hidden-on-print {
+            display: none;
+          }
+          .item.item-divider {
+            display: block;
+            font-weight: bold;
+          }
+          .item {
+            display: inline-block;
+          }
+
+        </style>
+
           <div class="row">
             <div class="col-50">
               <section class="card">
@@ -24,13 +72,13 @@
                   <div class="col">
                     <label class="item item-input">
                       <span class="input-label">Date</span>
-                      <input type="text" name="date" ng-disabled="true" ng-model="erform.date" />
+                      <input type="text" name="date" ng-disabled="true" ng-model="date" ng-value="date" />
                     </label>
                   </div>
                   <div class="col">
                     <label class="item item-input">
                       <span class="input-label">Time</span>
-                      <input type="text" name="time" ng-disabled="true" ng-model="erform.time" />
+                      <input type="text" name="time" ng-disabled="true" ng-model="time" ng-value="time"/>
                     </label>
                   </div>
                 </div>
@@ -38,32 +86,38 @@
                   <div class="col">
                     <label class="item item-input">
                       <span class="input-label">ID</span>
-                      <input type="text" name="id" ng-model="erform.id" />
+                      <input type="text" name="id" ng-model="id" ng-value="id" />
                     </label>
                   </div>
                 </div>
               </section>
+              <hr class="ng-hide" />
               <section class="card">
-                <h4 class="item item-divider">ER Card</h4>
+                <h4 class="item item-divider hidden-on-print">ER Card</h4>
                 <article class="card">
                   <header class="item item-divider">HPI</header>
-                  <textarea rows="8" name="hpi" ng-model="erform.hpi">{{hpi}}</textarea>
+                  <p class="ng-hide">{{hpi}}</p>
+                  <textarea class="hidden-on-print" rows="8" name="hpi" ng-model="hpi">{{hpi}}</textarea>
                 </article>
                 <article class="card">
                   <header class="item item-divider">PMHx</header>
-                  <textarea rows="8" name="pmhx" ng-model="erform.pmhx">{{pmhx}}</textarea>
+                  <p class="ng-hide">{{pmhx}}</p>
+                  <textarea class="hidden-on-print" rows="8" name="pmhx" ng-model="pmhx">{{pmhx}}</textarea>
                 </article>
                 <article class="card">
                   <header class="item item-divider">Medication</header>
-                  <textarea rows="8" name="medication" ng-model="erform.medication">{{medication}}</textarea>
+                  <p>{{medication}}</p>
+                  <textarea class="hidden-on-print" rows="8" name="medication" ng-model="medication">{{medication}}</textarea>
                 </article>
                 <article class="card">
                   <header class="item item-divider">Allergies</header>
-                  <textarea rows="8" name="allergies" ng-model="erform.allergies">{{allergies}}</textarea>
+                  <p class="ng-hide">{{allergies}}</p>
+                  <textarea class="hidden-on-print" rows="8" name="allergies" ng-model="allergies">{{allergies}}</textarea>
                 </article>
                 <article class="card">
                   <header class="item item-divider">ROS</header>
-                  <textarea rows="8" name="ros" ng-model="erform.ros">{{ros}}</textarea>
+                  <p class="ng-hide">{{ros}}</p>
+                  <textarea class="hidden-on-print" rows="8" name="ros" ng-model="ros">{{ros}}</textarea>
                 </article>
               </section>
             </div>
@@ -71,203 +125,57 @@
             <div class="col-50">
               <section class="card">
                   <h4 class="item item-divider">Physical Exam</h4>
-                  <ul class="list list-inset">
-                    <li class="item item-divider">Respiratory Exam</li>
-                      <li class="item">
-                      <!-- 
-                           <label class="checkbox">
-                             <input type="checkbox" name="air_entry_equal_and_bilateral" ng-model="erform.air_entry_equal_and_bilateral" ng-change="physicalExamChildListener(erform.physical_exam.respiratory.air_entry_equal_and_bilateral)" >
-                           </label>
-                      -->
-                           Air entry equal and bilateral.
-                           <select name="air_entry_equal_and_bilateral" ng-model="air_entry_equal_and_bilateral" 
-                                  ng-change="showNote(air_entry_equal_and_bilateral)"
-                                  ng-options="opt as opt.label for opt in options">
-                           </select>
-                           <button class="button button-default" ng-click="air_entry_equal_and_bilateral_note_toggle = !air_entry_equal_and_bilateral_note_toggle" ng-show="air_entry_equal_and_bilateral.label === 'Abnormal'">
-                             <b>+</b>
-                           </button>
-                          <textarea ng-if="air_entry_equal_and_bilateral_note_toggle && air_entry_equal_and_bilateral.label === 'Abnormal'" name="air_entry_equal_and_bilateral_note" ng-model="air_entry_equal_and_bilateral_note" rows="8" placeholder="more info.."></textarea>
-                      </li>
-                      <li class="item">
-                           <label class="checkbox">
-                             <input type="checkbox" name="wheezing" ng-model="erform.physical_exam.respiratory.wheezing" ng-change="physicalExamChildListener(erform.physical_exam.respiratory.wheezing)">
-                           </label>
-                           Wheezing
-                      <!-- 
-                           <select name="wheezing" ng-model="wheezing"
-                                   ng-options="opt as opt.label for opt in options">
-                           </select>
-                      -->
-                      </li>
-                      <li class="item item-checkbox">
-                           <label class="checkbox">
-                             <input type="checkbox" name="crackles" ng-model="erform.physical_exam.respiratory.crackles" ng-change="physicalExamChildListener(erform.physical_exam.respiratory.crackles)">
-                           </label>
-                           Crackles
-                      </li>
-                  </ul>
-
-                  <ul class="list list-inset">
-                    <li class="item item-divider">Cardio Vascular</li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="s1" ng-model="erform.physical_exam.cardio_vascular.s1" ng-change="physicalExamChildListener(erform.physical_exam.cardio_vascular.s1)">
-                         </label>
-                         S1
-                    </li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="s2" ng-model="erform.physical_exam.cardio_vascular.s2" ng-change="physicalExamChildListener(erform.physical_exam.cardio_vascular.s2)">
-                         </label>
-                         S2
-                    </li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="s3" ng-model="erform.physical_exam.cardio_vascular.s3" ng-change="physicalExamChildListener(erform.physical_exam.cardio_vascular.s3)">
-                         </label>
-                         S3
-                    </li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="murmur" ng-model="erform.physical_exam.cardio_vascular.murmur" ng-change="physicalExamChildListener(erform.physical_exam.cardio_vascular.murmur)">
-                         </label>
-                         Murmur
-                    </li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="peripheral_pulses" ng-model="erform.physical_exam.cardio_vascular.peripheral_pulses" ng-change="physicalExamChildListener(erform.physical_exam.cardio_vascular.peripheral_pulses)">
-                         </label>
-                         Peripheral pulses
-                    </li>
-                  </ul>
-
-                  <ul class="list list-inset">
-                    <li class="item item-divider">Abdominal Exam</li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="soft" ng-model="erform.abdominal.soft" ng-change="physicalExamChildListener(erform.abdominal.soft)">
-                         </label>
-                         Soft
-                    </li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="tender" ng-model="erform.physical_exam.abdominal.tender" ng-change="physicalExamChildListener(erform.physical_exam.abdominal.tender)">
-                         </label>
-                         Tender
-                    </li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="bowel_sound_present" ng-model="erform.physical_exam.abdominal.bowel_sound_present" ng-change="physicalExamChildListener(erform.physical_exam.abdominal.bowel_sound_present)">
-                         </label>
-                         Bowel sound present
-                    </li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="mass" ng-model="erform.physical_exam.abdominal.mass" ng-change="physicalExamChildListener(erform.physical_exam.abdominal.mass)">
-                         </label>
-                         Mass
-                    </li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="organomegaly" ng-model="erform.physical_exam.abdominal.organomegaly" ng-change="physicalExamChildListener(erform.physical_exam.abdominal.organomegaly)">
-                         </label>
-                         Organomegaly
-                    </li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="rebound_tenderness" ng-model="erform.physical_exam.abdominal.rebound_tenderness" ng-change="physicalExamChildListener(erform.physical_exam.abdominal.rebound_tenderness)">
-                         </label>
-                         Rebound tenderness
-                    </li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="peritonitis" ng-model="erform.physical_exam.abdominal.peritonitis" ng-change="physicalExamChildListener(erform.physical_exam.abdominal.peritonitis)">
-                         </label>
-                         Peritonitis
-                    </li>
-                  </ul>
+                  <!-- new -->
                   <ul class="list list-inset">
                     <li class="item item-divider">HEENT</li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="tympanic_membrane" ng-model="erform.physical_exam.heent.tympanic_membrane" ng-change="physicalExamChildListener(erform.physical_exam.heent.tympanic_membrane)" ng-true-value="'Normal'" ng-false-value="'Dull'">
-                         </label>
-                         Tympanic membrane
+                  </ul>
+                  <ul class="list list-inset">
+                    <li class="item item-divider">Abdominal Exam</li>
+                  </ul>
+                  <ul class="list list-inset">
+                    <li class="item item-divider">Respiratory Exam</li>
+                    <li class="item" ng-class="{'hidden-on-print': !resp_item.model.value}" ng-repeat="resp_item in resp">
+                        <span ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.label}} </span>
+                        <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.model.label}} </span>
+                        <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">| {{resp_item.model_note}}</span>
+                        <select name="{{resp_item.name}}" 
+                                class="hidden-on-print"
+                                ng-model="resp_item.model" 
+                                ng-change="showNote(resp_item.model, resp_item.name)"
+                                ng-options="opt as opt.label for opt in options">
+                         </select>
+                         <button class="button button-default hidden-on-print" ng-click="resp_item.note_toggle_flag = !resp_item.note_toggle_flag" ng-show="resp_item.model.label === 'Abnormal'">
+                           <b ng-hide="resp_item.note_toggle_flag">+</b>
+                           <b ng-show="resp_item.note_toggle_flag">-</b>
+                         </button>
+                         <textarea class="hidden-on-print" ng-if="resp_item.note_toggle_flag && resp_item.model.label === 'Abnormal'" name="air_entry_equal_and_bilateral_note" ng-model="resp_item.model_note" rows="8" placeholder="more info..">{{resp_item.model_note}}</textarea>
                     </li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="throat" ng-model="erform.physical_exam.heent.throat" ng-change="setPhysicalExamParent(erform.physical_exam.heent.throat)" ng-true-value="'Clear'" ng-false-value="'exudate on the tonsil'">
-                         </label>
-                         Throat
-                    </li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="nodes" ng-model="erform.physical_exam.heent.nodes" ng-change="setPhysicalExamParent(erform.physical_exam.heent.nodes)" ng-true-value="'Yes'" ng-false-value="'No'">
-                         </label>
-                         Nodes
-                    </li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="neck_supple" ng-model="erform.physical_exam.heent.neck_supple" ng-change="setPhysicalExamParent(erform.physical_exam.heent.neck_supple)" ng-true-value="'Yes'" ng-false-value="'No'">
-                         </label>
-                         Neck supple
-                    </li>
+                  </ul>
+                  <ul class="list list-inset">
+                    <li class="item item-divider">Cardio Vascular</li>
                   </ul>
                   <ul class="list list-inset">
                     <li class="item item-divider">Neurological exam</li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="cranial_nerve_ii_xii" ng-model="erform.physical_exam.neurological.cranial_nerve_ii_xii" ng-change="setPhysicalExamParent(erform.physical_exam.neurological.cranial_nerve_ii_xii)" ng-true-value="'Normal'" ng-false-value="'Abnormal'">
-                         </label>
-                         Cranial nerve II to XII
-                    </li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="power" ng-model="erform.physical_exam.neurological.power" ng-change="setPhysicalExamParent(erform.physical_exam.neurological.power)" ng-true-value="'Normal'" ng-false-value="'Abnormal'">
-                         </label>
-                         Power
-                    </li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="sensation" ng-model="erform.physical_exam.neurological.sensation" ng-change="setPhysicalExamParent(erform.physical_exam.neurological.sensation)" ng-true-value="'Normal'" ng-false-value="'Abnormal'">
-                         </label>
-                         Sensation
-                    </li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="tone" ng-model="erform.physical_exam.neurological.tone" ng-change="setPhysicalExamParent(erform.physical_exam.neurological.tone)" ng-true-value="'Normal'" ng-false-value="'Abnormal'">
-                         </label>
-                         Tone
-                    </li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="reflexes" ng-model="erform.physical_exam.neurological.reflexes" ng-change="setPhysicalExamParent(erform.physical_exam.neurological.reflexes)" ng-true-value="'Normal'" ng-false-value="'Abnormal'">
-                         </label>
-                         Reflexes
-                    </li>
-                    <li class="item item-checkbox">
-                         <label class="checkbox">
-                           <input type="checkbox" name="cl_exam" ng-model="erform.physical_exam.neurological.cl_exam" ng-change="setPhysicalExamParent(erform.physical_exam.neurological.cl_exam)" ng-true-value="'Normal'" ng-false-value="'Abnormal'">
-                         </label>
-                         CL exam
-                    </li>
                   </ul>
                   <article class="card">
                     <header class="item item-divider">Notes</header>
-                    <textarea rows="8" name="notes" ng-model="erform.physical_exam.notes">{{erform.physical_exam.notes}}</textarea>
+                    <p class="ng-hide">{{notes}}</p>
+                    <textarea class="hidden-on-print" rows="8" name="notes" ng-model="notes">{{notes}}</textarea>
                   </article>
               </section>
             </div>
           </div>
 
+          <hr class="ng-hide" />
           <article class="card">
             <header class="item item-divider">Diagnosis</header>
-            <textarea rows="8" name="diagnosis" ng-model="erform.diagnosis">{{diagnosis}}</textarea>
+            <p class="ng-hide">{{diagnosis}}</p>
+            <textarea class="hidden-on-print" rows="8" name="diagnosis" ng-model="diagnosis">{{diagnosis}}</textarea>
           </article>
           <article class="card">
+            <p class="ng-hide">{{discharge_instruction}}</p>
             <header class="item item-divider">Discharge Instruction</header>
-            <textarea rows="8" name="discharge_instruction" ng-model="erform.discharge_instruction">{{discharge_instruction}}</textarea>
+            <textarea class="hidden-on-print" rows="8" name="discharge_instruction" ng-model="discharge_instruction">{{discharge_instruction}}</textarea>
           </article>
         </form>
     </div>

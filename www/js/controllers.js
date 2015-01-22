@@ -32,7 +32,7 @@ angular.module('starter.controllers', ['starter.factories'])
     }, 1000);
   };
 })
-.controller('HomeCtrl', function($scope, cacheFactory, $interval, $state, $timeout){
+.controller('HomeCtrl', function($scope, cacheFactory, $interval, $state, $timeout, $firebase){
   $scope.showListDelete = false;
   var allExForms = [];
   var init = function(){
@@ -137,22 +137,9 @@ angular.module('starter.controllers', ['starter.factories'])
         },
         setLocalData = function(newData){
           sync(newData);
-        },
-        setPageToPrint = function(){
-          page = document.getElementById('form');
-          return page;
         };
-
-    var print = function(){
-      console.log('should print');
-      cordova.plugins.printer.print(setPageToPrint(), 'Document.html', function () {
-          alert('printing finished or canceled')
-          $scope.apply();
-      });
-    };
-
     $scope.print = function(){
-      document.addEventListener("deviceready", print, false);
+      ERaUtilsFactory.broadcastPageEvent('Print');
     };
     $scope.save = function(){
       if ($state.is('app.edit')){
@@ -169,6 +156,14 @@ angular.module('starter.controllers', ['starter.factories'])
 })
 .controller('FormCtrl', function($scope, cacheFactory, $timeout, ERaUtilsFactory, $stateParams, $state){
     var allExForms = [];
+    var date, time;
+    var physicalExamProblemsCount = 0,
+        default_physical_exam_status = true;
+    var next = function(fn, paramObj){
+      var fn = fn || function(){};
+      fn(paramObj);
+    };
+
     $scope.options = [
       {label: 'not applicable', value: 0},
       {label: 'Abnormal', value: 1},
@@ -176,32 +171,119 @@ angular.module('starter.controllers', ['starter.factories'])
     ];
 
     var heent = [
-      {name: "Throat clear", model: "throatClear"},
-      {name: "TM", model: "tm"},
-      {name: "No exudate on tensile", model: "noExudateOnTensile"},
-      {name: "Neck supple", model: "neckSupple"},
-      {name: "TM red and bulging", model: "tmRedAndBulging"},
-      {name: "Exudates on tonsil", model: "exudatesOnTonsil"},
-      {name: "Cervical adenopathy", model: "cervicalAdenopathy"}
+      {name: "throat_clear", label: "Throat clear", model: "throatClear", note_toggle: false, model_note: ""},
+      {name: "tm", label: "TM", model: "tm", note_toggle: false, model_note: "tmNote"},
+      {name: "neck_supple", label: "Neck supple", model: "neckSupple", note_toggle: false, model_note: ""},
+      {name: "tm_red_and_bulging", label: "TM red and bulging", model: "tmRedAndBulging", note_toggle: false, model_note: ""},
+      {name: "exudates_on_tonsil", label: "Exudates on tonsil", model: "exudatesOnTonsil", note_toggle: false, model_note: ""},
+      {name: "cervical_adenopathy", label: "Cervical adenopathy", model: "cervicalAdenopathy", note_toggle: false, model_note: ""}
     ];
+
+    var resp = [
+      {name: "good_bilat_a_e", label: "Good bilat A/E", model: "goodBilatA_E", note_toggle_flag: false, model_note: ""},
+      {name: "decrease_a_e", label: "Decrease A/E", model: "decreaseA_E", note_toggle_flag: false, model_note: ""},
+      {name: "wheezing", label: "Wheezing", model: "wheezing", note_toggle_flag: false, model_note: ""},
+      {name: "crackle", label: "Crackle", model: "crackle", note_toggle_flag: false, model_note: ""}
+    ];
+
+    var abdo = [
+      {name: "soft_and_non_tender", label: "Soft and non tender", model: "softAndNonTender", note_toggle: false, model_note: ""},
+      {name: "bsp", label: "BSP", model: "bsp", note_toggle: false, model_note: ""},
+      {name: "fpp_and_equal", label: "FPP and equal", model: "fppAndEqual", note_toggle: false, model_note: ""},
+      {name: "distended", label: "Distended", model: "distended", note_toggle: false, model_note: ""},
+      {name: "tender", label: "Tender", model: "tender", note_toggle: false, model_note: ""},
+      {name: "decrease_bowel_sounds", label: "Decrease bowel sounds", model: "decreaseBowelSounds", note_toggle: false, model_note: ""}
+    ];
+
+    var cardiov = [
+      {name: "s1", label: "S1", model: "s1", note_toggle: false, model_note: ""},
+      {name: "s2", label: "S2", model: "s2", note_toggle: false, model_note: ""},
+      {name: "ppp", label: "PPP", model: "ppp", note_toggle: false, model_note: ""},
+    ];
+
+    var neuro = [
+      {name: "cnii_x_ii", label: "CNII-X II", model: "cnii_x_ii", note_toggle: false, model_note: ""},
+      {name: "power", label: "Power", model: "power", note_toggle: false, model_note: ""},
+      {name: "sensation", label: "Sensation", model: "sensation", note_toggle: false, model_note: ""},
+      {name: "tone", label: "Tone", model: "tone", note_toggle: false, model_note: ""},
+      {name: "cl_exam", label: "CL exam", model: "clExam", note_toggle: false, model_note: ""}
+    ];
+
+    $scope.resp = resp;
+    $scope.abdo = abdo;
+    $scope.heent = heent;
+    $scope.cardiov = cardiov;
+    $scope.neuro = neuro;
     
     
     var setDefault = function(){
-      $scope.air_entry_equal_and_bilateral_note_toggle = false;
-      $scope.ExaminationForm.air_entry_equal_and_bilateral.$viewValue = $scope.options[0];
-      $scope.ExaminationForm.air_entry_equal_and_bilateral.$modelValue = $scope.options[0];
-      $scope.ExaminationForm.air_entry_equal_and_bilateral.$render();
-      $scope.ExaminationForm.air_entry_equal_and_bilateral.$$writeModelToScope();
+      date = moment().format('YYYY-MM-DD');
+      time = moment().format('h:MM A')
+      // set respiratory viewValues and modelValues
+      $scope.ExaminationForm.date.$viewValue = date;
+      $scope.ExaminationForm.date.$render();
+      $scope.ExaminationForm.time.$viewValue = time;
+      $scope.ExaminationForm.time.$render();
+
+      $scope.ExaminationForm.good_bilat_a_e.$viewValue = $scope.options[2];
+      $scope.ExaminationForm.good_bilat_a_e.$modelValue = $scope.options[2];
+      $scope.ExaminationForm.decrease_a_e.$viewValue = $scope.options[1];
+      $scope.ExaminationForm.decrease_a_e.$modelValue = $scope.options[1];
+      $scope.ExaminationForm.wheezing.$viewValue = $scope.options[1];
+      $scope.ExaminationForm.wheezing.$modelValue = $scope.options[1];
+      $scope.ExaminationForm.crackle.$viewValue = $scope.options[1];
+      $scope.ExaminationForm.crackle.$modelValue = $scope.options[1];
+
+      // render respiratory
+      $scope.ExaminationForm.good_bilat_a_e.$render();
+      $scope.ExaminationForm.good_bilat_a_e.$$writeModelToScope();
+      $scope.ExaminationForm.decrease_a_e.$render();
+      $scope.ExaminationForm.decrease_a_e.$$writeModelToScope();
+      $scope.ExaminationForm.wheezing.$render();
+      $scope.ExaminationForm.wheezing.$$writeModelToScope();
+      $scope.ExaminationForm.crackle.$render();
+      $scope.ExaminationForm.crackle.$$writeModelToScope();
     };
     $timeout(setDefault);
 
-    $scope.showNote = function(val){
-      console.log(val);
-    };
+    var prepPageToPrint = function(){
+      $scope.ExaminationForm.date.$render();
+      $scope.ExaminationForm.date.$$writeModelToScope();
+      $scope.ExaminationForm.time.$render();
+      $scope.ExaminationForm.time.$$writeModelToScope();
+      $scope.ExaminationForm.id.$render();
+      $scope.ExaminationForm.id.$$writeModelToScope();
 
-    var next = function(fn, paramObj){
-      var fn = fn || function(){};
-      fn(paramObj);
+      $scope.ExaminationForm.good_bilat_a_e.$setViewValue($scope.ExaminationForm.good_bilat_a_e.$viewValue);
+      $scope.ExaminationForm.good_bilat_a_e.$commitViewValue();
+      $scope.ExaminationForm.good_bilat_a_e.$render();
+      $scope.ExaminationForm.good_bilat_a_e.$$writeModelToScope();
+
+      $scope.ExaminationForm.decrease_a_e.$setViewValue($scope.ExaminationForm.decrease_a_e.$viewValue);
+      $scope.ExaminationForm.decrease_a_e.$commitViewValue();
+      $scope.ExaminationForm.decrease_a_e.$render();
+      $scope.ExaminationForm.decrease_a_e.$$writeModelToScope();
+
+      $scope.ExaminationForm.decrease_a_e.$render();
+      $scope.ExaminationForm.decrease_a_e.$$writeModelToScope();
+
+      var page = document.getElementById("form");
+      return page;
+    };
+    var print = function(){
+      console.log('should print');
+      cordova.plugins.printer.print(prepPageToPrint(), 'Document.html', function () {
+          alert('printing finished or canceled')
+          $scope.apply();
+      });
+    };
+    $scope.$on('PageEvent:Print', function(event, args){
+      document.addEventListener("deviceready", print, false);
+    });
+
+    $scope.showNote = function(val, formItem){
+      console.log(val);
+      console.log(formItem);
     };
 
     var writeLocalData = function(data){
@@ -232,9 +314,9 @@ angular.module('starter.controllers', ['starter.factories'])
         },
         physical_exam: {
           respiratory_exam: {
-            air_entry_equal_and_bilateral: $scope.ExaminationForm.air_entry_equal_and_bilateral.$viewValue,
+            air_entry_equal_and_bilateral: $scope.ExaminationForm.good_bilat_a_e.$viewValue,
             wheezing: $scope.ExaminationForm.wheezing.$viewValue,
-            crackles: $scope.ExaminationForm.crackles.$viewValue
+            crackles: $scope.ExaminationForm.crackle.$viewValue
           },
           cardio_vascular: {
             s1: $scope.ExaminationForm.s1.$viewValue,
@@ -271,6 +353,7 @@ angular.module('starter.controllers', ['starter.factories'])
         diagnosis: $scope.ExaminationForm.diagnosis,
         discharge_instruction: $scope.ExaminationForm.discharge_instruction
       }
+      console.log(formData)
       return formData;
     };
 
@@ -293,11 +376,6 @@ angular.module('starter.controllers', ['starter.factories'])
     var prepCharts = function(){
       getLocalData();
     };
-
-
-    var date, time;
-    var physicalExamProblemsCount = 0,
-        default_physical_exam_status = true;
 
     var setPhysicalExamStatus = function(){
       // if (physicalExamProblemsCount === 0){
@@ -339,22 +417,6 @@ angular.module('starter.controllers', ['starter.factories'])
       setPhysicalExamStatus()
     };
 
-
-    $timeout(function(){
-      date = moment().format('YYYY-MM-DD');
-      time = moment().format('h:MM A')
-
-      $scope.ExaminationForm.date.$viewValue = date;
-      $scope.ExaminationForm.date.$render();
-      $scope.ExaminationForm.time.$viewValue = time;
-      $scope.ExaminationForm.time.$render();
-
-      // $scope.ExaminationForm.physical_exam_status.$viewValue = true;
-      // $scope.ExaminationForm.physical_exam_status.$modelValue = true;
-      // $scope.ExaminationForm.physical_exam_status.$render();
-      // $scope.ExaminationForm.physical_exam_status.$$writeModelToScope();
-    });
-
     $scope.$on('PageEvent:SaveForm', function(event, args){
       prepCharts(setFormDataFromScope())
     });
@@ -385,8 +447,10 @@ angular.module('starter.controllers', ['starter.factories'])
       fn(paramObj);
     };
     var reRenderViewValue = function(fn, value){
-      fn.$viewValue = value || '';
-      fn.$render();
+      do {
+        fn.$viewValue = value || '';
+        fn.$render();
+      } while (fn !== null);
       return fn = null;
     };
     var updateCharts = function(newCharts){

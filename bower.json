@@ -9,6 +9,8 @@
     "lodash": "~2.4.1",
     "moment": "~2.8.4",
     "localforage": "~1.2.0",
-    "angular-localForage": "~1.2.2"
+    "angular-localForage": "~1.2.2",
+    "firebase": "~2.1.1",
+    "angularfire": "~0.9.1"
   }
 }
