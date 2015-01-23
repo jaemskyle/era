@@ -195,7 +195,6 @@ angular.module('starter.directives', ['starter.factories'])
         discharge_instruction: $scope.ExaminationForm.discharge_instruction
       }
 
-      updateCharts(formData);
       return formData;
     };
     // INIT PRINT
@@ -295,6 +294,7 @@ angular.module('starter.directives', ['starter.factories'])
           },
           heent: {
             throat_clear: $scope.ExaminationForm.throat_clear.$viewValue,
+            throat_clear_notes: '' || $scope.ExaminationForm.$throat_clear_note,
             tm: $scope.ExaminationForm.tm.$viewValue,
             neck_supple: $scope.ExaminationForm.neck_supple.$viewValue,
             tm_red_and_bulging: $scope.ExaminationForm.tm_red_and_bulging.$viewValue,
@@ -314,14 +314,12 @@ angular.module('starter.directives', ['starter.factories'])
         discharge_instruction: $scope.ExaminationForm.discharge_instruction
       }
       return formData;
-      console.log(formData);
     }
     var updateCharts = function(newChart){
       allExForms.unshift(setFormDataFromScope());
-      writeLocalData(allExForms);
     };
 
-    var getLocalData = function(){
+    var initSaveChart = function(){
         cacheFactory.getLocalData().then(
           function(getLocalSuccess){
             if (angular.isUndefined(getLocalSuccess)){
@@ -330,11 +328,10 @@ angular.module('starter.directives', ['starter.factories'])
               allExForms = getLocalSuccess;
               next(updateCharts)
             }
+          }).then(function(){
+            writeLocalData(allExForms);
           });
       };
-    var initSaveChart = function(){
-      getLocalData();
-    };
 
     // INIT EDIT
     var setOptionValue =  function(fieldName, value){
@@ -342,19 +339,35 @@ angular.module('starter.directives', ['starter.factories'])
     };
     var setFormItems = function(dataObj){
       console.log(dataObj);
+      // set id
       $scope.ExaminationForm.id.$viewValue = dataObj.id;
       $scope.ExaminationForm.id.$render();
       
+      // set date time
       $scope.ExaminationForm.date.$viewValue = dataObj.date;
       $scope.ExaminationForm.date.$render();
       $scope.ExaminationForm.time.$viewValue = dataObj.time;
       $scope.ExaminationForm.time.$render();
+      
+      // set er notes
+      $scope.ExaminationForm.hpi.$viewValue = dataObj.er_card.hpi;
+      $scope.ExaminationForm.pmhx.$viewValue = dataObj.er_card.pmhx;
+      $scope.ExaminationForm.medication.$viewValue = dataObj.er_card.medication;
+      $scope.ExaminationForm.allergies.$viewValue = dataObj.er_card.allergies;
+      $scope.ExaminationForm.ros.$viewValue = dataObj.er_card.ros;
+      $scope.ExaminationForm.hpi.$render();
+      $scope.ExaminationForm.pmhx.$render();
+      $scope.ExaminationForm.medication.$render();
+      $scope.ExaminationForm.allergies.$render();
+      $scope.ExaminationForm.ros.$render();
 
+      // set heent
       $scope.ExaminationForm.throat_clear.$viewValue = setOptionValue('throat_clear', dataObj.physical_exam.heent.throat_clear.value);
-
-
-
-
+      $scope.ExaminationForm.throat_clear.$render();
+      $scope.ExaminationForm.tm.$viewValue = setOptionValue('tm', dataObj.physical_exam.heent.tm.value);
+      $scope.ExaminationForm.tm.$render();
+      $scope.ExaminationForm.neck_supple.$viewValue = setOptionValue('neck_supple', dataObj.physical_exam.heent.neck_supple.value);
+      $scope.ExaminationForm.neck_supple.$render();
 
       formData = {
         _id: null,
@@ -434,7 +447,14 @@ angular.module('starter.directives', ['starter.factories'])
     var initUpdateCharts = function(){
       next(pullItemFromLocal);
       next(prepFormData);
-      next(function(){writeLocalData('update')})
+      updateCharts(prepFormData());
+      next(function(){writeLocalData('update')});
+    };
+    var checkFormValues = function(){
+      if ($scope.ExaminationForm.$pristine){
+        setDefault();
+        return true;
+      }
     };
 
     $scope.$on('PageEvent:Print', function(event, args){
@@ -451,9 +471,11 @@ angular.module('starter.directives', ['starter.factories'])
     });
     $scope.$on('PageEvent:GoHome', function(event, args){
       console.log('Event@erForm:: PageEvent:GoHome')
-
+      if (checkFormValues()){
+        $state.go('default.home');
+      }
       //if checkFormValues(getFormValues())  // boolean. check for unsaved
-      $state.go('default.home');
+
     });
     $scope.$on('PageEvent:isAdd', function(){
       console.log('PageEvent:isAdd');
@@ -463,6 +485,7 @@ angular.module('starter.directives', ['starter.factories'])
       console.log('PageEvent:isEdit');
       initEditChart();
     });
+    
     
   };
 });

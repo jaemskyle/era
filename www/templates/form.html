@@ -215,7 +215,7 @@
                            <b ng-hide="resp_item.note_toggle_flag">+</b>
                            <b ng-show="resp_item.note_toggle_flag">-</b>
                          </button>
-                         <textarea class="hidden-on-print" ng-if="resp_item.note_toggle_flag && resp_item.model.label === 'Abnormal'" name="air_entry_equal_and_bilateral_note" ng-model="resp_item.model_note" rows="8" placeholder="more info..">{{resp_item.model_note}}</textarea>
+                         <textarea class="hidden-on-print" ng-if="resp_item.note_toggle_flag && resp_item.model.label === 'Abnormal'" name="air_entry_equal_and_bilateral_note" ng-model="resp_item.model_note" rows="8" name="{{resp_item}}_note" placeholder="more info..">{{resp_item.model_note}}</textarea>
                     </li>
                   </ul>
                   <article class="card chart-card">
