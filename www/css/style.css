@@ -32,10 +32,29 @@
   font-size: 17px;
   height: 0px;
   min-height: 40px;
-  line-height: 45px;
+  line-height: 36px;
   border-radius: 40px;
 }
 
 .bg-white{
   background: white;
+}
+
+.input-m{
+  padding: 15px !important;
+  border: 1px solid #b6b6b6;
+  border-radius: 3px;
+}
+
+
+.bar-stable{
+  background:#65B1D1 !important;
+}
+
+.bar-stable .button.button-clear{
+  color: white;
+}
+
+.bar.bar-stable .title{
+color: white;
 }
