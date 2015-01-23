@@ -111,7 +111,7 @@ angular.module('starter.controllers', ['starter.factories'])
   });
 
 })
-.controller('ChartCtrl', function($scope, cacheFactory, ERaUtilsFactory, $state, isEditMode){
+.controller('ChartCtrl', function($scope, cacheFactory, ERaUtilsFactory, $state, isEditMode, $stateParams){
     if (isEditMode){
       ERaUtilsFactory.broadcastPageEvent('isEdit');
     } else {
@@ -719,50 +719,6 @@ angular.module('starter.controllers', ['starter.factories'])
       next(pullItemFromLocal);
       next(prepFormData);
       next(writeLocalData);
-    };
-
-    var date, time;
-    var physicalExamProblemsCount = 0,
-        default_physical_exam_status = true;
-
-    var setPhysicalExamStatus = function(){
-      if (physicalExamProblemsCount === 0){
-        $scope.ExaminationForm.physical_exam_status.$viewValue = true;
-        $scope.ExaminationForm.physical_exam_status.$modelValue = true;
-        $scope.ExaminationForm.physical_exam_status.$render();
-        $scope.ExaminationForm.physical_exam_status.$$writeModelToScope();
-      } else {
-        $scope.ExaminationForm.physical_exam_status.$viewValue = false;
-        $scope.ExaminationForm.physical_exam_status.$modelValue = false;
-        $scope.ExaminationForm.physical_exam_status.$render();
-        $scope.ExaminationForm.physical_exam_status.$$writeModelToScope();
-      }
-    };
-    $scope.setPhysicalExamMainChildren = function(){
-      // $scope.ExaminationForm.wheezing = 'No';
-      // $scope.ExaminationForm.crackles = 'No';
-      // $scope.ExaminationForm.s1 = 'No';
-      // $scope.ExaminationForm.s2 = 'No';
-      // $scope.ExaminationForm.s3 = 'No';
-      // $scope.ExaminationForm.murmur = 'No';
-      // $scope.ExaminationForm.peripheral_pulses = 'No';
-      // $scope.ExaminationForm.soft = 'No';
-      // $scope.ExaminationForm.tender = 'No';
-      // $scope.ExaminationForm.bowel_sound_preset = 'No';
-      // $scope.ExaminationForm.mass = 'No';
-      // $scope.ExaminationForm.organomegaly = 'No';
-      // $scope.ExaminationForm.rebound_tenderness = 'No';
-      // $scope.ExaminationForm.peritonitis = 'No';
-    };
-    $scope.physicalExamChildListener = function(value, param){
-      if (value){
-        physicalExamProblemsCount = physicalExamProblemsCount +1;
-      } else if (!value && physicalExamProblemsCount !== 0) {
-        physicalExamProblemsCount = physicalExamProblemsCount -1;
-      } else if (!value && physicalExamProblemsCount === 0) {
-        physicalExamProblemsCount = 0;
-      }  
-      setPhysicalExamStatus()
     };
 
     pullLocalData();
