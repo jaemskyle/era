@@ -5,16 +5,15 @@
     </button>
   </ion-nav-buttons>
   <ion-nav-buttons side="secondary">
-    <button class="button button-icon" ng-click="print()">
-      <span class="ion-printer"></span>
+    <button class="button button-icon color-white" ng-click="print()">
       Print
     </button>
-    <button class="button button-balanced" ng-click="save()">
+    <button class="button button-calm" ng-click="save()">
       Save
     </button>
   </ion-nav-buttons>
   <ion-content>
-    <div class="content has-header">
+    <div class="content bg-login ">
         <form id="form" name="ExaminationForm" er-form novalidate>
         <style media="print">
           input[type="text"] {
@@ -45,7 +44,7 @@
             max-height: 1px;
             background: #ccc;
           }
-          
+
           form[name="ExaminationForm"] {
             width: 50%;
             background: #eee;
@@ -62,11 +61,10 @@
           }
 
         </style>
-
-          <div class="row">
+          <div class="row  responsive-sm">
             <div class="col-50">
               <section class="card">
-                <h4 class="item item-divider">Basic Info</h4>
+                <h4 class="item item-divider color-white bg-blue">Chart Info</h4>
                 <div class="row">
                   <div class="col">
                     <label class="item item-input">
@@ -84,36 +82,36 @@
                 <div class="row">
                   <div class="col">
                     <label class="item item-input">
-                      <span class="input-label">ID</span>
+                      <span class="input-label">Patient ID</span>
                       <input type="text" name="id" ng-model="id" ng-value="id" />
                     </label>
                   </div>
                 </div>
               </section>
-              <hr class="ng-hide" />
+              <!-- <hr class="ng-hide" /> -->
               <section class="card">
-                <h4 class="item item-divider hidden-on-print">ER Card</h4>
-                <article class="card">
+                <h4 class="item item-divider hidden-on-print color-white bg-blue">ER Card</h4>
+                <article class="card chart-card">
                   <header class="item item-divider">HPI</header>
                   <p class="ng-hide">{{hpi}}</p>
                   <textarea class="hidden-on-print" rows="8" name="hpi" ng-model="hpi">{{hpi}}</textarea>
                 </article>
-                <article class="card">
+                <article class="card chart-card">
                   <header class="item item-divider">PMHx</header>
                   <p class="ng-hide">{{pmhx}}</p>
                   <textarea class="hidden-on-print" rows="8" name="pmhx" ng-model="pmhx">{{pmhx}}</textarea>
                 </article>
-                <article class="card">
+                <article class="card chart-card">
                   <header class="item item-divider">Medication</header>
                   <p>{{medication}}</p>
                   <textarea class="hidden-on-print" rows="8" name="medication" ng-model="medication">{{medication}}</textarea>
                 </article>
-                <article class="card">
+                <article class="card chart-card">
                   <header class="item item-divider">Allergies</header>
                   <p class="ng-hide">{{allergies}}</p>
                   <textarea class="hidden-on-print" rows="8" name="allergies" ng-model="allergies">{{allergies}}</textarea>
                 </article>
-                <article class="card">
+                <article class="card chart-card">
                   <header class="item item-divider">ROS</header>
                   <p class="ng-hide">{{ros}}</p>
                   <textarea class="hidden-on-print" rows="8" name="ros" ng-model="ros">{{ros}}</textarea>
@@ -123,17 +121,17 @@
 
             <div class="col-50">
               <section class="card">
-                  <h4 class="item item-divider">Physical Exam</h4>
+                  <h4 class="item item-divider color-white bg-blue">Physical Exam</h4>
                   <!-- new -->
-                  <ul class="list list-inset">
+                  <ul class="list list-inset  chart-card">
                     <li class="item item-divider">HEENT</li>
                     <li class="item" ng-class="{'hidden-on-print': !resp_item.model.value}" ng-repeat="resp_item in heent">
                         <span ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.label}} </span>
                         <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.model.label}} </span>
                         <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">| {{resp_item.model_note}}</span>
-                        <select name="{{resp_item.name}}" 
+                        <select name="{{resp_item.name}}"
                                 class="hidden-on-print"
-                                ng-model="resp_item.model" 
+                                ng-model="resp_item.model"
                                 ng-change="showNote(resp_item.model, resp_item.name)"
                                 ng-options="opt as opt.label for opt in options">
                          </select>
@@ -144,15 +142,15 @@
                          <textarea class="hidden-on-print" ng-if="resp_item.note_toggle_flag && resp_item.model.label === 'Abnormal'" name="air_entry_equal_and_bilateral_note" ng-model="resp_item.model_note" rows="8" placeholder="more info..">{{resp_item.model_note}}</textarea>
                     </li>
                   </ul>
-                  <ul class="list list-inset">
+                  <ul class="list list-inset chart-card">
                     <li class="item item-divider">Abdominal Exam</li>
-                    <li class="item" ng-class="{'hidden-on-print': !resp_item.model.value}" ng-repeat="resp_item in abdo">
+                    <li class="item item-input item-select" ng-class="{'hidden-on-print': !resp_item.model.value}" ng-repeat="resp_item in abdo">
                         <span ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.label}} </span>
                         <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.model.label}} </span>
                         <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">| {{resp_item.model_note}}</span>
-                        <select name="{{resp_item.name}}" 
-                                class="hidden-on-print"
-                                ng-model="resp_item.model" 
+                        <select name="{{resp_item.name}}"
+                                class="hidden-on-print input-label"
+                                ng-model="resp_item.model"
                                 ng-change="showNote(resp_item.model, resp_item.name)"
                                 ng-options="opt as opt.label for opt in options">
                          </select>
@@ -163,15 +161,15 @@
                          <textarea class="hidden-on-print" ng-if="resp_item.note_toggle_flag && resp_item.model.label === 'Abnormal'" name="air_entry_equal_and_bilateral_note" ng-model="resp_item.model_note" rows="8" placeholder="more info..">{{resp_item.model_note}}</textarea>
                     </li>
                   </ul>
-                  <ul class="list list-inset">
+                  <ul class="list list-inset chart-card">
                     <li class="item item-divider">Respiratory Exam</li>
                     <li class="item" ng-class="{'hidden-on-print': !resp_item.model.value}" ng-repeat="resp_item in resp">
                         <span ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.label}} </span>
                         <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.model.label}} </span>
                         <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">| {{resp_item.model_note}}</span>
-                        <select name="{{resp_item.name}}" 
+                        <select name="{{resp_item.name}}"
                                 class="hidden-on-print"
-                                ng-model="resp_item.model" 
+                                ng-model="resp_item.model"
                                 ng-change="showNote(resp_item.model, resp_item.name)"
                                 ng-options="opt as opt.label for opt in options">
                          </select>
@@ -182,15 +180,15 @@
                          <textarea class="hidden-on-print" ng-if="resp_item.note_toggle_flag && resp_item.model.label === 'Abnormal'" name="air_entry_equal_and_bilateral_note" ng-model="resp_item.model_note" rows="8" placeholder="more info..">{{resp_item.model_note}}</textarea>
                     </li>
                   </ul>
-                  <ul class="list list-inset">
+                  <ul class="list list-inset chart-card">
                     <li class="item item-divider">Cardio Vascular</li>
                     <li class="item" ng-class="{'hidden-on-print': !resp_item.model.value}" ng-repeat="resp_item in cardiov">
                         <span ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.label}} </span>
                         <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.model.label}} </span>
                         <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">| {{resp_item.model_note}}</span>
-                        <select name="{{resp_item.name}}" 
+                        <select name="{{resp_item.name}}"
                                 class="hidden-on-print"
-                                ng-model="resp_item.model" 
+                                ng-model="resp_item.model"
                                 ng-change="showNote(resp_item.model, resp_item.name)"
                                 ng-options="opt as opt.label for opt in options">
                          </select>
@@ -201,15 +199,15 @@
                          <textarea class="hidden-on-print" ng-if="resp_item.note_toggle_flag && resp_item.model.label === 'Abnormal'" name="air_entry_equal_and_bilateral_note" ng-model="resp_item.model_note" rows="8" placeholder="more info..">{{resp_item.model_note}}</textarea>
                     </li>
                   </ul>
-                  <ul class="list list-inset">
+                  <ul class="list list-inset chart-card">
                     <li class="item item-divider">Neurological exam</li>
                     <li class="item" ng-class="{'hidden-on-print': !resp_item.model.value}" ng-repeat="resp_item in neuro">
                         <span ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.label}} </span>
                         <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.model.label}} </span>
                         <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">| {{resp_item.model_note}}</span>
-                        <select name="{{resp_item.name}}" 
+                        <select name="{{resp_item.name}}"
                                 class="hidden-on-print"
-                                ng-model="resp_item.model" 
+                                ng-model="resp_item.model"
                                 ng-change="showNote(resp_item.model, resp_item.name)"
                                 ng-options="opt as opt.label for opt in options">
                          </select>
@@ -220,7 +218,7 @@
                          <textarea class="hidden-on-print" ng-if="resp_item.note_toggle_flag && resp_item.model.label === 'Abnormal'" name="air_entry_equal_and_bilateral_note" ng-model="resp_item.model_note" rows="8" placeholder="more info..">{{resp_item.model_note}}</textarea>
                     </li>
                   </ul>
-                  <article class="card">
+                  <article class="card chart-card">
                     <header class="item item-divider">Notes</header>
                     <p class="ng-hide">{{notes}}</p>
                     <textarea class="hidden-on-print" rows="8" name="notes" ng-model="notes">{{notes}}</textarea>
@@ -229,15 +227,15 @@
             </div>
           </div>
 
-          <hr class="ng-hide" />
+          <!-- <hr class="ng-hide" /> -->
           <article class="card">
-            <header class="item item-divider">Diagnosis</header>
+            <header class="item item-divider  color-white bg-blue">Diagnosis</header>
             <p class="ng-hide">{{diagnosis}}</p>
             <textarea class="hidden-on-print" rows="8" name="diagnosis" ng-model="diagnosis">{{diagnosis}}</textarea>
           </article>
           <article class="card">
             <p class="ng-hide">{{discharge_instruction}}</p>
-            <header class="item item-divider">Discharge Instruction</header>
+            <header class="item item-divider color-white bg-blue">Discharge Instruction</header>
             <textarea class="hidden-on-print" rows="8" name="discharge_instruction" ng-model="discharge_instruction">{{discharge_instruction}}</textarea>
           </article>
         </form>

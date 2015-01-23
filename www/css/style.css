@@ -8,6 +8,10 @@
   margin-top: 10px;
 }
 
+.m-b25{
+  margin-bottom: 25px;
+}
+
 .w-100p{
   width: 100%;
 }
@@ -16,12 +20,20 @@
   padding: 15px !important;
 }
 
+.p-0{
+  padding: 0px;
+}
+
+.t-15{
+  top: 15px;
+}
+
 .text-center{
-  text-center: text-center;
+  text-align: center;
 }
 
 .color-white{
-  color: white;
+  color: white !important;
 }
 
 .no-decoration{
@@ -58,3 +70,31 @@
 .bar.bar-stable .title{
 color: white;
 }
+
+.chart-card{
+  margin: 0px;
+  box-shadow: none;
+}
+
+.chart-card header{
+}
+
+.chart-card textarea{
+  padding: 10px;
+  min-height: 100px;
+  height: 0;
+  resize: none;
+}
+
+.chart-card .item-input{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.chart-card .item-input span{
+  font-size: 13px;
+}
+
+.bg-blue{
+  background: #65B1D1 ;
+}
+
