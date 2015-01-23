@@ -1,1 +1,37 @@
 /* Empty. Add your own CSS if you like */
+
+.bg-login{
+  background: #a9ddf3;
+}
+
+.m-t10 {
+  margin-top: 10px;
+}
+
+.w-100p{
+  width: 100%;
+}
+
+.p-15{
+  padding: 15px !important;
+}
+
+.text-center{
+  text-center: text-center;
+}
+
+.color-white{
+  color: white;
+}
+
+.no-decoration{
+  text-decoration: none;
+}
+
+.button-m{
+  font-size: 20px;
+  height: 0px;
+  min-height: 40px;
+  line-height: 0px;
+  border-radius: 40px;
+}
