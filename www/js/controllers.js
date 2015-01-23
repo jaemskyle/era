@@ -111,41 +111,20 @@ angular.module('starter.controllers', ['starter.factories'])
   });
 
 })
-.controller('BrowseCtrl', function($scope, cacheFactory, ERaUtilsFactory, $state){
-    var allExForms = [],
-        page;
-
-    var setScope = function(data){
-          $scope.forms = data;
-        },
-        writeLocalData = function(data){
-          cacheFactory.setLocalData(data).then(
-            function(setSuccess){
-              console.log('writeLocalDataSuccess');
-
-            }, function(setFail){}
-          );
-        },
-        sync = function(newData){
-          cacheFactory.getLocalData().then(
-            function(getSuccess){
-              allExForms = getSuccess;      
-              allExForms.push(newData);
-              writeLocalData(allExForms);
-            }, function(getFail){}
-          );
-        },
-        setLocalData = function(newData){
-          sync(newData);
-        };
+.controller('ChartCtrl', function($scope, cacheFactory, ERaUtilsFactory, $state, isEditMode){
+    if (isEditMode){
+      ERaUtilsFactory.broadcastPageEvent('isEdit');
+    } else {
+      ERaUtilsFactory.broadcastPageEvent('isAdd');
+    }
     $scope.print = function(){
       ERaUtilsFactory.broadcastPageEvent('Print');
     };
     $scope.save = function(){
-      if ($state.is('app.edit')){
+      if ($state.is('default.edit')){
         console.log('saving: on edit')
         ERaUtilsFactory.broadcastPageEvent('UpdateChart');
-      } else if ($state.is('app.form')){
+      } else if ($state.is('default.form')){
         console.log('saving: on create')
         ERaUtilsFactory.broadcastPageEvent('SaveChart');
       }
@@ -398,7 +377,7 @@ angular.module('starter.controllers', ['starter.factories'])
     //   }
     // });
 
-    if ($state.is('app.edit')){
+    if ($state.is('default.edit')){
 
     var reRenderViewValue = function(fn, value){
       do {

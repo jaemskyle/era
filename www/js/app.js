@@ -89,17 +89,29 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 's
   })
   .state('default.form', {
     url: "/form",
+    resolve: {
+      'isEditMode': function(){
+        return false;
+      }
+    },
     views: {
       'menuContent': {
-        templateUrl: "templates/form.html"
+        templateUrl: "templates/form.html",
+        controller: 'ChartCtrl'
       }
     }
   })
   .state('default.edit', {
     url: '/edit/:formId',
+    resolve: {
+      'isEditMode': function(){
+        return true;
+      }
+    },
     views: {
       'menuContent': {
-        templateUrl: "templates/edit.html"
+        templateUrl: "templates/form.html",
+        controller: 'ChartCtrl'
       }
     }
   });

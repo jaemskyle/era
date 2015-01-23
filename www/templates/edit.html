@@ -1,4 +1,4 @@
-<ion-view ng-controller="BrowseCtrl" hide-back-button="true">
+<ion-view hide-back-button="true">
   <ion-nav-buttons side="left">
     <button class="button button-clear button-icon" ng-click="goHome()">
       Back
@@ -14,8 +14,8 @@
     </button>
   </ion-nav-buttons>
   <ion-content>
-  <div class="content has-header">
-        <form id="form" name="ExaminationForm" er-form novalidate>
+    <div class="content has-header">
+      <form id="form" name="ExaminationForm" er-form novalidate>
         <style media="print">
           input[type="text"] {
             background-color: none;
@@ -241,6 +241,6 @@
             <textarea class="hidden-on-print" rows="8" name="discharge_instruction" ng-model="discharge_instruction">{{discharge_instruction}}</textarea>
           </article>
         </form>
-  </div>
+    </div>
   </ion-content>
 </ion-view>

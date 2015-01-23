@@ -158,7 +158,7 @@ angular.module('starter.factories', [])
       }
     };
 })
-.factory('ERaUtilsFactory', function($rootScope){
+.factory('ERaUtilsFactory', function($rootScope, $timeout){
   return {
     showToast: function(position, duration, message){
       if (position === 'top') {
@@ -182,7 +182,9 @@ angular.module('starter.factories', [])
     },
     broadcastPageEvent: function(eventName){
       console.log('broadcasting: '+eventName);
-      $rootScope.$broadcast('PageEvent:'+eventName);
+      $timeout( function(){
+        $rootScope.$broadcast('PageEvent:'+eventName);
+      });
     }
   }
 })
