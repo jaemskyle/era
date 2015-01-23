@@ -29,9 +29,13 @@
 }
 
 .button-m{
-  font-size: 20px;
+  font-size: 17px;
   height: 0px;
   min-height: 40px;
   line-height: 0px;
   border-radius: 40px;
+}
+
+.bg-white{
+  background: white;
 }
