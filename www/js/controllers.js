@@ -100,7 +100,7 @@ angular.module('starter.controllers', ['starter.factories'])
   };
   $scope.editItem = function(form){
     $timeout(function(){
-      $state.transitionTo('app.edit', {formId: form.id});
+      $state.transitionTo('default.edit', {formId: form.id});
     })
   };
 

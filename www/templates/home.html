@@ -3,6 +3,9 @@
     <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
     </button>
   </ion-nav-buttons>
+  <ion-nav-buttons side="secondary">
+    <button class="button button-clear" ng-click="$state.go('default.form')">New Form</button>
+  </ion-nav-buttons>
   <ion-content>
     <section class="row">
       <h4>Charts saved: {{forms.length || 'record\'s empty'}}</h4>
@@ -21,12 +24,5 @@
         </ion-option-button>
       </ion-item>
     </ion-list>
-
-    <section class="card">
-      <div class="item">
-        <button class="button button-block button-default" ng-click="$state.go('app.form')">New Form</button>
-        <button class="button button-block button-default" ng-click="clearAll()">Clear Cache</button>
-      </div>
-    </section>
   </ion-content>
 </ion-view>
