@@ -66,6 +66,18 @@ angular.module('starter.directives', ['starter.factories'])
       $scope.ExaminationForm.exudates_on_tonsil.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.heent.exudates_on_tonsil.index];
       $scope.ExaminationForm.cervical_adenopathy.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.heent.cervical_adenopathy.index];
       $scope.ExaminationForm.cervical_adenopathy.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.heent.cervical_adenopathy.index];
+      
+      // set neuro
+      $scope.ExaminationForm.cnii_x_ii.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.neurological_exam.cnii_x_ii.index];
+      $scope.ExaminationForm.cnii_x_ii.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.neurological_exam.cnii_x_ii.index];
+      $scope.ExaminationForm.power.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.neurological_exam.power.index];
+      $scope.ExaminationForm.power.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.neurological_exam.power.index];
+      $scope.ExaminationForm.sensation.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.neurological_exam.sensation.index];
+      $scope.ExaminationForm.sensation.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.neurological_exam.sensation.index];
+      $scope.ExaminationForm.tone.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.neurological_exam.tone.index];
+      $scope.ExaminationForm.tone.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.neurological_exam.tone.index];
+      $scope.ExaminationForm.cl_exam.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.neurological_exam.cl_exam.index];
+      $scope.ExaminationForm.cl_exam.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.neurological_exam.cl_exam.index];
 
       // render respiratory
       $scope.ExaminationForm.good_bilat_a_e.$render();
@@ -112,6 +124,18 @@ angular.module('starter.directives', ['starter.factories'])
       $scope.ExaminationForm.exudates_on_tonsil.$$writeModelToScope();
       $scope.ExaminationForm.cervical_adenopathy.$render();
       $scope.ExaminationForm.cervical_adenopathy.$$writeModelToScope();
+      
+      // set neuro
+      $scope.ExaminationForm.cnii_x_ii.$render();
+      $scope.ExaminationForm.cnii_x_ii.$$writeModelToScope();
+      $scope.ExaminationForm.power.$render();
+      $scope.ExaminationForm.power.$$writeModelToScope();
+      $scope.ExaminationForm.sensation.$render();
+      $scope.ExaminationForm.sensation.$$writeModelToScope();
+      $scope.ExaminationForm.tone.$render();
+      $scope.ExaminationForm.tone.$$writeModelToScope();
+      $scope.ExaminationForm.cl_exam.$render();
+      $scope.ExaminationForm.cl_exam.$$writeModelToScope();
     };
 
     //methods

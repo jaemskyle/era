@@ -31,11 +31,35 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 's
     templateUrl: "templates/menu.html",
     controller: 'AppCtrl'
   })
-  .state('private', {
-    url: "/p",
-    abstract: true,
-    templateUrl: "templates/private.html"
+
+  .state('default.login', {
+    url: "/login",
+    views: {
+      '@': {
+        templateUrl: "templates/login.html"
+        // controller: ''
+      }
+    }
   })
+  .state('default.signup', {
+    url: "/signup",
+    views: {
+      '@': {
+        templateUrl: "templates/signup.html"
+        // controller: ''
+      }
+    }
+  })
+  .state('default.forgot_password', {
+    url: "/forgot",
+    views: {
+      '@': {
+        templateUrl: "templates/forgot.html"
+        // controller: ''
+      }
+    }
+  })
+
   .state('default.profile', {
     url: "/profile",
     views: {
@@ -54,34 +78,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 's
       }
     }
   })
-
-  .state('private.login', {
-    url: "/login",
-    views: {
-      'menuContent': {
-        templateUrl: "templates/login.html"
-        // controller: ''
-      }
-    }
-  })
-  .state('private.signup', {
-    url: "/signup",
-    views: {
-      'menuContent': {
-        templateUrl: "templates/signup.html"
-        // controller: ''
-      }
-    }
-  })
-  .state('private.forgot_password', {
-    url: "/forgot_password",
-    views: {
-      'menuContent': {
-        templateUrl: "templates/forgot.html"
-        // controller: ''
-      }
-    }
-  })
   .state('default.home', {
     url: "/home",
     views: {
@@ -91,7 +87,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 's
       }
     }
   })
-
   .state('default.form', {
     url: "/form",
     views: {
@@ -109,7 +104,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 's
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/p/login');
+  $urlRouterProvider.otherwise('/a/login');
 
   $localForageProvider.setNotify(true, true); // itemSet, itemRemove
   $localForageProvider.config({
