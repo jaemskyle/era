@@ -55,28 +55,28 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 's
     }
   })
 
-  .state('private.login', {
+  .state('login', {
     url: "/login",
     views: {
-      'menuContent': {
+      '@': {
         templateUrl: "templates/login.html"
         // controller: ''
       }
     }
   })
-  .state('private.signup', {
+  .state('signup', {
     url: "/signup",
     views: {
-      'menuContent': {
+      '@': {
         templateUrl: "templates/signup.html"
         // controller: ''
       }
     }
   })
-  .state('private.forgot_password', {
+  .state('forgot_password', {
     url: "/forgot_password",
     views: {
-      'menuContent': {
+      '@': {
         templateUrl: "templates/forgot.html"
         // controller: ''
       }
@@ -109,7 +109,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 's
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/p/login');
+  $urlRouterProvider.otherwise('/login');
 
   $localForageProvider.setNotify(true, true); // itemSet, itemRemove
   $localForageProvider.config({
