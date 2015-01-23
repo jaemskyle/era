@@ -19,7 +19,7 @@ var paths = {
 gulp.task('default', ['sass']);
 
 gulp.task('sass', function(done) {
-  gulp.src('./scss/er_style.scss')
+  gulp.src('./scss/ionic.scss')
     .pipe(sass())
     .pipe(gulp.dest('./www/css/'))
     .pipe(minifyCss({
@@ -29,12 +29,6 @@ gulp.task('sass', function(done) {
     .pipe(gulp.dest('./www/css/'))
     .on('end', done);
 });
-gulp.task('er_sass', function(done) {
-  gulp.src('./scss/**/*.scss')
-    .pipe(sass())
-    .pipe(gulp.dest('./www/css/'));
-});
-
 
 gulp.task('watch', function() {
   gulp.watch(paths.sass, ['sass']);

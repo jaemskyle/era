@@ -110,7 +110,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 's
     },
     views: {
       'menuContent': {
-        templateUrl: "templates/form.html",
+        templateUrl: "templates/edit.html",
         controller: 'ChartCtrl'
       }
     }
