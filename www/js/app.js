@@ -25,13 +25,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 's
 .config(function($stateProvider, $urlRouterProvider, $localForageProvider) {
   $stateProvider
 
-  .state('app', {
-    url: "/app",
+  .state('default', {
+    url: "/a",
     abstract: true,
     templateUrl: "templates/menu.html",
     controller: 'AppCtrl'
   })
-  .state('app.profile', {
+  .state('private', {
+    url: "/p",
+    abstract: true,
+    templateUrl: "templates/private.html"
+  })
+  .state('default.profile', {
     url: "/profile",
     views: {
       'menuContent': {
@@ -40,7 +45,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 's
       }
     }
   })
-  .state('app.settings', {
+  .state('default.settings', {
     url: "/settings",
     views: {
       'menuContent': {
@@ -50,7 +55,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 's
     }
   })
 
-  .state('app.login', {
+  .state('private.login', {
     url: "/login",
     views: {
       'menuContent': {
@@ -59,7 +64,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 's
       }
     }
   })
-  .state('app.signup', {
+  .state('private.signup', {
     url: "/signup",
     views: {
       'menuContent': {
@@ -68,7 +73,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 's
       }
     }
   })
-  .state('app.forgot_password', {
+  .state('private.forgot_password', {
     url: "/forgot_password",
     views: {
       'menuContent': {
@@ -77,7 +82,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 's
       }
     }
   })
-  .state('app.home', {
+  .state('default.home', {
     url: "/home",
     views: {
       'menuContent': {
@@ -87,7 +92,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 's
     }
   })
 
-  .state('app.form', {
+  .state('default.form', {
     url: "/form",
     views: {
       'menuContent': {
@@ -95,7 +100,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 's
       }
     }
   })
-  .state('app.edit', {
+  .state('default.edit', {
     url: '/edit/:formId',
     views: {
       'menuContent': {
@@ -104,7 +109,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 's
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/home');
+  $urlRouterProvider.otherwise('/p/login');
 
   $localForageProvider.setNotify(true, true); // itemSet, itemRemove
   $localForageProvider.config({

@@ -64,9 +64,9 @@ angular.module('starter.factories', [])
         crackle: {text:'Abnormal',index:1}
       },
       cardio_vascular: {
-        s1: '',
-        s2: '',
-        ppp: ''
+        s1: {text:'Normal',index:2},
+        s2: {text:'Normal',index:2},
+        ppp: {text:'Normal',index:2}
       },
       abdominal_exam: {
         soft_and_non_tender: {text:'Normal',index:2},
