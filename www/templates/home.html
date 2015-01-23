@@ -6,23 +6,26 @@
   <ion-nav-buttons side="secondary">
     <button class="button button-clear" ng-click="$state.go('default.form')">New Form</button>
   </ion-nav-buttons>
-  <ion-content>
-    <section class="row">
-      <h4>Charts saved: {{forms.length || 'record\'s empty'}}</h4>
-    </section>
-
-    <ion-list can-swipe="canSwipeList" show-delete="showListDelete">
-      <ion-item class="item item-icon-right" ng-repeat="form in forms" ng-click="editItem(form, $index)">
-        <h2>{{form.id}}</h2>
-        <p>{{form.date}} {{form.time}}</p>
-        <p>{{form.physical_exam.air_entry_equal_and_bilateral_note}}</p>
-        <i class="icon ion-ios7-arrow-forward"></i>
-        <ion-delete-button class="ion-minus-circled" ng-click="deleteItem(form, $index)">
-        </ion-delete-button>
-        <ion-option-button class="button-info"ng-click="deleteItem(form, $index)">
-          Delete
-        </ion-option-button>
-      </ion-item>
-    </ion-list>
+  <ion-content class="bg-login">
+    <div class="row responsive-sm">
+      <div class=" col-offset-25 col-50 col">
+        <section class="row">
+          <h4 class="color-white">Charts saved: {{forms.length || 'record\'s empty'}}</h4>
+        </section>
+        <ion-list can-swipe="canSwipeList" show-delete="showListDelete">
+          <ion-item class="item item-icon-right" ng-repeat="form in forms" ng-click="editItem(form, $index)">
+            <h2>Chart ID: {{form.id}}</h2>
+            <p>Created: {{form.date}} {{form.time}}</p>
+            <p>{{form.physical_exam.air_entry_equal_and_bilateral_note}}</p>
+            <i class="icon ion-ios7-arrow-forward"></i>
+            <ion-delete-button class="ion-minus-circled" ng-click="deleteItem(form, $index)">
+            </ion-delete-button>
+            <ion-option-button class="button-info button-positive"ng-click="deleteItem(form, $index)">
+              Delete
+            </ion-option-button>
+          </ion-item>
+        </ion-list>
+      </div>
+    </div>
   </ion-content>
 </ion-view>
