@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 'LocalForageModule', 'firebase'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 'starter.directives', 'LocalForageModule', 'firebase'])
 
 .run(function($ionicPlatform, $rootScope, $state, $stateParams) {
   $ionicPlatform.ready(function() {
@@ -30,6 +30,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 'L
     abstract: true,
     templateUrl: "templates/menu.html",
     controller: 'AppCtrl'
+  })
+  .state('app.profile', {
+    url: "/profile",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/profile.html"
+        // controller: ''
+      }
+    }
+  })
+  .state('app.settings', {
+    url: "/settings",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/settings.html"
+        // controller: ''
+      }
+    }
   })
 
   .state('app.login', {
