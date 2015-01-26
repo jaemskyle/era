@@ -1,0 +1,11 @@
+{
+    "jscodehints.detectedExclusions": [
+        "/Users/jaekyll/Documents/Projects/era/www/lib/moment/locale/bo.js",
+        "/Users/jaekyll/Documents/Projects/era/platforms/android/assets/www/lib/moment/locale/fo.js",
+        "/Users/jaekyll/Documents/Projects/era/platforms/android/assets/www/lib/moment/locale/fr-ca.js",
+        "/Users/jaekyll/Documents/Projects/era/platforms/android/assets/www/lib/moment/locale/fr.js",
+        "/Users/jaekyll/Documents/Projects/era/platforms/android/assets/www/lib/moment/locale/gl.js",
+        "/Users/jaekyll/Documents/Projects/era/platforms/android/assets/www/lib/moment/locale/he.js",
+        "webSQLStorage.js"
+    ]
+}

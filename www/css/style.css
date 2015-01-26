@@ -76,9 +76,6 @@ color: white;
   box-shadow: none;
 }
 
-.chart-card header{
-}
-
 .chart-card textarea{
   padding: 10px;
   min-height: 100px;
@@ -98,3 +95,13 @@ color: white;
   background: #65B1D1 ;
 }
 
+.er-select.item-select .er-select-custom{
+  right: 50px;
+  font-size: 13px;
+  padding: 14px 30px 16px 10px;
+}
+
+.er-select.item-select:after {
+  top: 25px;
+  right: 65px;
+}

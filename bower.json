@@ -11,6 +11,7 @@
     "localforage": "~1.2.0",
     "angular-localForage": "~1.2.2",
     "firebase": "~2.1.1",
-    "angularfire": "~0.9.1"
+    "angularfire": "~0.9.1",
+    "angular-ui-select": "~0.9.6"
   }
 }

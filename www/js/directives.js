@@ -1,224 +1,434 @@
 angular.module('starter.directives', ['starter.factories'])
 
-.directive('erForm', function($timeout, ERaUtilsFactory, erFormDefault, $state, cacheFactory, $stateParams){
+.directive('erForm', function($timeout, ERaUtilsFactory, erFormDefault, $state, cacheFactory, $stateParams, $log){
     return  function($scope, $elem, $attr, $transclude){
-
-    var next = function(fn, paramObj){
+    
+        var next = function(fn, paramObj){
       var fn = fn || function(){};
       fn(paramObj);
     };
+        
+    if ($state.is('default.edit')) {
+        console.log('is editting');
+    } else if ($state.is('default.form')) {
+        console.log('is adding');
+    }
 
+    var formFieldDefaults = erFormDefault.formDefaultValues;
+        $scope.chart = {};
     $scope.options = erFormDefault.options;
     $scope.resp = erFormDefault.respiratory_exam;
     $scope.abdo = erFormDefault.abdominal_exam;
     $scope.heent = erFormDefault.heent;
     $scope.cardiov = erFormDefault.cardio_vascular;
     $scope.neuro = erFormDefault.neurological_exam;
-
-    var allExForms=[], date, time, setDefault = function(){
+    
+    var formValueSetter = function(dataObj, flag, tagType){
+       var fieldDefaultValue = _.pick(dataObj, flag)[flag];
+       if (tagType === 'input'){
+//          console.log(angular.toJson(fieldDefaultValue) + '' + flag);
+           return $scope.options[fieldDefaultValue['index']];
+       } else if (tagType === 'textarea') {
+           return fieldDefaultValue;
+       }
+    };
+    var getSavedFieldValue = function(savedValues, flag, tagType){
+        return _.pick(savedValues, flag)[flag];
+    };
+    var allExForms=[], date, time, setDefault = function(state_data){
       date = moment().format('YYYY-MM-DD');
       time = moment().format('hh:mm: A');
 
+      $scope.ExaminationForm.hpi.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.er_card, 'hpi', 'textarea') : getSavedFieldValue(state_data, 'hpi', 'textarea');
+      $scope.ExaminationForm.pmhx.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.er_card, 'pmhx', 'textarea') : getSavedFieldValue(state_data, 'pmhx', 'textarea');
+      $scope.ExaminationForm.medication.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.er_card, 'medication', 'textarea') : getSavedFieldValue(state_data, 'medication', 'textarea');
+      $scope.ExaminationForm.allergies.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.er_card, 'allergies', 'textarea') : getSavedFieldValue(state_data, 'allergies', 'textarea');
+      $scope.ExaminationForm.ros.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.er_card, 'ros', 'textarea') : getSavedFieldValue(state_data, 'ros', 'textarea');
+      $scope.ExaminationForm.notes.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam, 'notes', 'textarea') : getSavedFieldValue(state_data, 'notes', 'textarea');
+      $scope.ExaminationForm.diagnosis.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults, 'diagnosis', 'textarea') : getSavedFieldValue(state_data, 'diagnosis', 'textarea');
+      $scope.ExaminationForm.discharge_instruction.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults, 'discharge_instruction', 'textarea') : getSavedFieldValue(state_data, 'discharge_instruction', 'textarea');
+      $scope.ExaminationForm.hpi.$render();
+      $scope.ExaminationForm.pmhx.$render();
+      $scope.ExaminationForm.medication.$render();
+      $scope.ExaminationForm.allergies.$render();
+      $scope.ExaminationForm.ros.$render();
+      $scope.ExaminationForm.notes.$render();
+      $scope.ExaminationForm.diagnosis.$render();
+      $scope.ExaminationForm.discharge_instruction.$render();
+      $scope.ExaminationForm.hpi.$commitViewValue();
+      $scope.ExaminationForm.pmhx.$commitViewValue();
+      $scope.ExaminationForm.medication.$commitViewValue();
+      $scope.ExaminationForm.allergies.$commitViewValue();
+      $scope.ExaminationForm.ros.$commitViewValue();
+      $scope.ExaminationForm.notes.$commitViewValue();
+      $scope.ExaminationForm.diagnosis.$commitViewValue();
+      $scope.ExaminationForm.discharge_instruction.$commitViewValue();
+
+      // set notes:heent
+      $scope.ExaminationForm.throat_clear_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.heent, 'throat_clear_note', 'textarea') : getSavedFieldValue(state_data.heent, 'throatClearNote', 'textarea');
+      $scope.ExaminationForm.tm_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.heent, 'tm_note', 'textarea') : getSavedFieldValue(state_data.heent, 'tmNote', 'textarea');
+      $scope.ExaminationForm.neck_supple_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.heent, 'neck_supple_note', 'textarea') : getSavedFieldValue(state_data.heent, 'neckSuppleNote', 'textarea');
+      $scope.ExaminationForm.tm_red_and_bulging_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.heent, 'tm_red_and_bulging_note', 'textarea') : getSavedFieldValue(state_data.heent, 'tmRedAndBulgingNote', 'textarea');
+      $scope.ExaminationForm.exudates_on_tonsil_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.heent, 'exudates_on_tonsil_note', 'textarea') : getSavedFieldValue(state_data.heent, 'exudatesOnTonsilNote', 'textarea');
+      $scope.ExaminationForm.cervical_adenopathy_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.heent, 'cervical_adenopathy_note', 'textarea') : getSavedFieldValue(state_data.heent, 'cervicalAdenopathyNote', 'textarea');
+      $scope.ExaminationForm.throat_clear_note.$render();
+      $scope.ExaminationForm.tm_note.$render();
+      $scope.ExaminationForm.neck_supple_note.$render();
+      $scope.ExaminationForm.tm_red_and_bulging_note.$render();
+      $scope.ExaminationForm.exudates_on_tonsil_note.$render();
+      $scope.ExaminationForm.cervical_adenopathy_note.$render();
+      $scope.ExaminationForm.throat_clear_note.$commitViewValue();
+      $scope.ExaminationForm.tm_note.$commitViewValue();
+      $scope.ExaminationForm.neck_supple_note.$commitViewValue();
+      $scope.ExaminationForm.tm_red_and_bulging_note.$commitViewValue();
+      $scope.ExaminationForm.exudates_on_tonsil_note.$commitViewValue();
+      $scope.ExaminationForm.cervical_adenopathy_note.$commitViewValue();
+        
+        // set notes:abdominal exam
+      $scope.ExaminationForm.soft_and_non_tender_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.abdominal_exam, 'soft_and_non_tender_note', 'textarea') : getSavedFieldValue(state_data.abdominal_exam, 'softAndNonTenderNote', 'textarea');
+      $scope.ExaminationForm.bsp_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.abdominal_exam, 'bsp_note', 'textarea') : getSavedFieldValue(state_data.abdominal_exam, 'bspNote', 'textarea');
+      $scope.ExaminationForm.fpp_and_equal_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.abdominal_exam, 'fpp_and_equal_note', 'textarea') : getSavedFieldValue(state_data.abdominal_exam, 'fppAndEqualNote', 'textarea');
+      $scope.ExaminationForm.distended_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.abdominal_exam, 'distended_note', 'textarea') : getSavedFieldValue(state_data.abdominal_exam, 'distendedNote', 'textarea');
+      $scope.ExaminationForm.tender_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.abdominal_exam, 'tender_note', 'textarea') : getSavedFieldValue(state_data.abdominal_exam, 'tenderNote', 'textarea');
+      $scope.ExaminationForm.decrease_bowel_sounds_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.abdominal_exam, 'decrease_bowel_sounds_note', 'textarea') : getSavedFieldValue(state_data.abdominal_exam, 'decreaseBowelSoundsNote', 'textarea');
+      $scope.ExaminationForm.soft_and_non_tender_note.$render();
+      $scope.ExaminationForm.bsp_note.$render();
+      $scope.ExaminationForm.fpp_and_equal_note.$render();
+      $scope.ExaminationForm.distended_note.$render();
+      $scope.ExaminationForm.tender_note.$render();
+      $scope.ExaminationForm.decrease_bowel_sounds_note.$render();
+      $scope.ExaminationForm.soft_and_non_tender_note.$commitViewValue();
+      $scope.ExaminationForm.bsp_note.$commitViewValue();
+      $scope.ExaminationForm.fpp_and_equal_note.$commitViewValue();
+      $scope.ExaminationForm.distended_note.$commitViewValue();
+      $scope.ExaminationForm.tender_note.$commitViewValue();
+      $scope.ExaminationForm.decrease_bowel_sounds_note.$commitViewValue();
+        // set notes:respiratory
+      $scope.ExaminationForm.good_bilat_a_e_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.respiratory_exam, 'good_bilat_a_e_note', 'textarea') : getSavedFieldValue(state_data.respiratory_exam, 'goodBilatAENote', 'textarea');
+      $scope.ExaminationForm.decrease_a_e_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.respiratory_exam, 'decrease_a_e_note', 'textarea') : getSavedFieldValue(state_data.respiratory_exam, 'decreaseAENote', 'textarea');
+      $scope.ExaminationForm.wheezing_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.respiratory_exam, 'wheezing_note', 'textarea') : getSavedFieldValue(state_data.respiratory_exam, 'wheezingNote', 'textarea');
+      $scope.ExaminationForm.crackle_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.respiratory_exam, 'crackle_note', 'textarea') : getSavedFieldValue(state_data.respiratory_exam, 'crackleNote', 'textarea');
+      $scope.ExaminationForm.good_bilat_a_e_note.$render();
+      $scope.ExaminationForm.decrease_a_e_note.$render();
+      $scope.ExaminationForm.wheezing_note.$render();
+      $scope.ExaminationForm.crackle_note.$render();
+      $scope.ExaminationForm.good_bilat_a_e_note.$commitViewValue();
+      $scope.ExaminationForm.decrease_a_e_note.$commitViewValue();
+      $scope.ExaminationForm.wheezing_note.$commitViewValue();
+      $scope.ExaminationForm.crackle_note.$commitViewValue();
+        //set notes:cardio vascular
+      $scope.ExaminationForm.s1_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.cardio_vascular, 's1_note', 'textarea') : getSavedFieldValue(state_data.cardio_vascular, 's1Note', 'textarea');
+      $scope.ExaminationForm.s2_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.cardio_vascular, 's2_note', 'textarea') : getSavedFieldValue(state_data.cardio_vascular, 's2Note', 'textarea');
+      $scope.ExaminationForm.ppp_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.cardio_vascular, 'ppp_note', 'textarea') : getSavedFieldValue(state_data.cardio_vascular, 'pppNote', 'textarea');
+        $scope.ExaminationForm.s1_note.$render();
+        $scope.ExaminationForm.s2_note.$render();
+        $scope.ExaminationForm.ppp_note.$render();
+        $scope.ExaminationForm.s1_note.$commitViewValue();
+        $scope.ExaminationForm.s2_note.$commitViewValue();
+        $scope.ExaminationForm.ppp_note.$commitViewValue();
+        // set notes:neuro
+      $scope.ExaminationForm.cnii_x_ii_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.neurological_exam, 'cnii_x_ii_note', 'textarea') : getSavedFieldValue(state_data.neurological_exam, 'cniixiiNote', 'textarea');
+      $scope.ExaminationForm.power_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.neurological_exam, 'power_note', 'textarea') : getSavedFieldValue(state_data.neurological_exam, 'powerNote', 'textarea');
+      $scope.ExaminationForm.sensation_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.neurological_exam, 'sensation_note', 'textarea') : getSavedFieldValue(state_data.neurological_exam, 'sensationNote', 'textarea');
+      $scope.ExaminationForm.tone_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.neurological_exam, 'tone_note', 'textarea') : getSavedFieldValue(state_data.neurological_exam, 'toneNote', 'textarea');
+      $scope.ExaminationForm.cl_exam_note.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.neurological_exam, 'cl_exam_note', 'textarea') : getSavedFieldValue(state_data.neurological_exam, 'clExamNote', 'textarea');
+      $scope.ExaminationForm.cnii_x_ii_note.$render();
+      $scope.ExaminationForm.power_note.$render();
+      $scope.ExaminationForm.sensation_note.$render();
+      $scope.ExaminationForm.tone_note.$render();
+      $scope.ExaminationForm.cl_exam_note.$render();
+      $scope.ExaminationForm.cnii_x_ii_note.$commitViewValue();
+      $scope.ExaminationForm.power_note.$commitViewValue();
+      $scope.ExaminationForm.sensation_note.$commitViewValue();
+      $scope.ExaminationForm.tone_note.$commitViewValue();
+      $scope.ExaminationForm.cl_exam_note.$commitViewValue();
+        
+
       $scope.ExaminationForm.date.$viewValue = date;
-      $scope.ExaminationForm.date.$render();
       $scope.ExaminationForm.time.$viewValue = time;
+      $scope.ExaminationForm.date.$render();
+      $scope.ExaminationForm.date.$commitViewValue();
       $scope.ExaminationForm.time.$render();
+      $scope.ExaminationForm.time.$commitViewValue();
+        
+      $scope.ExaminationForm.id.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults, 'id', 'input') : getSavedFieldValue(state_data, 'id', 'input');
+      console.log($scope.ExaminationForm);
+      $scope.ExaminationForm.id.$render();
+      $scope.ExaminationForm.id.$commitViewValue();
 
       // set respiratory viewValues and modelValues
-      $scope.ExaminationForm.good_bilat_a_e.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.respiratory_exam.good_bilat_a_e.index];
-      $scope.ExaminationForm.good_bilat_a_e.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.respiratory_exam.good_bilat_a_e.index];
-      $scope.ExaminationForm.decrease_a_e.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.respiratory_exam.decrease_a_e.index];
-      $scope.ExaminationForm.decrease_a_e.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.respiratory_exam.decrease_a_e.index];
-      $scope.ExaminationForm.wheezing.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.respiratory_exam.wheezing.index];
-      $scope.ExaminationForm.wheezing.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.respiratory_exam.wheezing.index];
-      $scope.ExaminationForm.crackle.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.respiratory_exam.crackle.index];
-      $scope.ExaminationForm.crackle.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.respiratory_exam.crackle.index];
+      $scope.ExaminationForm.good_bilat_a_e.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.respiratory_exam, 'good_bilat_a_e', 'input') : getSavedFieldValue(state_data.respiratory_exam, 'goodBilatA_E', 'input');
+      $scope.ExaminationForm.decrease_a_e.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.respiratory_exam, 'decrease_a_e', 'input') : getSavedFieldValue(state_data.respiratory_exam, 'decreaseA_E', 'input');
+      $scope.ExaminationForm.wheezing.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.respiratory_exam, 'wheezing', 'input') : getSavedFieldValue(state_data.respiratory_exam, 'wheezing', 'input');
+      $scope.ExaminationForm.crackle.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.respiratory_exam, 'crackle', 'input') : getSavedFieldValue(state_data.respiratory_exam, 'crackle', 'input');
 
       // set cardio values
-      $scope.ExaminationForm.s1.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.cardio_vascular.s1.index];
-      $scope.ExaminationForm.s1.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.cardio_vascular.s1.index];
-      $scope.ExaminationForm.s2.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.cardio_vascular.s2.index];
-      $scope.ExaminationForm.s2.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.cardio_vascular.s2.index];
-      $scope.ExaminationForm.ppp.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.cardio_vascular.ppp.index];
-      $scope.ExaminationForm.ppp.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.cardio_vascular.ppp.index];
+      $scope.ExaminationForm.s1.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.cardio_vascular, 's1', 'input') : getSavedFieldValue(state_data.cardio_vascular, 's1', 'input');
+      $scope.ExaminationForm.s2.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.cardio_vascular, 's2', 'input') : getSavedFieldValue(state_data.cardio_vascular, 's2', 'input');
+      $scope.ExaminationForm.ppp.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.cardio_vascular, 'ppp', 'input') : getSavedFieldValue(state_data.cardio_vascular, 'ppp', 'input');
 
       // set abdominal
-      $scope.ExaminationForm.soft_and_non_tender.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.abdominal_exam.soft_and_non_tender.index]
-      $scope.ExaminationForm.soft_and_non_tender.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.abdominal_exam.soft_and_non_tender.index]
-      $scope.ExaminationForm.bsp.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.abdominal_exam.bsp.index]
-      $scope.ExaminationForm.bsp.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.abdominal_exam.bsp.index]
-      $scope.ExaminationForm.fpp_and_equal.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.abdominal_exam.fpp_and_equal.index]
-      $scope.ExaminationForm.fpp_and_equal.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.abdominal_exam.fpp_and_equal.index]
-      $scope.ExaminationForm.distended.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.abdominal_exam.distended.index]
-      $scope.ExaminationForm.distended.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.abdominal_exam.distended.index]
-      $scope.ExaminationForm.tender.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.abdominal_exam.tender.index]
-      $scope.ExaminationForm.tender.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.abdominal_exam.tender.index]
-      $scope.ExaminationForm.decrease_bowel_sounds.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.abdominal_exam.decrease_bowel_sounds.index]
-      $scope.ExaminationForm.decrease_bowel_sounds.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.abdominal_exam.decrease_bowel_sounds.index]
+      $scope.ExaminationForm.soft_and_non_tender.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.abdominal_exam, 'soft_and_non_tender', 'input') : getSavedFieldValue(state_data.abdominal_exam, 'softAndNonTender', 'input');
+      $scope.ExaminationForm.bsp.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.abdominal_exam, 'bsp', 'input') : getSavedFieldValue(state_data.abdominal_exam, 'bsp', 'input');
+      $scope.ExaminationForm.fpp_and_equal.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.abdominal_exam, 'fpp_and_equal', 'input') : getSavedFieldValue(state_data.abdominal_exam, 'fppAndEqual', 'input');
+      $scope.ExaminationForm.distended.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.abdominal_exam, 'distended', 'input') : getSavedFieldValue(state_data.abdominal_exam, 'distended', 'input');
+      $scope.ExaminationForm.tender.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.abdominal_exam, 'tender', 'input') : getSavedFieldValue(state_data.abdominal_exam, 'tender', 'input');
+      $scope.ExaminationForm.decrease_bowel_sounds.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.abdominal_exam, 'decrease_bowel_sounds', 'input') : getSavedFieldValue(state_data.abdominal_exam, 'decreaseBowelSounds', 'input');
 
-      // set heent
-      $scope.ExaminationForm.throat_clear.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.heent.throat_clear.index];
-      $scope.ExaminationForm.throat_clear.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.heent.throat_clear.index];
-      $scope.ExaminationForm.tm.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.heent.tm.index];
-      $scope.ExaminationForm.tm.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.heent.tm.index];
-      $scope.ExaminationForm.neck_supple.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.heent.neck_supple.index];
-      $scope.ExaminationForm.neck_supple.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.heent.neck_supple.index];
-      $scope.ExaminationForm.tm_red_and_bulging.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.heent.tm_red_and_bulging.index];
-      $scope.ExaminationForm.tm_red_and_bulging.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.heent.tm_red_and_bulging.index];
-      $scope.ExaminationForm.exudates_on_tonsil.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.heent.exudates_on_tonsil.index];
-      $scope.ExaminationForm.exudates_on_tonsil.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.heent.exudates_on_tonsil.index];
-      $scope.ExaminationForm.cervical_adenopathy.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.heent.cervical_adenopathy.index];
-      $scope.ExaminationForm.cervical_adenopathy.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.heent.cervical_adenopathy.index];
       
+      // set heent
+      $scope.ExaminationForm.throat_clear.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.heent, 'throat_clear', 'input') : getSavedFieldValue(state_data.heent, 'throatClear', 'input');
+      $scope.ExaminationForm.tm.$viewValue = angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.heent, 'tm', 'input') : getSavedFieldValue(state_data.heent, 'tm', 'input');
+      $scope.ExaminationForm.neck_supple.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.heent, 'neck_supple', 'input') : getSavedFieldValue(state_data.heent, 'neckSupple', 'input');
+      $scope.ExaminationForm.tm_red_and_bulging.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.heent, 'tm_red_and_bulging', 'input') : getSavedFieldValue(state_data.heent, 'tmRedAndBulging');
+      $scope.ExaminationForm.exudates_on_tonsil.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.heent, 'exudates_on_tonsil', 'input') : getSavedFieldValue(state_data.heent, 'exudatesOnTonsil', 'input');
+      $scope.ExaminationForm.cervical_adenopathy.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.heent, 'cervical_adenopathy', 'input') : getSavedFieldValue(state_data.heent, 'cervicalAdenopathy', 'input');
+
       // set neuro
-      $scope.ExaminationForm.cnii_x_ii.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.neurological_exam.cnii_x_ii.index];
-      $scope.ExaminationForm.cnii_x_ii.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.neurological_exam.cnii_x_ii.index];
-      $scope.ExaminationForm.power.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.neurological_exam.power.index];
-      $scope.ExaminationForm.power.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.neurological_exam.power.index];
-      $scope.ExaminationForm.sensation.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.neurological_exam.sensation.index];
-      $scope.ExaminationForm.sensation.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.neurological_exam.sensation.index];
-      $scope.ExaminationForm.tone.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.neurological_exam.tone.index];
-      $scope.ExaminationForm.tone.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.neurological_exam.tone.index];
-      $scope.ExaminationForm.cl_exam.$viewValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.neurological_exam.cl_exam.index];
-      $scope.ExaminationForm.cl_exam.$modelValue = $scope.options[erFormDefault.formDefaultValues.physical_exam.neurological_exam.cl_exam.index];
+      $scope.ExaminationForm.cnii_x_ii.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.neurological_exam, 'cnii_x_ii', 'input') : getSavedFieldValue(state_data.neurological_exam, 'cnii_x_ii', 'input');
+      $scope.ExaminationForm.power.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.neurological_exam, 'power', 'input') : getSavedFieldValue(state_data.neurological_exam, 'power', 'input');
+      $scope.ExaminationForm.sensation.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.neurological_exam, 'sensation', 'input') : getSavedFieldValue(state_data.neurological_exam, 'sensation', 'input');
+      $scope.ExaminationForm.tone.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.neurological_exam, 'tone', 'input') : getSavedFieldValue(state_data.neurological_exam, 'tone', 'input');
+      $scope.ExaminationForm.cl_exam.$viewValue =angular.isString(state_data) || !state_data?
+          formValueSetter(formFieldDefaults.physical_exam.neurological_exam, 'cl_exam', 'input') : getSavedFieldValue(state_data.neurological_exam, 'clExam', 'input');
 
       // render respiratory
       $scope.ExaminationForm.good_bilat_a_e.$render();
-      $scope.ExaminationForm.good_bilat_a_e.$$writeModelToScope();
+      $scope.ExaminationForm.good_bilat_a_e.$commitViewValue();
       $scope.ExaminationForm.decrease_a_e.$render();
-      $scope.ExaminationForm.decrease_a_e.$$writeModelToScope();
+      $scope.ExaminationForm.decrease_a_e.$commitViewValue();
       $scope.ExaminationForm.wheezing.$render();
-      $scope.ExaminationForm.wheezing.$$writeModelToScope();
+      $scope.ExaminationForm.wheezing.$commitViewValue();
       $scope.ExaminationForm.crackle.$render();
-      $scope.ExaminationForm.crackle.$$writeModelToScope();
+      $scope.ExaminationForm.crackle.$commitViewValue();
 
       //render cardio values
       $scope.ExaminationForm.s1.$render();
-      $scope.ExaminationForm.s1.$$writeModelToScope();
+      $scope.ExaminationForm.s1.$commitViewValue();
       $scope.ExaminationForm.s2.$render();
-      $scope.ExaminationForm.s2.$$writeModelToScope();
+      $scope.ExaminationForm.s2.$commitViewValue();
       $scope.ExaminationForm.ppp.$render();
-      $scope.ExaminationForm.ppp.$$writeModelToScope();
+      $scope.ExaminationForm.ppp.$commitViewValue();
 
       // render abdo
       $scope.ExaminationForm.soft_and_non_tender.$render();
-      $scope.ExaminationForm.soft_and_non_tender.$$writeModelToScope();
+      $scope.ExaminationForm.soft_and_non_tender.$commitViewValue();
       $scope.ExaminationForm.bsp.$render();
-      $scope.ExaminationForm.bsp.$$writeModelToScope();
+      $scope.ExaminationForm.bsp.$commitViewValue();
       $scope.ExaminationForm.fpp_and_equal.$render();
-      $scope.ExaminationForm.fpp_and_equal.$$writeModelToScope();
+      $scope.ExaminationForm.fpp_and_equal.$commitViewValue();
       $scope.ExaminationForm.distended.$render();
-      $scope.ExaminationForm.distended.$$writeModelToScope();
+      $scope.ExaminationForm.distended.$commitViewValue();
       $scope.ExaminationForm.tender.$render();
-      $scope.ExaminationForm.tender.$$writeModelToScope();
+      $scope.ExaminationForm.tender.$commitViewValue();
       $scope.ExaminationForm.decrease_bowel_sounds.$render();
-      $scope.ExaminationForm.decrease_bowel_sounds.$$writeModelToScope();
-      
+      $scope.ExaminationForm.decrease_bowel_sounds.$commitViewValue();
+
       // render heent
       $scope.ExaminationForm.throat_clear.$render();
-      $scope.ExaminationForm.throat_clear.$$writeModelToScope();
+      $scope.ExaminationForm.throat_clear.$commitViewValue();
       $scope.ExaminationForm.tm.$render();
-      $scope.ExaminationForm.tm.$$writeModelToScope();
+      $scope.ExaminationForm.tm.$commitViewValue();
       $scope.ExaminationForm.neck_supple.$render();
-      $scope.ExaminationForm.neck_supple.$$writeModelToScope();
+      $scope.ExaminationForm.neck_supple.$commitViewValue();
       $scope.ExaminationForm.tm_red_and_bulging.$render();
-      $scope.ExaminationForm.tm_red_and_bulging.$$writeModelToScope();
+      $scope.ExaminationForm.tm_red_and_bulging.$commitViewValue();
       $scope.ExaminationForm.exudates_on_tonsil.$render();
-      $scope.ExaminationForm.exudates_on_tonsil.$$writeModelToScope();
+      $scope.ExaminationForm.exudates_on_tonsil.$commitViewValue();
       $scope.ExaminationForm.cervical_adenopathy.$render();
-      $scope.ExaminationForm.cervical_adenopathy.$$writeModelToScope();
-      
+      $scope.ExaminationForm.cervical_adenopathy.$commitViewValue();
+
       // set neuro
       $scope.ExaminationForm.cnii_x_ii.$render();
-      $scope.ExaminationForm.cnii_x_ii.$$writeModelToScope();
+      $scope.ExaminationForm.cnii_x_ii.$commitViewValue();
       $scope.ExaminationForm.power.$render();
-      $scope.ExaminationForm.power.$$writeModelToScope();
+      $scope.ExaminationForm.power.$commitViewValue();
       $scope.ExaminationForm.sensation.$render();
-      $scope.ExaminationForm.sensation.$$writeModelToScope();
+      $scope.ExaminationForm.sensation.$commitViewValue();
       $scope.ExaminationForm.tone.$render();
-      $scope.ExaminationForm.tone.$$writeModelToScope();
+      $scope.ExaminationForm.tone.$commitViewValue();
       $scope.ExaminationForm.cl_exam.$render();
-      $scope.ExaminationForm.cl_exam.$$writeModelToScope();
+      $scope.ExaminationForm.cl_exam.$commitViewValue();
     };
 
     var prepFormData = function(){
-      formData = {
-        _id: null,
-        id: $scope.ExaminationForm.id.$viewValue,
-        date: $scope.ExaminationForm.date.$viewValue,
-        time: $scope.ExaminationForm.time.$viewValue,
-        er_card: {
-          hpi: $scope.ExaminationForm.hpi.$viewValue,
-          pmhx: $scope.ExaminationForm.pmhx.$viewValue,
-          medication: $scope.ExaminationForm.medication.$viewValue,
-          allergies: $scope.ExaminationForm.allergies.$viewValue,
-          ros: $scope.ExaminationForm.ros.$viewValue
-        },
-        physical_exam: {
-          respiratory_exam: {
-            good_bilat_a_e: $scope.ExaminationForm.good_bilat_a_e.$viewValue,
-            decrease_a_e: $scope.ExaminationForm.decrease_a_e.$viewValue,
-            wheezing: $scope.ExaminationForm.wheezing.$viewValue,
-            crackle: $scope.ExaminationForm.crackle.$viewValue
-          },
-          cardio_vascular: {
-            s1: $scope.ExaminationForm.s1.$viewValue,
-            s2: $scope.ExaminationForm.s2.$viewValue,
-            ppp: $scope.ExaminationForm.ppp.$viewValue
-          },
-          abdominal_exam: {
-            soft_and_non_tender: $scope.ExaminationForm.soft_and_non_tender.$viewValue,
-            bsp: $scope.ExaminationForm.bsp.$viewValue,
-            fpp_and_equal: $scope.ExaminationForm.fpp_and_equal.$viewValue,
-            distended: $scope.ExaminationForm.distended.$viewValue,
-            tender: $scope.ExaminationForm.tender.$viewValue,
-            decrease_bowel_sounds: $scope.ExaminationForm.decrease_bowel_sounds.$viewValue
-          },
-          heent: {
-            throat_clear: $scope.ExaminationForm.throat_clear.$viewValue,
-            tm: $scope.ExaminationForm.tm.$viewValue,
-            neck_supple: $scope.ExaminationForm.neck_supple.$viewValue,
-            tm_red_and_bulging: $scope.ExaminationForm.tm_red_and_bulging.$viewValue,
-            exudates_on_tonsil: $scope.ExaminationForm.exudates_on_tonsil.$viewValue,
-            cervical_adenopathy: $scope.ExaminationForm.cervical_adenopathy.$viewValue
-          },
-          neurological_exam: {
-            cnii_x_ii: $scope.ExaminationForm.cnii_x_ii.$viewValue,
-            power: $scope.ExaminationForm.power.$viewValue,
-            sensation: $scope.ExaminationForm.sensation.$viewValue,
-            tone: $scope.ExaminationForm.tone.$viewValue,
-            cl_exam: $scope.ExaminationForm.cl_exam.$viewValue
-          },
-          notes: $scope.ExaminationForm.notes
-        },
-        diagnosis: $scope.ExaminationForm.diagnosis,
-        discharge_instruction: $scope.ExaminationForm.discharge_instruction
-      }
-
       return formData;
     };
     // INIT PRINT
     var prepPageToPrint = function(){
+      $scope.ExaminationForm.throat_clear_note.$render();
+      $scope.ExaminationForm.tm_note.$render();
+      $scope.ExaminationForm.neck_supple_note.$render();
+      $scope.ExaminationForm.tm_red_and_bulging_note.$render();
+      $scope.ExaminationForm.exudates_on_tonsil_note.$render();
+      $scope.ExaminationForm.cervical_adenopathy_note.$render();
+      $scope.ExaminationForm.throat_clear_note.$commitViewValue();
+      $scope.ExaminationForm.tm_note.$commitViewValue();
+      $scope.ExaminationForm.neck_supple_note.$commitViewValue();
+      $scope.ExaminationForm.tm_red_and_bulging_note.$commitViewValue();
+      $scope.ExaminationForm.exudates_on_tonsil_note.$commitViewValue();
+      $scope.ExaminationForm.cervical_adenopathy_note.$commitViewValue();
+
+      $scope.ExaminationForm.soft_and_non_tender_note.$render();
+      $scope.ExaminationForm.bsp_note.$render();
+      $scope.ExaminationForm.fpp_and_equal_note.$render();
+      $scope.ExaminationForm.distended_note.$render();
+      $scope.ExaminationForm.tender_note.$render();
+      $scope.ExaminationForm.decrease_bowel_sounds_note.$render();
+      $scope.ExaminationForm.soft_and_non_tender_note.$commitViewValue();
+      $scope.ExaminationForm.bsp_note.$commitViewValue();
+      $scope.ExaminationForm.fpp_and_equal_note.$commitViewValue();
+      $scope.ExaminationForm.distended_note.$commitViewValue();
+      $scope.ExaminationForm.tender_note.$commitViewValue();
+      $scope.ExaminationForm.decrease_bowel_sounds_note.$commitViewValue();
+
+      $scope.ExaminationForm.good_bilat_a_e_note.$render();
+      $scope.ExaminationForm.decrease_a_e_note.$render();
+      $scope.ExaminationForm.wheezing_note.$render();
+      $scope.ExaminationForm.crackle_note.$render();
+      $scope.ExaminationForm.good_bilat_a_e_note.$commitViewValue();
+      $scope.ExaminationForm.decrease_a_e_note.$commitViewValue();
+      $scope.ExaminationForm.wheezing_note.$commitViewValue();
+      $scope.ExaminationForm.crackle_note.$commitViewValue();
+
+      $scope.ExaminationForm.s1_note.$render();
+      $scope.ExaminationForm.s2_note.$render();
+      $scope.ExaminationForm.ppp_note.$render();
+      $scope.ExaminationForm.s1_note.$commitViewValue();
+      $scope.ExaminationForm.s2_note.$commitViewValue();
+      $scope.ExaminationForm.ppp_note.$commitViewValue();
+
+      $scope.ExaminationForm.cnii_x_ii_note.$render();
+      $scope.ExaminationForm.power_note.$render();
+      $scope.ExaminationForm.sensation_note.$render();
+      $scope.ExaminationForm.tone_note.$render();
+      $scope.ExaminationForm.cl_exam_note.$render();
+      $scope.ExaminationForm.cnii_x_ii_note.$commitViewValue();
+      $scope.ExaminationForm.power_note.$commitViewValue();
+      $scope.ExaminationForm.sensation_note.$commitViewValue();
+      $scope.ExaminationForm.tone_note.$commitViewValue();
+      $scope.ExaminationForm.cl_exam_note.$commitViewValue();
+
       $scope.ExaminationForm.date.$render();
-      $scope.ExaminationForm.date.$$writeModelToScope();
+      $scope.ExaminationForm.date.$commitViewValue();
       $scope.ExaminationForm.time.$render();
-      $scope.ExaminationForm.time.$$writeModelToScope();
+      $scope.ExaminationForm.time.$commitViewValue();
+
       $scope.ExaminationForm.id.$render();
-      $scope.ExaminationForm.id.$$writeModelToScope();
+      $scope.ExaminationForm.id.$commitViewValue();
 
-      $scope.ExaminationForm.good_bilat_a_e.$setViewValue($scope.ExaminationForm.good_bilat_a_e.$viewValue);
-      $scope.ExaminationForm.good_bilat_a_e.$commitViewValue();
       $scope.ExaminationForm.good_bilat_a_e.$render();
-      $scope.ExaminationForm.good_bilat_a_e.$$writeModelToScope();
-
-      $scope.ExaminationForm.decrease_a_e.$setViewValue($scope.ExaminationForm.decrease_a_e.$viewValue);
+      $scope.ExaminationForm.good_bilat_a_e.$commitViewValue();
+      $scope.ExaminationForm.decrease_a_e.$render();
       $scope.ExaminationForm.decrease_a_e.$commitViewValue();
-      $scope.ExaminationForm.decrease_a_e.$render();
-      $scope.ExaminationForm.decrease_a_e.$$writeModelToScope();
+      $scope.ExaminationForm.wheezing.$render();
+      $scope.ExaminationForm.wheezing.$commitViewValue();
+      $scope.ExaminationForm.crackle.$render();
+      $scope.ExaminationForm.crackle.$commitViewValue();
 
-      $scope.ExaminationForm.decrease_a_e.$render();
-      $scope.ExaminationForm.decrease_a_e.$$writeModelToScope();
-      // TODO set the rest
+      //render cardio values
+      $scope.ExaminationForm.s1.$render();
+      $scope.ExaminationForm.s1.$commitViewValue();
+      $scope.ExaminationForm.s2.$render();
+      $scope.ExaminationForm.s2.$commitViewValue();
+      $scope.ExaminationForm.ppp.$render();
+      $scope.ExaminationForm.ppp.$commitViewValue();
+
+      // render abdo
+      $scope.ExaminationForm.soft_and_non_tender.$render();
+      $scope.ExaminationForm.soft_and_non_tender.$commitViewValue();
+      $scope.ExaminationForm.bsp.$render();
+      $scope.ExaminationForm.bsp.$commitViewValue();
+      $scope.ExaminationForm.fpp_and_equal.$render();
+      $scope.ExaminationForm.fpp_and_equal.$commitViewValue();
+      $scope.ExaminationForm.distended.$render();
+      $scope.ExaminationForm.distended.$commitViewValue();
+      $scope.ExaminationForm.tender.$render();
+      $scope.ExaminationForm.tender.$commitViewValue();
+      $scope.ExaminationForm.decrease_bowel_sounds.$render();
+      $scope.ExaminationForm.decrease_bowel_sounds.$commitViewValue();
+
+      // render heent
+      $scope.ExaminationForm.throat_clear.$render();
+      $scope.ExaminationForm.throat_clear.$commitViewValue();
+      $scope.ExaminationForm.tm.$render();
+      $scope.ExaminationForm.tm.$commitViewValue();
+      $scope.ExaminationForm.neck_supple.$render();
+      $scope.ExaminationForm.neck_supple.$commitViewValue();
+      $scope.ExaminationForm.tm_red_and_bulging.$render();
+      $scope.ExaminationForm.tm_red_and_bulging.$commitViewValue();
+      $scope.ExaminationForm.exudates_on_tonsil.$render();
+      $scope.ExaminationForm.exudates_on_tonsil.$commitViewValue();
+      $scope.ExaminationForm.cervical_adenopathy.$render();
+      $scope.ExaminationForm.cervical_adenopathy.$commitViewValue();
+
+      // set neuro
+      $scope.ExaminationForm.cnii_x_ii.$render();
+      $scope.ExaminationForm.cnii_x_ii.$commitViewValue();
+      $scope.ExaminationForm.power.$render();
+      $scope.ExaminationForm.power.$commitViewValue();
+      $scope.ExaminationForm.sensation.$render();
+      $scope.ExaminationForm.sensation.$commitViewValue();
+      $scope.ExaminationForm.tone.$render();
+      $scope.ExaminationForm.tone.$commitViewValue();
+      $scope.ExaminationForm.cl_exam.$render();
+      $scope.ExaminationForm.cl_exam.$commitViewValue();
 
       var page = document.getElementById("form");
       return page;
@@ -231,6 +441,12 @@ angular.module('starter.directives', ['starter.factories'])
       });
     };
 
+    var updateCharts = function(){
+      allExForms.unshift(angular.extend($scope.chart, {
+        date: moment().format('YYYY-MM-DD'),
+        time: moment().format('hh:mm: A')
+      }));
+    };
 
     // INIT SAVE
     var writeLocalData = function(param_data){
@@ -259,65 +475,7 @@ angular.module('starter.directives', ['starter.factories'])
         cacheFactory.broadcastCacheEvent('Updated');
       });
     };
-    var setFormDataFromScope = function(){
-      formData = {
-        _id: null,
-        id: $scope.ExaminationForm.id.$viewValue,
-        date: $scope.ExaminationForm.date.$viewValue,
-        time: $scope.ExaminationForm.time.$viewValue,
-        er_card: {
-          hpi: $scope.ExaminationForm.hpi.$viewValue,
-          pmhx: $scope.ExaminationForm.pmhx.$viewValue,
-          medication: $scope.ExaminationForm.medication.$viewValue,
-          allergies: $scope.ExaminationForm.allergies.$viewValue,
-          ros: $scope.ExaminationForm.ros.$viewValue
-        },
-        physical_exam: {
-          respiratory_exam: {
-            good_bilat_a_e: $scope.ExaminationForm.good_bilat_a_e.$viewValue,
-            decrease_a_e: $scope.ExaminationForm.decrease_a_e.$viewValue,
-            wheezing: $scope.ExaminationForm.wheezing.$viewValue,
-            crackle: $scope.ExaminationForm.crackle.$viewValue
-          },
-          cardio_vascular: {
-            s1: $scope.ExaminationForm.s1.$viewValue,
-            s2: $scope.ExaminationForm.s2.$viewValue,
-            ppp: $scope.ExaminationForm.ppp.$viewValue
-          },
-          abdominal_exam: {
-            soft_and_non_tender: $scope.ExaminationForm.soft_and_non_tender.$viewValue,
-            bsp: $scope.ExaminationForm.bsp.$viewValue,
-            fpp_and_equal: $scope.ExaminationForm.fpp_and_equal.$viewValue,
-            distended: $scope.ExaminationForm.distended.$viewValue,
-            tender: $scope.ExaminationForm.tender.$viewValue,
-            decrease_bowel_sounds: $scope.ExaminationForm.decrease_bowel_sounds.$viewValue
-          },
-          heent: {
-            throat_clear: $scope.ExaminationForm.throat_clear.$viewValue,
-            throat_clear_notes: '' || $scope.ExaminationForm.$throat_clear_note,
-            tm: $scope.ExaminationForm.tm.$viewValue,
-            neck_supple: $scope.ExaminationForm.neck_supple.$viewValue,
-            tm_red_and_bulging: $scope.ExaminationForm.tm_red_and_bulging.$viewValue,
-            exudates_on_tonsil: $scope.ExaminationForm.exudates_on_tonsil.$viewValue,
-            cervical_adenopathy: $scope.ExaminationForm.cervical_adenopathy.$viewValue
-          },
-          neurological_exam: {
-            cnii_x_ii: $scope.ExaminationForm.cnii_x_ii.$viewValue,
-            power: $scope.ExaminationForm.power.$viewValue,
-            sensation: $scope.ExaminationForm.sensation.$viewValue,
-            tone: $scope.ExaminationForm.tone.$viewValue,
-            cl_exam: $scope.ExaminationForm.cl_exam.$viewValue
-          },
-          notes: $scope.ExaminationForm.notes
-        },
-        diagnosis: $scope.ExaminationForm.diagnosis,
-        discharge_instruction: $scope.ExaminationForm.discharge_instruction
-      }
-      return formData;
-    }
-    var updateCharts = function(newChart){
-      allExForms.unshift(setFormDataFromScope());
-    };
+
 
     var initSaveChart = function(){
         cacheFactory.getLocalData().then(
@@ -334,105 +492,8 @@ angular.module('starter.directives', ['starter.factories'])
       };
 
     // INIT EDIT
-    var setOptionValue =  function(fieldName, value){
-      return $scope.options[value];
-    };
-    var setFormItems = function(dataObj){
-      console.log(dataObj);
-      // set id
-      $scope.ExaminationForm.id.$viewValue = dataObj.id;
-      $scope.ExaminationForm.id.$render();
-      
-      // set date time
-      $scope.ExaminationForm.date.$viewValue = dataObj.date;
-      $scope.ExaminationForm.date.$render();
-      $scope.ExaminationForm.time.$viewValue = dataObj.time;
-      $scope.ExaminationForm.time.$render();
-      
-      // set er notes
-      $scope.ExaminationForm.hpi.$viewValue = dataObj.er_card.hpi;
-      $scope.ExaminationForm.pmhx.$viewValue = dataObj.er_card.pmhx;
-      $scope.ExaminationForm.medication.$viewValue = dataObj.er_card.medication;
-      $scope.ExaminationForm.allergies.$viewValue = dataObj.er_card.allergies;
-      $scope.ExaminationForm.ros.$viewValue = dataObj.er_card.ros;
-      $scope.ExaminationForm.hpi.$render();
-      $scope.ExaminationForm.pmhx.$render();
-      $scope.ExaminationForm.medication.$render();
-      $scope.ExaminationForm.allergies.$render();
-      $scope.ExaminationForm.ros.$render();
 
-      // set heent
-      $scope.ExaminationForm.throat_clear.$viewValue = setOptionValue('throat_clear', dataObj.physical_exam.heent.throat_clear.value);
-      $scope.ExaminationForm.throat_clear.$render();
-      $scope.ExaminationForm.tm.$viewValue = setOptionValue('tm', dataObj.physical_exam.heent.tm.value);
-      $scope.ExaminationForm.tm.$render();
-      $scope.ExaminationForm.neck_supple.$viewValue = setOptionValue('neck_supple', dataObj.physical_exam.heent.neck_supple.value);
-      $scope.ExaminationForm.neck_supple.$render();
 
-      formData = {
-        _id: null,
-        id: $scope.ExaminationForm.id.$viewValue,
-        date: $scope.ExaminationForm.date.$viewValue,
-        time: $scope.ExaminationForm.time.$viewValue,
-        er_card: {
-          hpi: $scope.ExaminationForm.hpi.$viewValue,
-          pmhx: $scope.ExaminationForm.pmhx.$viewValue,
-          medication: $scope.ExaminationForm.medication.$viewValue,
-          allergies: $scope.ExaminationForm.allergies.$viewValue,
-          ros: $scope.ExaminationForm.ros.$viewValue
-        },
-        physical_exam: {
-          respiratory_exam: {
-            good_bilat_a_e: $scope.ExaminationForm.good_bilat_a_e.$viewValue,
-            decrease_a_e: $scope.ExaminationForm.decrease_a_e.$viewValue,
-            wheezing: $scope.ExaminationForm.wheezing.$viewValue,
-            crackle: $scope.ExaminationForm.crackle.$viewValue
-          },
-          cardio_vascular: {
-            s1: $scope.ExaminationForm.s1.$viewValue,
-            s2: $scope.ExaminationForm.s2.$viewValue,
-            ppp: $scope.ExaminationForm.ppp.$viewValue
-          },
-          abdominal_exam: {
-            soft_and_non_tender: $scope.ExaminationForm.soft_and_non_tender.$viewValue,
-            bsp: $scope.ExaminationForm.bsp.$viewValue,
-            fpp_and_equal: $scope.ExaminationForm.fpp_and_equal.$viewValue,
-            distended: $scope.ExaminationForm.distended.$viewValue,
-            tender: $scope.ExaminationForm.tender.$viewValue,
-            decrease_bowel_sounds: $scope.ExaminationForm.decrease_bowel_sounds.$viewValue
-          },
-          heent: {
-            throat_clear: $scope.ExaminationForm.throat_clear.$viewValue,
-            tm: $scope.ExaminationForm.tm.$viewValue,
-            neck_supple: $scope.ExaminationForm.neck_supple.$viewValue,
-            tm_red_and_bulging: $scope.ExaminationForm.tm_red_and_bulging.$viewValue,
-            exudates_on_tonsil: $scope.ExaminationForm.exudates_on_tonsil.$viewValue,
-            cervical_adenopathy: $scope.ExaminationForm.cervical_adenopathy.$viewValue
-          },
-          neurological_exam: {
-            cnii_x_ii: $scope.ExaminationForm.cnii_x_ii.$viewValue,
-            power: $scope.ExaminationForm.power.$viewValue,
-            sensation: $scope.ExaminationForm.sensation.$viewValue,
-            tone: $scope.ExaminationForm.tone.$viewValue,
-            cl_exam: $scope.ExaminationForm.cl_exam.$viewValue
-          },
-          notes: $scope.ExaminationForm.notes
-        },
-        diagnosis: $scope.ExaminationForm.diagnosis,
-        discharge_instruction: $scope.ExaminationForm.discharge_instruction
-      }
-      return $scope.ExaminationForm;
-    };
-    var findItem = function(paramObj){
-      for (var i=0; i<allExForms.length; i++){
-        if ($stateParams.formId === allExForms[i].id){
-          next(setFormItems, allExForms[i])
-        }
-      }
-    };
-    var pullItemFromLocal = function(){
-      allExForms = window._.reject(allExForms, {id: $stateParams.formId});
-    };
     var initEditChart = function(){
       cacheFactory.getLocalData().then(
         function(getSuccess){
@@ -441,52 +502,98 @@ angular.module('starter.directives', ['starter.factories'])
             allExForms = getSuccess;
           }
         }).then(function(){
-          next(findItem, {id: $stateParams.formId});
+          console.log(allExForms);
+          angular.forEach(allExForms, function(value, key){
+            if ($stateParams.formId === value.id){
+                console.log(value);
+                return setDefault(value);
+            } 
+          });
+//          for (var i=0; i<allExForms.length; i++){
+//            if ($stateParams.formId === allExForms[i].id){
+//                console.log(allExForms[i]);
+//                setDefault(allExForms[i]);
+//            } 
+//          }
         });
     };
     var initUpdateCharts = function(){
-      next(pullItemFromLocal);
-      next(prepFormData);
-      updateCharts(prepFormData());
+      allExForms = window._.reject(allExForms, {'id': $stateParams.formId});
+      next(updateCharts);
       next(function(){writeLocalData('update')});
     };
     var checkFormValues = function(){
       if ($scope.ExaminationForm.$pristine){
-        setDefault();
+        $log.info('Form is pristine');
+        // setDefault();
         return true;
+      } else if ($scope.ExaminationForm.$dirty && $scope.ExaminationForm.$valid){
+        $log.info('form is dirty & valid')
+        // setDefault();
+        return true;
+      }
+    };
+    $scope.toggleNote = function(param){
+      console.log($scope.chart[param.cat][param.model]);
+      $scope[param.name+'_note_flag'] = !$scope[param.name+'_note_flag']; 
+      if ($scope.chart[param.cat][param.model].label  !== 'Abnormal'){
+        $scope.ExaminationForm[param.name+'_note'].$viewValue = '';
+        $scope.ExaminationForm[param.name+'_note'].$render();
       }
     };
 
     $scope.$on('PageEvent:Print', function(event, args){
-      console.log('Event@erForm:: PageEvent:Print')
+//      console.log('Event@erForm:: PageEvent:Print')
       document.addEventListener("deviceready", print, false);
     });
     $scope.$on('PageEvent:SaveChart', function(event, args){
-      console.log('Event@erForm:: PageEvent:SaveChart')
-      initSaveChart(setFormDataFromScope())
+//      console.log('Event@erForm:: PageEvent:SaveChart')
+      initSaveChart($scope.chart)
     });
     $scope.$on('PageEvent:UpdateChart', function(event, args){
-      console.log('Event@erForm:: PageEvent:UpdateChart')
+//      console.log('Event@erForm:: PageEvent:UpdateChart')
       initUpdateCharts();
     });
     $scope.$on('PageEvent:GoHome', function(event, args){
-      console.log('Event@erForm:: PageEvent:GoHome')
+//      console.log('Event@erForm:: PageEvent:GoHome')
+      //if checkFormValues(getFormValues())  // boolean. check for unsaved
       if (checkFormValues()){
         $state.go('default.home');
       }
-      //if checkFormValues(getFormValues())  // boolean. check for unsaved
-
     });
     $scope.$on('PageEvent:isAdd', function(){
-      console.log('PageEvent:isAdd');
-      $timeout(setDefault);
+//      console.log('PageEvent:isAdd');
+      $timeout(function(){
+          setDefault('default');
+      });
     });
     $scope.$on('PageEvent:isEdit', function(){
-      console.log('PageEvent:isEdit');
+//      console.log('PageEvent:isEdit');
       initEditChart();
     });
-    
-    
-  };
-});
 
+
+  };
+})
+.directive('erToggleNote', function($timeout, $rootScope){
+  var linkFn = function($scope, $elem, $attr) {
+    $timeout(function(){
+        // console.log($scope.erToggleNote);
+        console.log($scope.erNoteModel + ' ' + angular.toJson($scope.erToggleNote) + ' ' + $attr.name);
+      if ( angular.isString($scope.erNoteModel) && !_.isEmpty($scope.erNoteModel) ){
+        $scope.$parent.$parent[$scope.erToggleNoteFlag] = true;
+      } else {
+        $scope.$parent.$parent[$scope.erToggleNoteFlag] = false;
+      } 
+    });
+  };
+  return {
+    scope: {
+      erToggleNote: '=',
+      erNoteModel: '=',
+      erToggleNoteFlag: '@'
+    },
+    link: linkFn
+  }
+})
+;
