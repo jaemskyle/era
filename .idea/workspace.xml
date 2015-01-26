@@ -41,7 +41,7 @@
     </FindUsagesManager>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="145" />
+    <option name="x" value="136" />
     <option name="y" value="23" />
     <option name="width" value="1113" />
     <option name="height" value="758" />
@@ -290,7 +290,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="145" y="23" width="1113" height="758" extended-state="0" />
+    <frame x="136" y="23" width="1113" height="758" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />

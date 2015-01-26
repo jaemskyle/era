@@ -3,7 +3,7 @@ angular.module('starter.directives', ['starter.factories'])
 .directive('erForm', function($timeout, ERaUtilsFactory, erFormDefault, $state, cacheFactory, $stateParams, $log){
     return  function($scope, $elem, $attr, $transclude){
     
-        var next = function(fn, paramObj){
+    var next = function(fn, paramObj){
       var fn = fn || function(){};
       fn(paramObj);
     };
@@ -15,7 +15,7 @@ angular.module('starter.directives', ['starter.factories'])
     }
 
     var formFieldDefaults = erFormDefault.formDefaultValues;
-        $scope.chart = {};
+    $scope.chart = {};
     $scope.options = erFormDefault.options;
     $scope.resp = erFormDefault.respiratory_exam;
     $scope.abdo = erFormDefault.abdominal_exam;
@@ -38,6 +38,13 @@ angular.module('starter.directives', ['starter.factories'])
     var allExForms=[], date, time, setDefault = function(state_data){
       date = moment().format('YYYY-MM-DD');
       time = moment().format('hh:mm: A');
+
+      $scope.ExaminationForm.date.$viewValue = date;
+      $scope.ExaminationForm.time.$viewValue = time;
+      $scope.ExaminationForm.date.$render();
+      $scope.ExaminationForm.date.$commitViewValue();
+      $scope.ExaminationForm.time.$render();
+      $scope.ExaminationForm.time.$commitViewValue();
 
       $scope.ExaminationForm.hpi.$viewValue = angular.isString(state_data) || !state_data?
           formValueSetter(formFieldDefaults.er_card, 'hpi', 'textarea') : getSavedFieldValue(state_data, 'hpi', 'textarea');
@@ -176,12 +183,6 @@ angular.module('starter.directives', ['starter.factories'])
       $scope.ExaminationForm.cl_exam_note.$commitViewValue();
         
 
-      $scope.ExaminationForm.date.$viewValue = date;
-      $scope.ExaminationForm.time.$viewValue = time;
-      $scope.ExaminationForm.date.$render();
-      $scope.ExaminationForm.date.$commitViewValue();
-      $scope.ExaminationForm.time.$render();
-      $scope.ExaminationForm.time.$commitViewValue();
         
       $scope.ExaminationForm.id.$viewValue = angular.isString(state_data) || !state_data?
           formValueSetter(formFieldDefaults, 'id', 'input') : getSavedFieldValue(state_data, 'id', 'input');
