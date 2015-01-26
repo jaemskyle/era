@@ -105,3 +105,14 @@ color: white;
   top: 25px;
   right: 65px;
 }
+
+.er-select.item-select span{
+  font-size: 13px;
+}
+
+.er-select.item-select button{
+  font-size: 26px;
+  border-radius: 34px;
+  color: rgb(144, 143, 143);
+  background: white;
+}
