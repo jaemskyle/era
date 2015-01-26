@@ -145,9 +145,9 @@
                   <ul class="list list-inset chart-card">
                     <li class="item item-divider">Abdominal Exam</li>
                     <li class="item item-button-right item-select er-select" ng-class="{'hidden-on-print': !resp_item.model.value}" ng-repeat="resp_item in abdo">
-                        <span ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.label}} </span>
-                        <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.model.label}} </span>
-                        <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">| {{resp_item.model_note}}</span>
+                        <span ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">{{resp_item.label}} </span>
+                        <span class="ng-hide" ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">{{chart[resp_item.cat][resp_item.model].label}} </span>
+                        <span class="ng-hide" ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">| {{chart[resp_item.cat][resp_item.model_note]}} </span>
                         <select name="{{resp_item.name}}"
                                 class="hidden-on-print er-select-custom"
                                 ng-model="chart[resp_item.cat][resp_item.model]"
@@ -165,9 +165,9 @@
                   <ul class="list list-inset chart-card">
                     <li class="item item-divider">Respiratory Exam</li>
                     <li class="item item-button-right item-select er-select" ng-class="{'hidden-on-print': !resp_item.model.value}" ng-repeat="resp_item in resp">
-                        <span ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.label}} </span>
-                        <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.model.label}} </span>
-                        <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">| {{resp_item.model_note}}</span>
+                        <span ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">{{resp_item.label}} </span>
+                        <span class="ng-hide" ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">{{chart[resp_item.cat][resp_item.model].label}} </span>
+                        <span class="ng-hide" ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">| {{chart[resp_item.cat][resp_item.model_note]}} </span>
                         <select name="{{resp_item.name}}"
                                 class="hidden-on-print er-select-custom"
                                 ng-model="chart[resp_item.cat][resp_item.model]"
@@ -185,9 +185,9 @@
                   <ul class="list list-inset chart-card">
                     <li class="item item-divider">Cardio Vascular</li>
                     <li class="item item-button-right item-select er-select" ng-class="{'hidden-on-print': !resp_item.model.value}" ng-repeat="resp_item in cardiov">
-                        <span ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.label}} </span>
-                        <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.model.label}} </span>
-                        <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">| {{resp_item.model_note}}</span>
+                        <span ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">{{resp_item.label}} </span>
+                        <span class="ng-hide" ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">{{chart[resp_item.cat][resp_item.model].label}} </span>
+                        <span class="ng-hide" ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">| {{chart[resp_item.cat][resp_item.model_note]}} </span>
                         <select name="{{resp_item.name}}"
                                 class="hidden-on-print er-select-custom"
                                 ng-model="chart[resp_item.cat][resp_item.model]"
@@ -205,9 +205,9 @@
                   <ul class="list list-inset chart-card">
                     <li class="item item-divider">Neurological exam</li>
                     <li class="item item-button-right item-select er-select" ng-class="{'hidden-on-print': !resp_item.model.value}" ng-repeat="resp_item in neuro">
-                        <span ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.label}} </span>
-                        <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.model.label}} </span>
-                        <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">| {{resp_item.model_note}}</span>
+                        <span ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">{{resp_item.label}} </span>
+                        <span class="ng-hide" ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">{{chart[resp_item.cat][resp_item.model].label}} </span>
+                        <span class="ng-hide" ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">| {{chart[resp_item.cat][resp_item.model_note]}} </span>
                         <select name="{{resp_item.name}}"
                                 class="hidden-on-print er-select-custom"
                                 ng-model="chart[resp_item.cat][resp_item.model]"
