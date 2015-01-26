@@ -242,18 +242,18 @@ angular.module('starter.factories', [])
                 },
                 good_bilat_a_e_note: '',
                 decrease_a_e: {
-                    text: 'Abnormal',
-                    index: 1
+                    text: 'Normal',
+                    index: 2
                 },
                 decrease_a_e_note: '',
                 wheezing: {
-                    text: 'Abnormal',
-                    index: 1
+                    text: 'Normal',
+                    index: 2
                 },
                 wheezing_note: '',
                 crackle: {
-                    text: 'Abnormal',
-                    index: 1
+                    text: 'Normal',
+                    index: 2
                 },
                 crackle_note: '',
             },
@@ -291,18 +291,18 @@ angular.module('starter.factories', [])
                 },
                 fpp_and_equal_note: '',
                 distended: {
-                    text: 'Abnormal',
-                    index: 1
+                    text: 'Normal',
+                    index: 2
                 },
                 distended_note: '',
                 tender: {
-                    text: 'Abnormal',
-                    index: 1
+                    text: 'Normal',
+                    index: 2
                 },
                 tender_note: '',
                 decrease_bowel_sounds: {
-                    text: 'Abnormal',
-                    index: 1
+                    text: 'Normal',
+                    index: 2
                 },
                 decrease_bowel_sounds_note: '',
             },
@@ -323,18 +323,18 @@ angular.module('starter.factories', [])
                 },
                 neck_supple_note: '',
                 tm_red_and_bulging: {
-                    text: 'Abnormal',
-                    index: 1
+                    text: 'Normal',
+                    index: 2
                 },
                 tm_red_and_bulging_note: '',
                 exudates_on_tonsil: {
-                    text: 'Abnormal',
-                    index: 1
+                    text: 'Normal',
+                    index: 2
                 },
                 exudates_on_tonsil_note: '',
                 cervical_adenopathy: {
-                    text: 'Abnormal',
-                    index: 1
+                    text: 'Normal',
+                    index: 2
                 },
                 cervical_adenopathy_note: '',
             },
