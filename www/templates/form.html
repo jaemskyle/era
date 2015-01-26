@@ -14,7 +14,7 @@
   </ion-nav-buttons>
   <ion-content>
     <div class="content bg-login ">
-        <form id="form" name="ExaminationForm" er-form novalidate>
+        <form id="form" name="ExaminationForm" er-form novalidate class=" p-20b">
         <style media="print">
           input[type="text"] {
             background-color: none;
@@ -119,8 +119,8 @@
               </section>
             </div>
 
-            <div class="col-50">
-              <section class="card">
+            <div class="col-50 m-0b">
+              <section class="card m-0b">
                   <h4 class="item item-divider color-white bg-blue">Physical Exam</h4>
                   <ul class="list list-inset  chart-card">
                     <li class="item item-divider">HEENT</li>
@@ -235,12 +235,12 @@
           <article class="card">
             <header class="item item-divider  color-white bg-blue">Diagnosis</header>
             <p class="ng-hide">{{chart.diagnosis}}</p>
-            <textarea class="hidden-on-print" rows="8" name="diagnosis" ng-model="chart.diagnosis" placeholder="start typing...">{{chart.diagnosis}}</textarea>
+            <textarea class="hidden-on-print resize p-10" rows="8" name="diagnosis" ng-model="chart.diagnosis" placeholder="start typing...">{{chart.diagnosis}}</textarea>
           </article>
-          <article class="card">
+          <article class="card m-0b">
             <p class="ng-hide">{{chart.discharge_instruction}}</p>
             <header class="item item-divider color-white bg-blue">Discharge Instruction</header>
-            <textarea class="hidden-on-print" rows="8" name="discharge_instruction" ng-model="chart.discharge_instruction" placeholder="start typing...">{{chart.discharge_instruction}}</textarea>
+            <textarea class="hidden-on-print resize p-10" rows="8" name="discharge_instruction" ng-model="chart.discharge_instruction" placeholder="start typing...">{{chart.discharge_instruction}}</textarea>
           </article>
         </form>
     </div>

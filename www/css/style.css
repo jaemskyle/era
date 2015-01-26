@@ -12,12 +12,28 @@
   margin-bottom: 25px;
 }
 
+.m-0b{
+  margin-bottom: 0px !important;
+}
+
 .w-100p{
   width: 100%;
 }
 
 .p-15{
   padding: 15px !important;
+}
+
+.p-10{
+  padding: 10px !important;
+}
+
+.p-20b{
+  padding-bottom: 20px !important;
+}
+
+.resize{
+  resize: none;
 }
 
 .p-0{
