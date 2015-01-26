@@ -149,16 +149,17 @@
                         <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">{{resp_item.model.label}} </span>
                         <span class="ng-hide" ng-class="{'hidden-on-print': !resp_item.model.value}">| {{resp_item.model_note}}</span>
                         <select name="{{resp_item.name}}"
-                                class="hidden-on-print input-label er-select-custom"
+                                class="hidden-on-print er-select-custom"
                                 ng-model="chart[resp_item.cat][resp_item.model]"
-                                ng-change="showNote(resp_item.model, resp_item.name)"
+                                ng-change="toggleNote(resp_item)"
                                 ng-options="opt as opt.label for opt in options track by opt.value">
                          </select>
-                        <button class="button button-default hidden-on-print" ng-click="resp_item.note_toggle_flag = !resp_item.note_toggle_flag" ng-show="chart[resp_item.cat][resp_item.model].label === 'Abnormal'">
-                           <b ng-hide="resp_item.note_toggle_flag">+</b>
-                           <b ng-show="resp_item.note_toggle_flag">-</b>
-                        </button>
-                         <textarea class="hidden-on-print" ng-show="resp_item.note_toggle_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal'" name="{{resp_item.name}}_note" ng-model="chart[resp_item.cat][resp_item.model_note]" rows="8" placeholder="more info..">{{chart[resp_item.cat][resp_item.model_note]}}</textarea>
+                         <button class="button button-default hidden-on-print" ng-click="toggleNote(resp_item)" ng-show="(chart[resp_item.cat][resp_item.model].label === 'Abnormal') || (resp_item.note_toggle_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal' && chart[resp_item.cat][resp_item.model_note] !== '')">
+                           <b ng-hide="{{resp_item.name}}_note_flag">+</b>
+                           <b ng-show="{{resp_item.name}}_note_flag">-</b>
+                         </button>
+
+                         <textarea class="hidden-on-print" er-toggle-note="chart[resp_item.cat][resp_item.model]" er-note-model="chart[resp_item.cat][resp_item.model_note]" er-toggle-note-flag="{{resp_item.name}}_note_flag" ng-show="({{resp_item.name}}_note_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal')"  name="{{resp_item.name}}_note" ng-model="chart[resp_item.cat][resp_item.model_note]" rows="8" placeholder="more info..">{{chart[resp_item.cat][resp_item.model_note]}}</textarea>
                     </li>
                   </ul>
                   <ul class="list list-inset chart-card">
@@ -170,14 +171,15 @@
                         <select name="{{resp_item.name}}"
                                 class="hidden-on-print er-select-custom"
                                 ng-model="chart[resp_item.cat][resp_item.model]"
-                                ng-change="showNote(resp_item.model, resp_item.name)"
+                                ng-change="toggleNote(resp_item)"
                                 ng-options="opt as opt.label for opt in options track by opt.value">
                          </select>
-                         <button class="button button-default hidden-on-print" ng-click="resp_item.note_toggle_flag = !resp_item.note_toggle_flag" ng-show="chart[resp_item.cat][resp_item.model].label === 'Abnormal'">
-                           <b ng-hide="resp_item.note_toggle_flag">+</b>
-                           <b ng-show="resp_item.note_toggle_flag">-</b>
+                         <button class="button button-default hidden-on-print" ng-click="toggleNote(resp_item)" ng-show="(chart[resp_item.cat][resp_item.model].label === 'Abnormal') || (resp_item.note_toggle_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal' && chart[resp_item.cat][resp_item.model_note] !== '')">
+                           <b ng-hide="{{resp_item.name}}_note_flag">+</b>
+                           <b ng-show="{{resp_item.name}}_note_flag">-</b>
                          </button>
-                         <textarea class="hidden-on-print" ng-show="resp_item.note_toggle_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal'" name="{{resp_item.name}}_note" ng-model="chart[resp_item.cat][resp_item.model_note]" rows="8" placeholder="more info..">{{chart[resp_item.cat][resp_item.model_note]}}</textarea>
+
+                         <textarea class="hidden-on-print" er-toggle-note="chart[resp_item.cat][resp_item.model]" er-note-model="chart[resp_item.cat][resp_item.model_note]" er-toggle-note-flag="{{resp_item.name}}_note_flag" ng-show="({{resp_item.name}}_note_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal')"  name="{{resp_item.name}}_note" ng-model="chart[resp_item.cat][resp_item.model_note]" rows="8" placeholder="more info..">{{chart[resp_item.cat][resp_item.model_note]}}</textarea>
                     </li>
                   </ul>
                   <ul class="list list-inset chart-card">
@@ -189,14 +191,15 @@
                         <select name="{{resp_item.name}}"
                                 class="hidden-on-print er-select-custom"
                                 ng-model="chart[resp_item.cat][resp_item.model]"
-                                ng-change="showNote(resp_item.model, resp_item.name)"
+                                ng-change="toggleNote(resp_item)"
                                 ng-options="opt as opt.label for opt in options track by opt.value">
                          </select>
-                         <button class="button button-default hidden-on-print" ng-click="resp_item.note_toggle_flag = !resp_item.note_toggle_flag" ng-show="chart[resp_item.cat][resp_item.model].label === 'Abnormal'">
-                           <b ng-hide="resp_item.note_toggle_flag">+</b>
-                           <b ng-show="resp_item.note_toggle_flag">-</b>
+                         <button class="button button-default hidden-on-print" ng-click="toggleNote(resp_item)" ng-show="(chart[resp_item.cat][resp_item.model].label === 'Abnormal') || (resp_item.note_toggle_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal' && chart[resp_item.cat][resp_item.model_note] !== '')">
+                           <b ng-hide="{{resp_item.name}}_note_flag">+</b>
+                           <b ng-show="{{resp_item.name}}_note_flag">-</b>
                          </button>
-                         <textarea class="hidden-on-print" ng-show="resp_item.note_toggle_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal'" name="{{resp_item.name}}_note" ng-model="chart[resp_item.cat][resp_item.model_note]" rows="8" placeholder="more info..">{{resp_item.model_note}}</textarea>
+
+                         <textarea class="hidden-on-print" er-toggle-note="chart[resp_item.cat][resp_item.model]" er-note-model="chart[resp_item.cat][resp_item.model_note]" er-toggle-note-flag="{{resp_item.name}}_note_flag" ng-show="({{resp_item.name}}_note_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal')"  name="{{resp_item.name}}_note" ng-model="chart[resp_item.cat][resp_item.model_note]" rows="8" placeholder="more info..">{{chart[resp_item.cat][resp_item.model_note]}}</textarea>
                     </li>
                   </ul>
                   <ul class="list list-inset chart-card">
@@ -208,14 +211,15 @@
                         <select name="{{resp_item.name}}"
                                 class="hidden-on-print er-select-custom"
                                 ng-model="chart[resp_item.cat][resp_item.model]"
-                                ng-change="showNote(resp_item.model, resp_item.name)"
+                                ng-change="toggleNote(resp_item)"
                                 ng-options="opt as opt.label for opt in options track by opt.value">
                          </select>
-                         <button data-namae="" class="button button-default hidden-on-print" ng-click="resp_item.note_toggle_flag = !resp_item.note_toggle_flag" ng-show="chart[resp_item.cat][resp_item.model].label === 'Abnormal'">
-                           <b ng-hide="resp_item.note_toggle_flag">+</b>
-                           <b ng-show="resp_item.note_toggle_flag">-</b>
+                         <button class="button button-default hidden-on-print" ng-click="toggleNote(resp_item)" ng-show="(chart[resp_item.cat][resp_item.model].label === 'Abnormal') || (resp_item.note_toggle_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal' && chart[resp_item.cat][resp_item.model_note] !== '')">
+                           <b ng-hide="{{resp_item.name}}_note_flag">+</b>
+                           <b ng-show="{{resp_item.name}}_note_flag">-</b>
                          </button>
-                         <textarea class="hidden-on-print" ng-show="resp_item.note_toggle_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal'" name="{{resp_item.name}}_note" ng-model="chart[resp_item.cat][resp_item.model_note]" rows="8" name="{{resp_item}}_note" placeholder="more info..">{{resp_item.model_note}}</textarea>
+
+                         <textarea class="hidden-on-print" er-toggle-note="chart[resp_item.cat][resp_item.model]" er-note-model="chart[resp_item.cat][resp_item.model_note]" er-toggle-note-flag="{{resp_item.name}}_note_flag" ng-show="({{resp_item.name}}_note_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal')"  name="{{resp_item.name}}_note" ng-model="chart[resp_item.cat][resp_item.model_note]" rows="8" placeholder="more info..">{{chart[resp_item.cat][resp_item.model_note]}}</textarea>
                     </li>
                   </ul>
                   <article class="card chart-card">
