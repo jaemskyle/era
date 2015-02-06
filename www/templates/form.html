@@ -13,20 +13,18 @@
     </button>
   </ion-nav-buttons>
   <ion-content>
-    <div class="content bg-login ">
+    <div class="content bg-login">
         <form id="form" name="ExaminationForm" er-form novalidate class=" p-20b">
         <style media="print">
           input[type="text"] {
             background-color: none;
-            background: lightgrey;
+            background: transparent;
             border: none;
             outline:  none;
-            color: red;
             font-size: 14px;
             width: 100%;
           }
           textarea {
-            color: red;
             font-size: 14px;
             border: none;
             outline: none;
@@ -36,7 +34,7 @@
             padding: 0;
             list-style-type: none;
           }
-          li {
+          li, {
             margin: 0;
             padding: 0;
           }
@@ -46,8 +44,8 @@
           }
 
           form[name="ExaminationForm"] {
-            width: 50%;
             background: #eee;
+            font-family: 'serif'
           }
           .hidden-on-print {
             display: none;
@@ -59,13 +57,32 @@
           .item {
             display: inline-block;
           }
+          .print-textarea {
+            margin: 0;
+            font-size: 10px;
+            font-family: 'serif'
+          }
+          .print-header {
+            margin: 10px 0 0 0;
+            font-size: 10px;
+            font-family: 'serif'
+           }
+           .print-hidden.hidden-on-print {
+             display: none;
+           }
+           .print-size {
+               font-size: 10px;
+               font-family: 'serif'
+           }
 
         </style>
           <div class="row  responsive-sm">
             <div class="col-50">
               <section class="card">
-                <h4 class="item item-divider color-white bg-blue">Chart Info</h4>
-                <div class="row">
+                <header class="item item-divider color-white bg-blue hidden-on-print print-hidden">Chart Info</header>
+                <p class="ng-hide print-date-time print-size"><b class="print-size">Date: </b>{{chart.date}} &nbsp;<b class="print-size">Time: </b>{{chart.time}}</p>
+                <h4 class="ng-hide print-chart-id print-size"><b class="print-size">Patient Id: </b> {{chart.id}}</h4>
+                <div class="row hidden-on-print" >
                   <div class="col">
                     <label class="item item-input">
                       <span class="input-label">Date</span>
@@ -79,7 +96,7 @@
                     </label>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row hidden-on-print">
                   <div class="col">
                     <label class="item item-input">
                       <span class="input-label">Patient ID</span>
@@ -88,157 +105,93 @@
                   </div>
                 </div>
               </section>
-              <!-- <hr class="ng-hide" /> -->
               <section class="card">
-                <h4 class="item item-divider hidden-on-print color-white bg-blue">ER Card</h4>
+                <h4 class="item item-divider hidden-on-print color-white bg-blue print-hidden">ER Card</h4>
                 <article class="card chart-card">
-                  <header class="item item-divider">HPI</header>
-                  <p class="ng-hide">{{chart.hpi}}</p>
+                  <header class="item item-divider print-header">HPI</header>
+                  <p class="ng-hide print-textarea">{{chart.hpi}}</p>
                   <textarea class="hidden-on-print" rows="8" name="hpi" ng-model="chart.hpi" placeholder="start typing...">{{chart.hpi}}</textarea>
                 </article>
                 <article class="card chart-card">
-                  <header class="item item-divider">PMHx</header>
-                  <p class="ng-hide">{{chart.pmhx}}</p>
-                  <textarea class="hidden-on-print" rows="8" name="pmhx" ng-model="chart.pmhx" placeholder="start typing...">{{chart.pmhx}}</textarea>
+                  <header class="item item-divider print-header">PMHx</header>
+                  <p class="ng-hide print-textarea">{{chart.pmhx || 'None'}}</p>
+                  <textarea class="hidden-on-print" rows="8" name="pmhx" ng-model="chart.pmhx" placeholder="None">{{chart.pmhx}}</textarea>
                 </article>
                 <article class="card chart-card">
-                  <header class="item item-divider">Medication</header>
-                  <p class="ng-hide">{{chart.medication}}</p>
-                  <textarea class="hidden-on-print" rows="8" name="medication" ng-model="chart.medication" placeholder="start typing...">{{chart.medication}}</textarea>
+                  <header class="item item-divider print-header">Medication</header>
+                  <p class="ng-hide print-textarea">{{chart.medication || 'None'}}</p>
+                  <textarea class="hidden-on-print" rows="8" name="medication" ng-model="chart.medication" placeholder="None">{{chart.medication}}</textarea>
                 </article>
                 <article class="card chart-card">
-                  <header class="item item-divider">Allergies</header>
-                  <p class="ng-hide">{{chart.allergies}}</p>
-                  <textarea class="hidden-on-print" rows="8" name="allergies" ng-model="chart.allergies" placeholder="start typing...">{{chart.allergies}}</textarea>
-                </article>
-                <article class="card chart-card">
-                  <header class="item item-divider">ROS</header>
-                  <p class="ng-hide">{{chart.ros}}</p>
-                  <textarea class="hidden-on-print" rows="8" name="ros" ng-model="chart.ros" placeholder="start typing...">{{chart.ros}}</textarea>
+                  <header class="item item-divider print-header">Allergies</header>
+                  <p class="ng-hide print-textarea">{{chart.allergies || 'None'}}</p>
+                  <textarea class="hidden-on-print" rows="8" name="allergies" ng-model="chart.allergies" placeholder="None">{{chart.allergies}}</textarea>
                 </article>
               </section>
             </div>
 
             <div class="col-50 m-0b">
               <section class="card m-0b">
-                  <h4 class="item item-divider color-white bg-blue">Physical Exam</h4>
-                  <ul class="list list-inset  chart-card">
-                    <li class="item item-divider">HEENT</li>
-                    <li class="item item-button-right er-select item-select" ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}" ng-repeat="resp_item in heent">
-                        <span ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">{{resp_item.label}} </span>
-                        <span class="ng-hide" ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">{{chart[resp_item.cat][resp_item.model].label}} </span>
-                        <span class="ng-hide" ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">| {{chart[resp_item.cat][resp_item.model_note]}} </span>
-                        <select name="{{resp_item.name}}"
-                                class="hidden-on-print er-select-custom"
-                                ng-model="chart[resp_item.cat][resp_item.model]"
-                                ng-change="toggleNote(resp_item)"
-                                ng-options="opt as opt.label for opt in options track by opt.value">
-                         </select>
-                         <button class="button button-default hidden-on-print" ng-click="toggleNote(resp_item)" ng-show="(chart[resp_item.cat][resp_item.model].label === 'Abnormal') || (resp_item.note_toggle_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal' && chart[resp_item.cat][resp_item.model_note] !== '')">
-                           <b ng-hide="{{resp_item.name}}_note_flag">+</b>
-                           <b ng-show="{{resp_item.name}}_note_flag">-</b>
-                         </button>
+                  <h4 class="item item-divider color-white bg-blue hidden-on-print print-hidden">Physical Exam</h4>
+                  <header class="item item-divider print-header ng-hide">Physical Exam</header>
 
-                         <textarea class="hidden-on-print" er-toggle-note="chart[resp_item.cat][resp_item.model]" er-note-model="chart[resp_item.cat][resp_item.model_note]" er-toggle-note-flag="{{resp_item.name}}_note_flag" ng-show="({{resp_item.name}}_note_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal')"  name="{{resp_item.name}}_note" ng-model="chart[resp_item.cat][resp_item.model_note]" rows="8" placeholder="more info..">{{chart[resp_item.cat][resp_item.model_note]}}</textarea>
-                    </li>
-                  </ul>
                   <ul class="list list-inset chart-card">
-                    <li class="item item-divider">Abdominal Exam</li>
-                    <li class="item item-button-right item-select er-select" ng-class="{'hidden-on-print': !resp_item.model.value}" ng-repeat="resp_item in abdo">
-                        <span ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">{{resp_item.label}} </span>
-                        <span class="ng-hide" ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">{{chart[resp_item.cat][resp_item.model].label}} </span>
-                        <span class="ng-hide" ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">| {{chart[resp_item.cat][resp_item.model_note]}} </span>
-                        <select name="{{resp_item.name}}"
-                                class="hidden-on-print er-select-custom"
-                                ng-model="chart[resp_item.cat][resp_item.model]"
-                                ng-change="toggleNote(resp_item)"
-                                ng-options="opt as opt.label for opt in options track by opt.value">
-                         </select>
-                         <button class="button button-default hidden-on-print" ng-click="toggleNote(resp_item)" ng-show="(chart[resp_item.cat][resp_item.model].label === 'Abnormal') || (resp_item.note_toggle_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal' && chart[resp_item.cat][resp_item.model_note] !== '')">
-                           <b ng-hide="{{resp_item.name}}_note_flag">+</b>
-                           <b ng-show="{{resp_item.name}}_note_flag">-</b>
-                         </button>
+                    <li ng-repeat-start="(title, modules) in physical_exam_modules track by $index">
+                      <li class="item item-divider">
+                      <h4 class="ng-hide print-header" ng-class="{'hidden-on-print': !chart[modules.cat_name]['status']}">{{title}}</h4>
 
-                         <textarea class="hidden-on-print" er-toggle-note="chart[resp_item.cat][resp_item.model]" er-note-model="chart[resp_item.cat][resp_item.model_note]" er-toggle-note-flag="{{resp_item.name}}_note_flag" ng-show="({{resp_item.name}}_note_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal')"  name="{{resp_item.name}}_note" ng-model="chart[resp_item.cat][resp_item.model_note]" rows="8" placeholder="more info..">{{chart[resp_item.cat][resp_item.model_note]}}</textarea>
+                       <section class="row hidden-on-print">
+                         <div class="col-25">
+                          {{title}}
+                         </div>
+                         <div class="col-75 button-bar er-radio" ng-model="chart[modules.cat_name]['status']" bs-radio-group>
+                            <label class="button" ng-click="toggleNote(chart[modules.cat_name]['status'], modules.cat_name)" ng-repeat="state in options">
+                                <input name="{{modules.cat_name}}_status" type="radio" class="button" value="{{state.value}}">{{state.label}}
+                            </label>
+                          </div> 
+                       </section>
+                      </li>
+                    </li>
+                    <li ng-show="chart[modules.cat_name]['status'] === 1" ng-class="{'hidden-on-print': !chart[modules.cat_name]['status']}">
+                      <ul class="list">
+                        <li class="item item-checkbox" ng-repeat="item in modules.fields">
+                        <span class="ng-hide print-size" ng-class="{'hidden-on-print': !chart[item.cat][item.model] && chart[modules.cat_name]['status'] === 1}">{{item.label}},&nbsp;</span>
+                          <label class="checkbox hidden-on-print">
+                            <input name="{{item.name}}" ng-model="chart[item.cat][item.model]" type="checkbox" />
+                          </label>
+                          <span class="hidden-on-print">{{item.label}}</span>
+                        </li>
+                      </ul>
+                    </li>
+                    <li ng-repeat-end ng-show="chart[modules.cat_name]['status'] === 1">
+                    <span class="ng-hide print-size">{{chart[modules.cat_name][modules.note.model]}}</span>
+                      <textarea class="hidden-on-print" name="{{modules.note.name}}" ng-model="chart[modules.cat_name][modules.note.model]" cols="40" placeholder="Start typing.."></textarea>
                     </li>
                   </ul>
-                  <ul class="list list-inset chart-card">
-                    <li class="item item-divider">Respiratory Exam</li>
-                    <li class="item item-button-right item-select er-select" ng-class="{'hidden-on-print': !resp_item.model.value}" ng-repeat="resp_item in resp">
-                        <span ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">{{resp_item.label}} </span>
-                        <span class="ng-hide" ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">{{chart[resp_item.cat][resp_item.model].label}} </span>
-                        <span class="ng-hide" ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">| {{chart[resp_item.cat][resp_item.model_note]}} </span>
-                        <select name="{{resp_item.name}}"
-                                class="hidden-on-print er-select-custom"
-                                ng-model="chart[resp_item.cat][resp_item.model]"
-                                ng-change="toggleNote(resp_item)"
-                                ng-options="opt as opt.label for opt in options track by opt.value">
-                         </select>
-                         <button class="button button-default hidden-on-print" ng-click="toggleNote(resp_item)" ng-show="(chart[resp_item.cat][resp_item.model].label === 'Abnormal') || (resp_item.note_toggle_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal' && chart[resp_item.cat][resp_item.model_note] !== '')">
-                           <b ng-hide="{{resp_item.name}}_note_flag">+</b>
-                           <b ng-show="{{resp_item.name}}_note_flag">-</b>
-                         </button>
-
-                         <textarea class="hidden-on-print" er-toggle-note="chart[resp_item.cat][resp_item.model]" er-note-model="chart[resp_item.cat][resp_item.model_note]" er-toggle-note-flag="{{resp_item.name}}_note_flag" ng-show="({{resp_item.name}}_note_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal')"  name="{{resp_item.name}}_note" ng-model="chart[resp_item.cat][resp_item.model_note]" rows="8" placeholder="more info..">{{chart[resp_item.cat][resp_item.model_note]}}</textarea>
-                    </li>
-                  </ul>
-                  <ul class="list list-inset chart-card">
-                    <li class="item item-divider">Cardio Vascular</li>
-                    <li class="item item-button-right item-select er-select" ng-class="{'hidden-on-print': !resp_item.model.value}" ng-repeat="resp_item in cardiov">
-                        <span ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">{{resp_item.label}} </span>
-                        <span class="ng-hide" ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">{{chart[resp_item.cat][resp_item.model].label}} </span>
-                        <span class="ng-hide" ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">| {{chart[resp_item.cat][resp_item.model_note]}} </span>
-                        <select name="{{resp_item.name}}"
-                                class="hidden-on-print er-select-custom"
-                                ng-model="chart[resp_item.cat][resp_item.model]"
-                                ng-change="toggleNote(resp_item)"
-                                ng-options="opt as opt.label for opt in options track by opt.value">
-                         </select>
-                         <button class="button button-default hidden-on-print" ng-click="toggleNote(resp_item)" ng-show="(chart[resp_item.cat][resp_item.model].label === 'Abnormal') || (resp_item.note_toggle_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal' && chart[resp_item.cat][resp_item.model_note] !== '')">
-                           <b ng-hide="{{resp_item.name}}_note_flag">+</b>
-                           <b ng-show="{{resp_item.name}}_note_flag">-</b>
-                         </button>
-
-                         <textarea class="hidden-on-print" er-toggle-note="chart[resp_item.cat][resp_item.model]" er-note-model="chart[resp_item.cat][resp_item.model_note]" er-toggle-note-flag="{{resp_item.name}}_note_flag" ng-show="({{resp_item.name}}_note_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal')"  name="{{resp_item.name}}_note" ng-model="chart[resp_item.cat][resp_item.model_note]" rows="8" placeholder="more info..">{{chart[resp_item.cat][resp_item.model_note]}}</textarea>
-                    </li>
-                  </ul>
-                  <ul class="list list-inset chart-card">
-                    <li class="item item-divider">Neurological exam</li>
-                    <li class="item item-button-right item-select er-select" ng-class="{'hidden-on-print': !resp_item.model.value}" ng-repeat="resp_item in neuro">
-                        <span ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">{{resp_item.label}} </span>
-                        <span class="ng-hide" ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">{{chart[resp_item.cat][resp_item.model].label}} </span>
-                        <span class="ng-hide" ng-class="{'hidden-on-print': !chart[resp_item.cat][resp_item.model].value}">| {{chart[resp_item.cat][resp_item.model_note]}} </span>
-                        <select name="{{resp_item.name}}"
-                                class="hidden-on-print er-select-custom"
-                                ng-model="chart[resp_item.cat][resp_item.model]"
-                                ng-change="toggleNote(resp_item)"
-                                ng-options="opt as opt.label for opt in options track by opt.value">
-                         </select>
-                         <button class="button button-default hidden-on-print" ng-click="toggleNote(resp_item)" ng-show="(chart[resp_item.cat][resp_item.model].label === 'Abnormal') || (resp_item.note_toggle_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal' && chart[resp_item.cat][resp_item.model_note] !== '')">
-                           <b ng-hide="{{resp_item.name}}_note_flag">+</b>
-                           <b ng-show="{{resp_item.name}}_note_flag">-</b>
-                         </button>
-
-                         <textarea class="hidden-on-print" er-toggle-note="chart[resp_item.cat][resp_item.model]" er-note-model="chart[resp_item.cat][resp_item.model_note]" er-toggle-note-flag="{{resp_item.name}}_note_flag" ng-show="({{resp_item.name}}_note_flag && chart[resp_item.cat][resp_item.model].label === 'Abnormal')"  name="{{resp_item.name}}_note" ng-model="chart[resp_item.cat][resp_item.model_note]" rows="8" placeholder="more info..">{{chart[resp_item.cat][resp_item.model_note]}}</textarea>
-                    </li>
-                  </ul>
-                  <article class="card chart-card">
+                  
+                  <div class="ng-hide">
+                    <h4 class="print-header">Notes</h4>
+                    <p class="print-textarea">{{chart.notes}}</p>
+                  </div>
+                  <article class="card chart-card hidden-on-print">
                     <header class="item item-divider">Notes</header>
-                    <p class="ng-hide">{{chart.notes}}</p>
-                    <textarea class="hidden-on-print" rows="8" name="notes" ng-model="chart.notes" placeholder="start typing...">{{chart.notes}}</textarea>
+                    <textarea rows="8" name="notes" ng-model="chart.notes" placeholder="start typing...">{{chart.notes}}</textarea>
                   </article>
               </section>
             </div>
           </div>
 
-          <!-- <hr class="ng-hide" /> -->
-          <article class="card">
+          <div class="ng-hide">
+            <h4 class="print-header">Diagnosis</h4>
+            <p class="print-textarea">{{chart.diagnosis}}</p>
+            <h4 class="print-header">Discharge Instruction</h4>
+            <p class="print-textarea">{{chart.discharge_instruction}}</p>
+          </div>
+          <article class="card hidden-on-print">
             <header class="item item-divider  color-white bg-blue">Diagnosis</header>
-            <p class="ng-hide">{{chart.diagnosis}}</p>
             <textarea class="hidden-on-print resize p-10" rows="8" name="diagnosis" ng-model="chart.diagnosis" placeholder="start typing...">{{chart.diagnosis}}</textarea>
           </article>
-          <article class="card m-0b">
-            <p class="ng-hide">{{chart.discharge_instruction}}</p>
+          <article class="card m-0b hidden-on-print">
             <header class="item item-divider color-white bg-blue">Discharge Instruction</header>
             <textarea class="hidden-on-print resize p-10" rows="8" name="discharge_instruction" ng-model="chart.discharge_instruction" placeholder="start typing...">{{chart.discharge_instruction}}</textarea>
           </article>

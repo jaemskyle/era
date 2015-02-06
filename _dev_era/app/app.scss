@@ -1,0 +1,171 @@
+/* Required for Angular UI Bootstrap */
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+/* Component SCSS */
+@import "assets/scss/ionic.scss";
+@import "modules/partial/menu/menu.scss";
+@import "modules/partial/login/login.scss";
+@import "modules/partial/signup/signup.scss";
+@import "modules/partial/forgot/forgot.scss";
+@import "modules/partial/settings/settings.scss";
+@import "modules/partial/form/form.scss";
+@import "modules/partial/edit/edit.scss";
+@import "modules/partial/home/home.scss";
+/* Add Component SCSS Above */
+
+/* Personal preference for BS modal.  The SCSS below makes the backdrop white and
+   causes the modal to fade in rather than slide in. */
+//@modal-backdrop-bg: white;
+//.modal {
+//	&.fade {
+//		.transition(opacity .3s);
+//	}
+//	&.fade .modal-dialog {
+//		.translate(0,0);
+//	}
+//}
+
+$printed : rgb(245, 245, 220);
+
+.bg-login{
+  background: #a9ddf3;
+}
+
+.m-t10 {
+  margin-top: 10px;
+}
+
+.m-b25{
+  margin-bottom: 25px;
+}
+
+.m-0b{
+  margin-bottom: 0px !important;
+}
+
+.w-100p{
+  width: 100%;
+}
+
+.p-15{
+  padding: 15px !important;
+}
+
+.p-10{
+  padding: 10px !important;
+}
+
+.p-20b{
+  padding-bottom: 20px !important;
+}
+
+.resize{
+  resize: none;
+}
+
+.p-0{
+  padding: 0px;
+}
+
+.t-15{
+  top: 15px;
+}
+
+.text-center{
+  text-align: center;
+}
+
+.color-white{
+  color: white;
+}
+
+.no-decoration{
+  text-decoration: none;
+}
+
+.button-m{
+  font-size: 17px;
+  height: 0px;
+  min-height: 40px;
+  line-height: 36px;
+  border-radius: 40px;
+}
+
+.bg-white{
+  background: white;
+}
+
+.input-m{
+  padding: 15px !important;
+  border: 1px solid #b6b6b6;
+  border-radius: 3px;
+}
+
+
+.bar-stable{
+  background:#65B1D1 !important;
+}
+
+.bar-stable .button.button-clear{
+  color: white;
+}
+
+.bar.bar-stable .title{
+color: white;
+}
+
+.chart-card{
+  margin: 0px;
+  box-shadow: none;
+}
+
+.chart-card textarea{
+  padding: 10px;
+  min-height: 100px;
+  height: 0;
+  resize: none;
+}
+
+.chart-card .item-input{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.chart-card .item-input span{
+  font-size: 13px;
+}
+
+.bg-blue{
+  background: #65B1D1 ;
+}
+
+.er-select.item-select .er-select-custom{
+  right: 50px;
+  font-size: 13px;
+  padding: 14px 30px 16px 0px;
+}
+
+.er-select.item-select:after {
+  top: 25px;
+  right: 65px;
+}
+
+.er-select.item-select span{
+  font-size: 13px;
+}
+
+.er-select.item-select button{
+  font-size: 26px;
+  border-radius: 34px;
+  color: rgb(144, 143, 143);
+  background: white;
+}
+
+.button-bar.er-radio input[type="radio"] {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+.is-printed {
+    background: $printed;
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html ng-app="ERChart">
+<head>
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+
+  <title>ERChart</title>
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+  <!-- build:css styles/vendor.css -->
+  <!-- bower:css -->
+  <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- build:css styles/app.css -->
+    <link rel="stylesheet" type="text/css" href="tmp/app.css" />
+  <!-- endbuild -->
+
+  <!-- build:js scripts/vendor.js -->
+  <!-- bower:js -->
+  <script src="vendor/ionic/js/ionic.bundle.js"></script>
+  <script src="vendor/lodash/lodash.js"></script>
+  <script src="vendor/localforage/dist/localforage.js"></script>
+  <script src="vendor/angular-localForage/dist/angular-localForage.js"></script>
+  <script src="vendor/angular-strap/dist/angular-strap.js"></script>
+  <script src="vendor/angular-strap/dist/angular-strap.tpl.min.js"></script>
+  <script src="vendor/firebase/firebase.js"></script>
+  <script src="vendor/angularfire/dist/angularfire.js"></script>
+  <script src="vendor/moment/moment.js"></script>
+  <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- template-holder -->
+  <!-- cordova-script -->
+  
+
+ <!-- build:js scripts/app.js -->
+ <!-- Main App JS -->
+ <script src="app.js"></script>
+ <script src="modules/partial/menu/menu.js"></script>
+ <script src="modules/partial/login/login.js"></script>
+ <script src="modules/partial/signup/signup.js"></script>
+ <script src="modules/partial/forgot/forgot.js"></script>
+ <script src="modules/partial/settings/settings.js"></script>
+ <script src="modules/partial/form/form.js"></script>
+ <script src="modules/partial/edit/edit.js"></script>
+ <script src="modules/partial/home/home.js"></script>
+ <script src="modules/service/cache.js"></script>
+ <script src="modules/service/constants.js"></script>
+ <script src="modules/service/erutils.js"></script>
+ <script src="modules/directive/erform.js"></script>
+ <script src="modules/directive/er_item_isprinted.js"></script>
+ <!-- Add New Component JS Above -->
+
+ <!-- endbuild -->
+        </div>
+</head>
+<body>
+    <ion-nav-view></ion-nav-view>
+</body>
+</html>

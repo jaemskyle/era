@@ -1,14 +1,18 @@
 <ion-view view-title="Login" hide-back-button="true">
   <ion-content class="bg-login">
     <div class="row responsive-sm">
-      <div class=" col-offset-33 col-33 col p-15">
-        <img src="img/logo.png" class="w-100p">
-        <input type="text" placeholder="Email" class="input-m">
-        <input type="text" placeholder="Password" class="m-t10 input-m">
-        <a class="button button-block button-calm button-m" href="#/a/home">Log in</a>
-        <h5 class="color-white text-center m-b25"><a href="#/a/forgot" class="color-white text-center no-decoration">Forgot password</a></h5>
-        <a class="button button-block button-positive button-m" href="#/a/signup">Sign up</a>
-      </div>
+      <form class=" col-offset-33 col-33 col p-15" novalidate name="loginForm">
+        <img src="assets/images/logo.png" class="w-100p">
+        <input type="email" placeholder="Email" class="input-m" name="cred_email" ng-model="cred.email">
+        <input type="password" placeholder="Password" class="m-t10 input-m" name="cred_pass" ng-model="cred.pass">
+        <a class="button button-block button-calm button-m" ng-click="login($event)">Log in</a>
+      </form>
     </div>
+        <div class="row responsive-sm">
+          <div class="col-offset-33 col-33 col p-15">
+        <h5 class="color-white text-center m-b25"><a href="#/forgot" class="color-white text-center no-decoration">Forgot password</a></h5>
+        <a class="button button-block button-positive button-m" href="#/signup">Sign up</a>
+        </div>
+        </div>
   </ion-content>
 </ion-view>

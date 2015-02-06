@@ -1,18 +1,20 @@
 <ion-view view-title="Sign up" hide-back-button="true">
   <ion-content class="bg-login">
     <div class="row responsive-sm">
-      <div class=" col-offset-33 col-33 col p-15">
+      <form class=" col-offset-33 col-33 col p-15" novalidate>
         <img src="img/logo.png" class="w-100p">
-        <input type="text" placeholder="Name" class="p-15">
-        <input type="text" placeholder="Hospital" class="m-t10 p-15">
-        <input type="text" placeholder="Email" class="m-t10 p-15">
-        <input type="text" placeholder="Password" class="m-t10 p-15">
-        <input type="text" placeholder="Re-enter Password" class="m-t10 p-15">
+        <input type="text" placeholder="Name" class="p-15" name="name" ng-model="signup.nom">
+        <input type="text" placeholder="Hospital" class="m-t10 p-15" name="hospital" ng-model="signup.hospital">
+        <input type="text" placeholder="Email" class="m-t10 p-15" name="email" ng-model="signup.email">
+        <input type="text" placeholder="Password" class="m-t10 p-15" name="pass" ng-model="signup.pass">
+        <input type="text" placeholder="Re-enter Password" class="m-t10 p-15" name="re_pass" ng-model="signup.repass">
+        <div class="row p-0">
+          <a class="button button-block button-calm col-50 button-m" ng-click="signup()">Next</a>
+        </div>
+      </form>
         <div class="row p-0">
           <a class="button button-block col-50 button-m" href="#/a/home">cancel</a>
-          <a class="button button-block button-calm col-50 button-m" href="#/a/home">Next</a>
         </div>
-      </div>
     </div>
   </ion-content>
 </ion-view>

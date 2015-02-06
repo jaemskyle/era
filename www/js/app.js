@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 'starter.directives', 'LocalForageModule', 'firebase', 'ui.select'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 'starter.directives', 'LocalForageModule', 'firebase', 'mgcrea.ngStrap'])
 
 .run(function($ionicPlatform, $rootScope, $state, $stateParams) {
   $ionicPlatform.ready(function() {
@@ -18,6 +18,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 's
       StatusBar.styleDefault();
     }
   });
+    $rootScope.safeApply = function(fn) {
+        var phase = $rootScope.$$phase;
+        if (phase === '$apply' || phase === '$digest') {
+            if (fn && (typeof(fn) === 'function')) {
+                fn();
+            }
+        } else {
+            this.$apply(fn);
+        }
+    };
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
 })
@@ -36,8 +46,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 's
     url: "/login",
     views: {
       '@': {
-        templateUrl: "templates/login.html"
-        // controller: ''
+        templateUrl: "templates/login.html",
+        controller: 'AppCtrl'
       }
     }
   })
@@ -45,8 +55,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.filters', 's
     url: "/signup",
     views: {
       '@': {
-        templateUrl: "templates/signup.html"
-        // controller: ''
+        templateUrl: "templates/signup.html",
+        controller: 'AppCtrl'
       }
     }
   })

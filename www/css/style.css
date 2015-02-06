@@ -49,7 +49,7 @@
 }
 
 .color-white{
-  color: white !important;
+  color: white;
 }
 
 .no-decoration{
@@ -131,4 +131,11 @@ color: white;
   border-radius: 34px;
   color: rgb(144, 143, 143);
   background: white;
+}
+
+.button-bar.er-radio input[type="radio"] {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    filter: alpha(opacity=0);
 }

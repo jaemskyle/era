@@ -4,5 +4,7 @@
 node_modules/
 platforms/
 plugins/
+_devold/
+_devcg/
 
 www/templates/edit.html

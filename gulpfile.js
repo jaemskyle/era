@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var clean = require('gulp-clean');
 var gutil = require('gulp-util');
 var bower = require('bower');
 var concat = require('gulp-concat');
@@ -12,11 +13,20 @@ var paths = {
   dev_templates: ['./www/templates/**/*.html'],
   pub_templates: 'platforms/android/assets/www/templates/',
   dev_www: ['./www/**/*'],
-  pub_www: 'platforms/android/assets/www/'
-  
+  pub_www: 'platforms/android/assets/www/',
+  dev_dist: ['./_dev_era/build/dist/**/*'],
+  android_www: {
+        scripts: 'platforms/android/assets/www/scripts/',
+        styles: 'platforms/android/assets/www/styles/'
+    }
 };
 
 gulp.task('default', ['sass']);
+
+gulp.task('clean', function(){
+    return gulp.src([paths.android_www.scripts, paths.android_www.styles], {read: false})
+    .pipe(clean());
+});
 
 gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.scss')
@@ -52,6 +62,11 @@ gulp.task('git-check', function(done) {
     process.exit(1);
   }
   done();
+});
+
+gulp.task('sync:dist', ['clean'], function(){
+  gulp.src(paths.dev_dist)
+    .pipe(gulp.dest(paths.pub_www));
 });
 
 gulp.task('sync', function(){

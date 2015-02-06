@@ -1,0 +1,213 @@
+<ion-view title="{{$stateParams.formId}}"  hide-back-button="true">
+  <ion-nav-buttons side="left">
+    <button class="button button-clear button-icon" ng-click="goHome()">
+      Back
+    </button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+    <button class="button button-icon color-white" ng-click="print()">
+      Print
+    </button>
+    <button class="button button-calm" ng-click="save()">
+      Save
+    </button>
+  </ion-nav-buttons>
+  <ion-content overflow-scroll="true">
+    <div class="content bg-login">
+        <form id="form" name="ExaminationForm" erform novalidate class="p-20b">
+        <style media="print">
+          input[type="text"] {
+            background-color: none;
+            background: transparent;
+            border: none;
+            outline:  none;
+            font-size: 14px;
+            width: 100%;
+          }
+          textarea {
+            font-size: 14px;
+            border: none;
+            outline: none;
+          }
+          ul {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+          }
+          li, {
+            margin: 0;
+            padding: 0;
+          }
+          hr {
+            max-height: 1px;
+            background: #ccc;
+          }
+
+          form[name="ExaminationForm"] {
+            background: #eee;
+            font-family: 'serif'
+          }
+          .hidden-on-print {
+            display: none;
+          }
+          .item.item-divider {
+            display: inline;
+            font-weight: bold;
+          }
+          .item {
+            display: inline;
+          }
+          .print-textarea {
+            margin: 0;
+            font-size: 10px;
+            font-family: 'serif'
+          }
+          .print-header {
+            margin: 10px 0 0 0;
+            font-size: 10px;
+            font-family: 'serif'
+           }
+           .print-header.print-header--inline {
+               display: inline;
+           }
+           .print-hidden.hidden-on-print {
+             display: none;
+           }
+           .print-size {
+               font-size: 10px;
+               font-family: 'serif'
+           }
+           .list.print-chart-card > li:not('hidden-on-print') {
+             display: inline-block;
+           }
+           .list.print-chart-card {
+             border: 1px solid red;
+           }
+           .list.print-chart-card li {
+             border: 1px solid green;
+           }
+           .list.print-chart-card span {
+             border: 1px solid pink;
+           }
+        </style>
+          <div class="row  responsive-sm">
+            <div class="col-50">
+              <section class="card">
+                <header class="item item-divider color-white bg-blue hidden-on-print print-hidden">Chart Info</header>
+                <p class="ng-hide print-date-time print-size"><b class="print-size">Date: </b>{{chart.date}} &nbsp;<b class="print-size">Time: </b>{{chart.time}}</p>
+                <h4 class="ng-hide print-chart-id print-size"><b class="print-size">Patient Id: </b> {{chart.id}}</h4>
+                <div class="row hidden-on-print" >
+                  <div class="col">
+                    <label class="item item-input">
+                      <span class="input-label">Date</span>
+                      <input type="text" name="date" ng-disabled="true" ng-model="chart.date" ng-value="chart.date" />
+                    </label>
+                  </div>
+                  <div class="col">
+                    <label class="item item-input">
+                      <span class="input-label">Time</span>
+                      <input type="text" name="time" ng-disabled="true" ng-model="chart.time" ng-value="chart.time"/>
+                    </label>
+                  </div>
+                </div>
+                <div class="row hidden-on-print">
+                  <div class="col">
+                    <label class="item item-input">
+                      <span class="input-label">Patient ID</span>
+                      <input type="text" name="id" ng-model="chart.id" ng-value="chart.id" required />
+                    </label>
+                  </div>
+                </div>
+              </section>
+              <section class="card">
+                <h4 class="item item-divider hidden-on-print color-white bg-blue print-hidden">ER Card</h4>
+                <article class="card chart-card">
+                  <header class="item item-divider print-header">HPI</header>
+                  <p class="ng-hide print-textarea">{{chart.hpi}}</p>
+                  <textarea class="hidden-on-print" rows="8" name="hpi" ng-model="chart.hpi" placeholder="start typing...">{{chart.hpi}}</textarea>
+                </article>
+                <article class="card chart-card">
+                  <header class="item item-divider print-header">PMHx</header>
+                  <p class="ng-hide print-textarea">{{chart.pmhx || 'None'}}</p>
+                  <textarea class="hidden-on-print" rows="8" name="pmhx" ng-model="chart.pmhx" placeholder="None">{{chart.pmhx}}</textarea>
+                </article>
+                <article class="card chart-card">
+                  <header class="item item-divider print-header">Medication</header>
+                  <p class="ng-hide print-textarea">{{chart.medication || 'Refer to Pharmanet.'}}</p>
+                  <textarea class="hidden-on-print" rows="8" name="medication" ng-model="chart.medication" placeholder="None">{{chart.medication}}</textarea>
+                </article>
+                <article class="card chart-card">
+                  <header class="item item-divider print-header">Allergies</header>
+                  <p class="ng-hide print-textarea">{{chart.allergies || 'None'}}</p>
+                  <textarea class="hidden-on-print" rows="8" name="allergies" ng-model="chart.allergies" placeholder="None">{{chart.allergies}}</textarea>
+                </article>
+              </section>
+            </div>
+
+            <div class="col-50 m-0b">
+              <section class="card m-0b">
+                  <h4 class="item item-divider color-white bg-blue hidden-on-print print-hidden">Physical Exam</h4>
+                  <header class="item item-divider print-header ng-hide">Physical Exam</header>
+
+                  <ul class="list list-inset chart-card print-chart-card">
+                    <li class="item item-divider" ng-repeat-start="(title, module_contents) in physical_exam_modules track by $index">
+                      <span class="ng-hide print-header" ng-class="{'hidden-on-print': !chart[module_contents.cat_name]['status']}">{{title}}:&nbsp;</span>
+                       <section class="row hidden-on-print">
+                         <div class="col-25">
+                          {{title}}
+                         </div>
+                         <div class="col-75 button-bar er-radio" ng-model="chart[module_contents.cat_name]['status']" bs-radio-group>
+                            <label class="button" ng-click="toggleNote(chart[module_contents.cat_name]['status'], module_contents.cat_name)" ng-repeat="state in options">
+                                <input name="{{module_contents.cat_name}}_status" type="radio" class="button" value="{{state.value}}">{{state.label}}
+                            </label>
+                          </div> 
+                       </section>
+                    </li>
+                    <li ng-show="chart[module_contents.cat_name]['status'] === 1" ng-class="{'hidden-on-print': !chart[module_contents.cat_name]['status']}">
+                      <ul class="list">
+                        <li class="item item-checkbox" ng-repeat="item in module_contents.fields">
+                        <span class="ng-hide print-size" ng-class="{'hidden-on-print': !chart[item.cat][item.model] && chart[module_contents.cat_name]['status'] === 1}">{{item.label}},&nbsp;</span>
+                          <label class="checkbox hidden-on-print">
+                            <input name="{{item.name}}" ng-model="chart[item.cat][item.model]" type="checkbox" />
+                          </label>
+                          <span class="hidden-on-print">{{item.label}}</span>
+                        </li>
+                      </ul>
+                    </li>
+                    <li ng-repeat-end ng-show="chart[module_contents.cat_name]['status'] === 1">
+                    <span class="ng-hide print-size">{{chart[module_contents.cat_name][module_contents.note.model]}}</span>
+                      <textarea class="hidden-on-print" name="{{module_contents.note.name}}" ng-model="chart[module_contents.cat_name][module_contents.note.model]" cols="40" placeholder="Start typing.."></textarea>
+                    </li>
+                  </ul>
+                  
+                  <div class="ng-hide">
+                    <h4 class="print-header">Notes</h4>
+                    <p class="print-textarea">{{chart.notes}}</p>
+                  </div>
+                  <article class="card chart-card hidden-on-print">
+                    <header class="item item-divider">Notes</header>
+                    <textarea rows="8" name="notes" ng-model="chart.notes" placeholder="start typing...">{{chart.notes}}</textarea>
+                  </article>
+              </section>
+            </div>
+          </div>
+
+          <div class="ng-hide">
+            <h4 class="print-header">Diagnosis</h4>
+            <p class="print-textarea">{{chart.diagnosis}}</p>
+            <h4 class="print-header">Discharge Instruction</h4>
+            <p class="print-textarea">{{chart.discharge_instruction}}</p>
+          </div>
+          <article class="card hidden-on-print">
+            <header class="item item-divider  color-white bg-blue">Diagnosis</header>
+            <textarea class="hidden-on-print resize p-10" rows="8" name="diagnosis" ng-model="chart.diagnosis" placeholder="start typing...">{{chart.diagnosis}}</textarea>
+          </article>
+          <article class="card m-0b hidden-on-print">
+            <header class="item item-divider color-white bg-blue">Discharge Instruction</header>
+            <textarea class="hidden-on-print resize p-10" rows="8" name="discharge_instruction" ng-model="chart.discharge_instruction" placeholder="start typing...">{{chart.discharge_instruction}}</textarea>
+          </article>
+        </form>
+    </div>
+
+  </ion-content>
+</ion-view>
